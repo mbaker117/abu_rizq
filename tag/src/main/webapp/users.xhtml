@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">#{msg['user.title.label']}</ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="p-grid crud-demo">
+                <div class="p-col-12">
+                    <div class="card">
+                        <p:growl id="messages" showDetail="true" />
+
+                        <p:toolbar styleClass="p-mb-4">
+                            <p:toolbarGroup>
+                                <p:commandButton value="#{msg['user.buttons.add.label']}" icon="pi pi-plus" actionListener="#{usersView.openNew}" update="manage-user-content" oncomplete="PF('manageUserDialog').show()" 
+                                    styleClass="ui-button-success" style="margin-right: .5rem" />
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+                        <p:dataTable id="dt-Users" widgetVar="dtUsers" var="user" value="#{usersView.users}" cellEditMode="eager" reflow="true" style="text-align: right; direction: rtl;"  styleClass="user-table"
+                                    selection="#{usersView.users}" rowKey="#{user.id}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <div class="products-table-header">
+                                    <span style="font-weight: bold">#{msg['user.title.label']}</span>
+                                
+                                    <span class="filter-container ui-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <p:inputText id="globalFilter" onkeyup="PF('dtUsers').filter()" placeholder="Search" />
+                                    </span>
+                                </div>
+                            </f:facet>
+                            <p:column headerText="#{msg['user.name.label']}" sortBy="#{user.name}"   filterBy="#{user.name}" style="text-align: right; direction: rtl; color: green;">
+                                <h:outputText value="#{user.name}" style="color:black;" />
+                            </p:column>
+                            <p:column headerText="#{msg['user.username.label']}" sortBy="#{user.usernname}" filterBy="#{user.username}"  style="text-align: right; direction: rtl;color: green;">
+                                <h:outputText value="#{user.username}" style="color:black;" />
+                            </p:column>
+                            <p:column headerText="#{msg['user.password.label']}" sortBy="#{user.password}" filterBy="#{user.password}"  style="text-align: right; direction: rtl;color: green;">
+                                <h:outputText value="#{user.password}"  style="color:black;" />
+                            </p:column>
+                            <p:column headerText="#{msg['user.canwrite.label']}" sortBy="#{user.canWrite}" filterBy="#{user.canWrite}"  style="text-align: right; direction: rtl;color: green;">
+                                <h:outputText styleClass="product-badge "  style="color:black;" value="#{user.canWrite ? msg['user.canwrite.yes.label'] : msg['user.canwrite.no.label']}" />
+                            </p:column>
+                            <p:column exportable="false"  style="text-align: right; direction: rtl;color: green;">
+                                <div class="p-d-flex">
+                              	
+                                <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content"  style="text-align: right; direction: rtl;" oncomplete="PF('manageUserDialog').show()" 
+                                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{user}" target="#{usersView.selectedUser}" />
+                                </p:commandButton> 
+                                <p:divider layout="vertical"></p:divider>       
+           						<p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"  style="text-align: right; direction: rtl;" process="@this" oncomplete="PF('deleteUserDialog').show()" >
+                                    <f:setPropertyActionListener value="#{user}" target="#{usersView.selectedUser}" />
+                                </p:commandButton>
+                                </div>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:dialog header="#{msg['user.dialog.add.title.label']}" showEffect="fade" modal="true" widgetVar="manageUserDialog" responsive="true">
+                            <p:outputPanel id="manage-user-content" class="ui-fluid">
+                                <p:outputPanel rendered="#{not empty usersView.selectedUser}">
+                                    <div class="p-field">
+                                        <p:outputLabel for="name">#{msg['user.name.label']}</p:outputLabel>
+                                        <p:inputText id="name" value="#{usersView.selectedUser.name}" required="true" />
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel for="username">#{msg['user.username.label']}</p:outputLabel>
+                                        <p:inputText id="username" value="#{usersView.selectedUser.username}" required="true" />
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel for="password">#{msg['user.password.label']}</p:outputLabel>
+                                        <p:inputText id="password" value="#{usersView.selectedUser.password}" required="true" />
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel for="canWrite">#{msg['user.canwrite.label']}</p:outputLabel>
+                                        <p:selectOneRadio id="canWrite" value="#{usersView.selectedUser.canWrite}" layout="responsive" columns="2">
+                                            <f:selectItem itemLabel="#{msg['user.canwrite.yes.label']}" itemValue="true" />
+                                            <f:selectItem itemLabel="#{msg['user.canwrite.no.label']}" itemValue="false" />                       
+                                        </p:selectOneRadio>
+                                    </div>
+                                   
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="#{msg['user.dialog.add.buttons.save.label']}" icon="pi pi-check" actionListener="#{usersView.saveUser}" update="manage-user-content" process="manage-user-content @this" />
+                     			
+                            </f:facet>
+                        </p:dialog> 
+
+                        <p:confirmDialog widgetVar="deleteUserDialog" showEffect="fade" width="300" message="#{msg['user.dialog.delete.msg']}" header="Confirm" severity="warn">
+                            <p:commandButton value="#{msg['user.dialog.delete.buttons.ok.label']}" icon="pi pi-check" actionListener="#{usersView.deleteUser}" process="@this" oncomplete="PF('deleteUserDialog').hide()"/>
+                            <p:commandButton value="#{msg['user.dialog.delete.buttons.cancel.label']}" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteUserDialog').hide()" />
+                        </p:confirmDialog>
+                        <p:confirmDialog global="true" showEffect="fade" width="300" >
+                            <p:commandButton value="#{msg['user.dialog.add.buttons.save.label']}" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                            <p:commandButton value="#{msg['user.dialog.add.buttons.cancel.label']}" type="button"  styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+                        </p:confirmDialog>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

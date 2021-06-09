@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">#{msg['category.title.label']}</ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="p-grid crud-demo">
+                <div class="p-col-12">
+                    <div class="card">
+                        <p:growl id="messages" showDetail="true" />
+
+                        <p:toolbar styleClass="p-mb-4">
+                            <p:toolbarGroup>
+                                <p:commandButton value="#{msg['category.buttons.add.label']}" icon="pi pi-plus" actionListener="#{categoriesView.openNew}" update="manage-category-content" oncomplete="PF('manageCategoryDialog').show()" 
+                                    styleClass="ui-button-success" style="margin-right: .5rem" />
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+                        <p:dataTable id="dt-Categories" widgetVar="dtCategories" var="category" value="#{categoriesView.categories}" cellEditMode="eager" reflow="true" style="text-align: right; direction: rtl;"  styleClass="category-table"
+                                    selection="#{categoriesView.categories}" rowKey="#{category.id}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <div class="products-table-header">
+                                    <span style="font-weight: bold">#{msg['category.title.label']}</span>
+                                
+                                    <span class="filter-container ui-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <p:inputText id="globalFilter" onkeyup="PF('dtCategories').filter()" placeholder="Search" />
+                                    </span>
+                                </div>
+                            </f:facet>
+                            <p:column headerText="#{msg['category.name.label']}" sortBy="#{category.name}"   filterBy="#{category.name}" style="text-align: right; direction: rtl;color: green;">
+                                <h:outputText value="#{category.name}" />
+                            </p:column>
+                                  <p:column exportable="false"  style="text-align: right; direction: rtl;">
+                                  <div class="p-d-flex">
+                                <p:commandButton icon="pi pi-pencil" update=":form:manage-category-content"  style="text-align: right; direction: rtl;" oncomplete="PF('manageCategoryDialog').show()" 
+                                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{category}" target="#{categoriesView.selectedCategory}" />
+                                </p:commandButton>  
+                                <p:divider layout="vertical" />    
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"  style="text-align: right; direction: rtl;" process="@this" oncomplete="PF('deleteCategoryDialog').show()" >
+                                    <f:setPropertyActionListener value="#{category}" target="#{categoriesView.selectedCategory}" />
+                                </p:commandButton>
+                                 <p:divider layout="vertical" />
+
+								<h:link value="#{msg['category.buttons.show.label']}" styleClass="ui-button-outlined ui-button-success" outcome="items" >
+   									<f:param name="id" value="${category.id}" />
+								</h:link>
+                               
+                           		</div>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:dialog header="#{msg['category.dialog.add.title.label']}" showEffect="fade" modal="true" widgetVar="manageCategoryDialog" responsive="true">
+                            <p:outputPanel id="manage-category-content" class="ui-fluid">
+                                <p:outputPanel rendered="#{not empty categoriesView.selectedCategory}">
+                                    <div class="p-field">
+                                        <p:outputLabel for="name">#{msg['category.name.label']}</p:outputLabel>
+                                        <p:inputText id="name" value="#{categoriesView.selectedCategory.name}" required="true" />
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="#{msg['category.dialog.add.buttons.save.label']}" icon="pi pi-check" actionListener="#{categoriesView.saveCategory}" update="manage-category-content" process="manage-category-content @this" />
+                     			
+                            </f:facet>
+                        </p:dialog> 
+
+                        <p:confirmDialog widgetVar="deleteCategoryDialog" showEffect="fade" width="300" message="#{msg['category.dialog.delete.msg']}" header="Confirm" severity="warn">
+                            <p:commandButton value="#{msg['category.dialog.delete.buttons.ok.label']}" icon="pi pi-check" actionListener="#{categoriesView.deleteCategory}" process="@this" oncomplete="PF('deleteCategoryDialog').hide()"/>
+                            <p:commandButton value="#{msg['category.dialog.delete.buttons.cancel.label']}" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteCategoryDialog').hide()" />
+                        </p:confirmDialog>
+                        <p:confirmDialog global="true" showEffect="fade" width="300" >
+                            <p:commandButton value="#{msg['category.dialog.add.buttons.save.label']}" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                            <p:commandButton value="#{msg['category.dialog.add.buttons.cancel.label']}" type="button"  styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+                        </p:confirmDialog>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

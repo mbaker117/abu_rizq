@@ -1,0 +1,57 @@
+$fontFamily: "Source Sans Pro","Helvetica Neue",sans-serif !default;
+$fontSize:13px !default;
+$textColor:#777777 !default;
+$textSecondaryColor:lighten($textColor,5%) !default;
+$borderRadius:3px !default;
+$dividerColor:#eaeaea !default;
+$iconFontSize:16px !default;
+$iconWidth:16px !default;
+$iconHeight:16px !default;
+$transitionDuration: .3s !default;
+$animationDuration:.4s !default;
+$animationTimingFunction:cubic-bezier(.05,.74,.2,.99) !default;
+$overlayShadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12) !default;
+$tabletBreakpoint: 991px !default;
+$phoneBreakpoint: 576px !default;
+$overlayBorder:0 none !default;
+$mainColor: #61d42d !default;
+
+$bodyBgColor:#f8f8f8 !default;
+$footerBgColor:#dee0e3 !default;
+$footerLinkHoverColor: #494949 !default;
+$menuBgColor: #2C2C2C !default;
+$menuBgColorActive: #1f1f1f !default;
+$menuTextColor: #c4c4c4 !default;
+
+/* Topbar */
+$topbarMenuTextColor:#ffffff !default;
+$topbarMenuTextHoverColor:#e3e3e3 !default;
+$topbarSubmenuBgColor:#f7f7f7 !default;
+$topbarSubmenuItemHoverBgColor:#e3e3e3 !default;
+$topbarButtonHoverBgColor: #f5f5f5 !default;
+$topbarButtonHoverColor:#494949 !default;
+$topbarIconColor:#afafaf !default;
+$topbarBgColor: #ffffff !default;
+
+/* Tab */
+$progressBarBgColor: #eeeeee !default;
+$progressBarFirstColor: #92f5a1 !default;
+$progressBarSecondColor: #c4e3c9 !default;
+$progressBarThirdColor: #c8cfc9 !default;
+$progressBarForthColor: #dedede !default;
+
+/* Contents */
+$contentBorderColor:#eaeaea !default;
+
+/* List Items */
+$listItemPadding:.5em 1em !default;
+
+/* Predefined Colors */
+$yellow:#fbc948 !default;
+$blue:#6ec5ff !default;
+$orange:#F1B009 !default;
+$purple:#985edb !default;
+$pink:#f18983 !default;
+$green:#59c429 !default;
+$black:#777777 !default;
+$secondary:#f4f4f4 !default;

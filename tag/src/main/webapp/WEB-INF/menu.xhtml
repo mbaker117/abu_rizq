@@ -1,0 +1,27 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/morpheus">
+
+    <div class="layout-sidebar">
+        <pm:tabMenu id="tabMenu">
+            <pm:tab id="tab1" icon="pi pi-home" title=" #{msg['menu.menutab.home.label']}">
+                <h:form id="menuform">
+                    <pm:menu widgetVar="MorpheusMenuWidget">
+                        <p:menuitem id="om_user" value="#{msg['menu.user.label']}" icon="pi pi-fw pi-users" outcome="users"/>
+                   		<p:menuitem id="om_store" value="#{msg['menu.store.label']}" icon="pi pi-fw pi-shopping-cart" outcome="categories"/>
+                   		<p:menuitem id="om_reservation" value="#{msg['menu.reservation.label']}" icon="pi pi-fw pi-pencil" outcome="/dashboard"/>
+                   		<p:menuitem id="om_reports1" value="#{msg['menu.reports.label']}" icon="pi pi-fw pi-chart-line" outcome="/dashboard"/>
+                    	<p:menuitem id="om_reports2" value="#{msg['menu.reports.label']}" icon="pi pi-fw pi-chart-line" outcome="/dashboard"/>
+                    </pm:menu>
+                </h:form>
+            </pm:tab>
+
+       
+        </pm:tabMenu>        
+    </div>
+
+</ui:composition>    

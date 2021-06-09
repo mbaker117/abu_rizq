@@ -1,0 +1,274 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/morpheus">
+
+    <div class="layout-sidebar">
+        <pm:tabMenu id="tabMenu">
+            <pm:tab id="tab1" icon="pi pi-folder-open" title="FEATURES">
+                <h:form id="menuform">
+                    <pm:menu widgetVar="MorpheusMenuWidget">
+                        <p:menuitem id="om_dashboard" value="Dashboard" icon="pi pi-fw pi-home" outcome="/dashboard"/>
+                        <p:submenu id="om_components" label="UI Kit" icon="pi pi-fw pi-star" badge="10">
+                            <p:menuitem id="om_formlayout" value="Form Layout" icon="pi pi-fw pi-id-card" outcome="/formlayout"/>
+                            <p:menuitem id="om_input" value="Input" icon="pi pi-fw pi-check-square" outcome="/input"/>
+                            <p:menuitem id="om_floatlabel" value="Float Label" icon="pi pi-fw pi-bookmark" outcome="/floatlabel"/>
+                            <p:menuitem id="om_invalidstate" value="Invalid State" icon="pi pi-fw pi-exclamation-circle"
+                                        outcome="/invalidstate"/>
+                            <p:menuitem id="om_button" value="Button" icon="pi pi-fw pi-mobile" outcome="/button"
+                                        styleClass="rotated-icon"/>
+                            <p:menuitem id="om_table" value="Table" icon="pi pi-fw pi-table" outcome="/table"/>
+                            <p:menuitem id="om_list" value="List" icon="pi pi-fw pi-list" outcome="/list"/>
+                            <p:menuitem id="om_tree" value="Tree" icon="pi pi-fw pi-share-alt" outcome="/tree"/>
+                            <p:menuitem id="om_panel" value="Panel" icon="pi pi-fw pi-tablet" outcome="/panel"/>
+                            <p:menuitem id="om_overlay" value="Overlay" icon="pi pi-fw pi-clone" outcome="/overlay"/>
+                            <p:menuitem id="om_menu" value="Menu" icon="pi pi-fw pi-bars" outcome="/menu"/>
+                            <p:menuitem id="om_message" value="Message" icon="pi pi-fw pi-comment" outcome="/messages"/>
+                            <p:menuitem id="om_file" value="File" icon="pi pi-fw pi-file" outcome="/file"/>
+                            <p:menuitem id="om_chart" value="Chart" icon="pi pi-fw pi-chart-bar" outcome="/charts"/>
+                            <p:menuitem id="om_misc" value="Misc" icon="pi pi-fw pi-circle-off" outcome="/misc"/>
+                        </p:submenu>
+                        <p:submenu id="om_utils" label="Utilities" icon="pi pi-fw pi-compass" styleClass="orange-badge" badge="8">
+                            <p:menuitem id="om_display" value="Display" icon="pi pi-fw pi-desktop" outcome="/display"/>
+                            <p:menuitem id="om_elevation" value="Elevation" icon="pi pi-fw pi-external-link" outcome="/elevation"/>
+                            <p:menuitem id="om_flexbox" value="FlexBox" icon="pi pi-fw pi-directions" outcome="/flexbox"/>
+                            <p:menuitem id="om_icons" value="Icons" icon="pi pi-fw pi-search" outcome="/icons"/>
+                            <p:menuitem id="om_text" value="Text" icon="pi pi-fw pi-pencil" outcome="/text"/>
+                            <p:menuitem id="om_widgets" value="Widgets" icon="pi pi-fw pi-star-o" outcome="/widgets"/>
+                            <p:menuitem id="om_grid" value="Grid System" icon="pi pi-fw pi-th-large" outcome="/grid"/>
+                            <p:menuitem id="om_spacing" value="Spacing" icon="pi pi-fw pi-arrow-right" outcome="/spacing"/>
+                            <p:menuitem id="om_typography" value="Typography" icon="pi pi-fw pi-align-center" outcome="/typography"/>
+                        </p:submenu>
+                        <p:submenu id="om_default" label="Pages" icon="pi pi-fw pi-briefcase">
+                            <p:menuitem id="om_crud" value="Crud" icon="pi pi-fw pi-pencil" outcome="/crud"/>
+                            <p:menuitem id="om_calendar" value="Calendar" icon="pi pi-fw pi-calendar-plus" outcome="/calendar"/>
+                            <p:menuitem id="om_chronoline" value="Chronoline" icon="pi pi-fw pi-calendar" outcome="/chronoline"/>
+                            <p:menuitem id="om_landing" value="Landing" icon="pi pi-fw pi-globe" outcome="/landing"/>
+                            <p:menuitem id="om_login" value="Login" icon="pi pi-fw pi-sign-in" outcome="/login"/>
+                            <p:menuitem id="om_invoice" value="Invoice" icon="pi pi-fw pi-dollar" outcome="/invoice"/>
+                            <p:menuitem id="om_help" value="Help" icon="pi pi-fw pi-question-circle" outcome="/help"/>
+                            <p:menuitem id="om_error" value="Error" icon="pi pi-fw pi-times-circle" outcome="/error"/>
+                            <p:menuitem id="om_notfound" value="Not Found" icon="pi pi-fw pi-exclamation-circle" outcome="/notfound"/>
+                            <p:menuitem id="om_access" value="Access Denied" icon="pi pi-fw pi-lock" outcome="/access"/>
+                            <p:menuitem id="om_empty" value="Empty" icon="pi pi-fw pi-circle-off" outcome="/empty"/>
+                        </p:submenu>
+                        <p:submenu id="om_hierarchy" label="Hierarchy" icon="pi pi-fw pi-align-left">
+                            <p:submenu id="om_sm1" label="Submenu 1" icon="pi pi-fw pi-align-left">
+                                <p:submenu id="om_sm11" label="Submenu 1.1" icon="pi pi-fw pi-align-left">
+                                    <p:menuitem id="om_lnk111" value="Link 1.1.1" icon="pi pi-fw pi-align-left" url="#"/>
+                                    <p:menuitem id="om_lnk112" value="Link 1.1.2" icon="pi pi-fw pi-align-left" url="#"/>
+                                    <p:menuitem id="om_lnk113" value="Link 1.1.3" icon="pi pi-fw pi-align-left" url="#"/>
+                                </p:submenu>
+                                <p:submenu id="om_sm12" label="Submenu 1.2" icon="pi pi-fw pi-align-left">
+                                    <p:menuitem id="om_lnk121" value="Link 1.2.1" icon="pi pi-fw pi-align-left" url="#"/>
+                                </p:submenu>
+                            </p:submenu>
+                            <p:submenu id="om_sm2" label="Submenu 2" icon="pi pi-fw pi-align-left">
+                                <p:submenu id="om_sm21" label="Submenu 2.1" icon="pi pi-fw pi-align-left">
+                                    <p:menuitem id="om_lnk211" value="Link 2.1.1" icon="pi pi-fw pi-align-left" url="#"/>
+                                    <p:menuitem id="om_lnk212" value="Link 2.1.2" icon="pi pi-fw pi-align-left" url="#"/>
+                                </p:submenu>
+                                <p:submenu id="om_sm22" label="Submenu 2.2" icon="pi pi-fw pi-align-left">
+                                    <p:menuitem id="om_lnk221" value="Link 2.2.1" icon="pi pi-fw pi-align-left" url="#"/>
+                                </p:submenu>
+                            </p:submenu>
+                        </p:submenu>
+                        <p:menuitem id="om_buy" value="Buy Now" icon="pi pi-fw pi-shopping-cart" url="https://www.primefaces.org/store"/>
+                        <p:menuitem id="om_doc" value="Documentation" icon="pi pi-fw pi-info-circle" outcome="/documentation"/>
+                    </pm:menu>
+                </h:form>
+            </pm:tab>
+
+            <pm:tab id="tab2" icon="pi pi-inbox" title="INBOX">
+                <div class="inbox-tab">
+                    <ul>
+                        <li class="clearfix">
+                            <p:graphicImage name="images/avatar1.png" library="morpheus-layout" width="45"/>
+                            <span class="name">Joshua Williams</span>
+                            <span class="message">Reports attached</span>
+                        </li>
+                        <li class="clearfix">
+                            <p:graphicImage name="images/avatar1.png" library="morpheus-layout" width="45"/>
+                            <span class="name">Joshua Williams</span>
+                            <span class="message">About the meeting</span>
+                        </li>
+                        <li class="clearfix">
+                            <p:graphicImage name="images/avatar2.png" library="morpheus-layout" width="45"/>
+                            <span class="name">Emily Clark</span>
+                            <span class="message">TODO Update</span>
+                        </li>
+                        <li class="clearfix">
+                            <p:graphicImage name="images/avatar3.png" library="morpheus-layout" width="45"/>
+                            <span class="name">Tim Johnson</span>
+                            <span class="message">Expense Reports</span>
+                        </li>
+                        <li class="clearfix">
+                            <p:graphicImage name="images/avatar4.png" library="morpheus-layout" width="45"/>
+                            <span class="name">David Stark</span>
+                            <span class="message">Rating Reviews</span>
+                        </li>
+                    </ul>
+                    <div class="inbox-labels">
+                        <span>Labels</span>
+                        <ul>
+                            <li class="clearfix">
+                                <span class="inbox-label">Work</span>
+                                <span class="inbox-label-badge">4</span>
+                            </li>
+                            <li class="clearfix">
+                                <span class="inbox-label">Personel</span>
+                                <span class="inbox-label-badge">2</span>
+                            </li>
+                            <li class="clearfix">
+                                <span class="inbox-label">Shared</span>
+                                <span class="inbox-label-badge">3</span>
+                            </li>
+                            <li class="clearfix">
+                                <span class="inbox-label">General</span>
+                                <span class="inbox-label-badge">5</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </pm:tab>
+
+            <pm:tab id="tab3" icon="pi pi-calendar" title="CALENDAR">
+                <div class="calendar-tab">
+                    <ul>
+                        <li class="clearfix">
+                            <div class="calendar-event-date">
+                                <span>21</span>
+                                <span>OCT</span>
+                            </div>
+                            <div class="calendar-event-detail">
+                                <span class="calendar-event-title">Project Meeting</span>
+                                <i class="pi pi-map-marker"/>
+                                <span class="calendar-event-location">Chicago</span>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="calendar-event-date">
+                                <span>13</span>
+                                <span>NOV</span>
+                            </div>
+                            <div class="calendar-event-detail">
+                                <span class="calendar-event-title">Presentation 1</span>
+                                <i class="pi pi-map-marker"/>
+                                <span class="calendar-event-location">New York</span>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="calendar-event-date">
+                                <span>01</span>
+                                <span>DEC</span>
+                            </div>
+                            <div class="calendar-event-detail">
+                                <span class="calendar-event-title">Presentation 2</span>
+                                <i class="pi pi-map-marker"/>
+                                <span class="calendar-event-location">New York</span>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="calendar-event-date">
+                                <span>25</span>
+                                <span>DEC</span>
+                            </div>
+                            <div class="calendar-event-detail">
+                                <span class="calendar-event-title">Presentation 3</span>
+                                <i class="pi pi-map-marker"/>
+                                <span class="calendar-event-location">San Diego</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </pm:tab>
+      
+            <pm:tab id="tab4" icon="pi pi-image" title="PROJECTS">
+                <div class="projects-tab">
+                    <ul>
+                        <li class="clearfix p-d-flex">
+                            <i class="pi pi-github"/>
+                            <div class="p-d-flex p-flex-column">
+                            <span class="project-title">GitHub Tasks</span>
+                            <span>3 open, 4 closed</span>
+                            <div class="project-progressbar">
+                                <div class="project-progressbar-value" style="width: 50%"></div>
+                            </div>
+                            </div>
+                        </li>
+                        <li class="clearfix p-d-flex">
+                            <i class="pi pi-youtube"/>
+                            <div class="p-d-flex p-flex-column">
+                            <span class="project-title">YouTube Videos</span>
+                            <span>12 new, 2 subscribers</span>
+                            <div class="project-progressbar">
+                                <div class="project-progressbar-value" style="width: 20%"></div>
+                            </div>
+                            </div>
+                        </li>
+                        <li class="clearfix p-d-flex">
+                            <i class="pi pi-twitter"/>
+                            <div class="p-d-flex p-flex-column">
+                            <span class="project-title">Twitter Posts</span>
+                            <span>24 new messages</span>
+                            <div class="project-progressbar">
+                                <div class="project-progressbar-value" style="width: 65%"></div>
+                            </div>
+                            </div>
+                        </li>
+                        <li class="clearfix p-d-flex">
+                            <i class="pi pi-facebook"/>
+                            <div class="p-d-flex p-flex-column">
+                            <span class="project-title">Facebook Messages</span>
+                            <span>8 total, 4 unread</span>
+                            <div class="project-progressbar">
+                                <div class="project-progressbar-value" style="width: 80%"></div>
+                            </div>
+                            </div>
+                        </li>
+                        <li class="clearfix p-d-flex">
+                            <i class="pi pi-user"/>
+                            <div class="p-d-flex p-flex-column">
+                                <span class="project-title">Linkedin Contacts</span>
+                                <span>90 total</span>
+                                <div class="project-progressbar">
+                                    <div class="project-progressbar-value" style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </pm:tab>
+
+            <pm:tab id="tab5" icon="pi pi-chart-bar" title="UPDATES">
+                <div class="update-tab">
+                    <p>Apple consuption count distribution to population (in percentage).</p>
+                    <div class="percentage-indicator">
+                        <span>Britain</span>
+                        <span>84%</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-bar-indicator-1"></div></div>
+                    <div class="percentage-indicator">
+                        <span>Germany</span>
+                        <span>58%</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-bar-indicator-2"></div></div>
+                    <div class="percentage-indicator">
+                        <span>Turkey</span>
+                        <span>44%</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-bar-indicator-3"></div></div>
+                    <div class="percentage-indicator">
+                        <span>Slovenia</span>
+                        <span>37%</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-bar-indicator-4"></div></div>
+                </div>
+            </pm:tab>
+        </pm:tabMenu>        
+    </div>
+
+</ui:composition>    
