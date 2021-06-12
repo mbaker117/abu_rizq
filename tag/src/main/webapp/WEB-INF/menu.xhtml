@@ -11,8 +11,8 @@
             <pm:tab id="tab1" icon="pi pi-home" title=" #{msg['menu.menutab.home.label']}">
                 <h:form id="menuform">
                     <pm:menu widgetVar="MorpheusMenuWidget">
-                        <p:menuitem id="om_user" value="#{msg['menu.user.label']}" icon="pi pi-fw pi-users" outcome="users"/>
-                   		<p:menuitem id="om_store" value="#{msg['menu.store.label']}" icon="pi pi-fw pi-shopping-cart" outcome="categories"/>
+                        <p:menuitem id="om_user" value="#{msg['menu.user.label']}" icon="pi pi-fw pi-users" outcome="/userpages/users"/>
+                   		<p:menuitem id="om_store" value="#{msg['menu.store.label']}" icon="pi pi-fw pi-shopping-cart" outcome="/userpages/categories"/>
                    		<p:menuitem id="om_reservation" value="#{msg['menu.reservation.label']}" icon="pi pi-fw pi-pencil" outcome="/dashboard"/>
                    		<p:menuitem id="om_reports1" value="#{msg['menu.reports.label']}" icon="pi pi-fw pi-chart-line" outcome="/dashboard"/>
                     	<p:menuitem id="om_reports2" value="#{msg['menu.reports.label']}" icon="pi pi-fw pi-chart-line" outcome="/dashboard"/>

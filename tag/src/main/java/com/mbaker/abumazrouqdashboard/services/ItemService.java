@@ -12,7 +12,6 @@ public interface ItemService {
 	
 	public List<Item> getAll(int pageNumber, int pageSize, String sortBy);
 	
-
 	public Optional<Item> getById(long id);
 
 	public void save(Item item);
@@ -22,5 +21,5 @@ public interface ItemService {
 	public Optional<Item> getByName(String name);
 
 	public List<Item> getByCategory(long categoryId) throws AbuMazrouqDashboardException ;
-
+	
 }

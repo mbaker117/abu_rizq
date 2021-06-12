@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+                
+    <ui:define name="title">Empty Page</ui:define>
+
+    <ui:define name="content">
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="card">
+              
+                     <div class="p-col-12 button-container" style="text-align: right; direction: rtl;">
+                    	<p:button class="p-col-12 button-container" outcome="/userpages/users" value="#{msg['main.users.label']}" rendered="${user.userType=='ADMIN'}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>
+              		</div>
+              		<div class="p-col-12 button-container" style="text-align: right; direction: rtl;">
+                    	<p:button outcome="/userpages/users" value="#{msg['main.categories.label']}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>
+              		</div>
+              		<div class="p-col-12 button-container" style="text-align: right; direction: rtl;">
+                    	<p:button outcome="/userpages/users" value="#{msg['main.reservations.label']}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>
+              		</div>
+              		<div class="p-col-12 button-container" style="text-align: right; direction: rtl;">
+                    	<p:button outcome="/userpages/users" value="#{msg['main.reports.label']}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>
+              		</div>
+              		<div class="p-col-12 button-container" style="text-align: right; direction: rtl;">
+                    	<p:button outcome="/userpages/users" value="#{msg['main.advanceReports.label']}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>
+              		</div>
+                </div>
+            </div>
+        </div>
+        
+    </ui:define>
+
+</ui:composition>

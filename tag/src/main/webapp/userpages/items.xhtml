@@ -30,10 +30,10 @@
                             </p:toolbarGroup>
                         </p:toolbar>
 
-                        <p:dataTable id="dt-Items" widgetVar="dtItems" var="item"  value="#{itemsView.items}" cellEditMode="eager" reflow="true" style="text-align: right; direction: rtl;"  styleClass="item-table"
+                        <p:dataTable id="dt-Items" widgetVar="dtItems" var="item"  value="#{itemsView.lazyItems}" cellEditMode="eager" reflow="true" style="text-align: right; direction: rtl;"  styleClass="item-table"
                                    
                                       rowsPerPageTemplate="5,10,15"
-                                    selection="#{itemsView.items}" rowKey="#{item.id}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom"
+                                    selection="#{itemsView.items}" rowKey="#{item.id}" paginator="true" rows="5" rowSelectMode="add" paginatorPosition="bottom"
                      				>
                             <f:facet name="header">
                                 <div class="products-table-header">
@@ -46,7 +46,11 @@
                                 </div>
                             </f:facet>
                             <p:column headerText="" exportable="false" style="text-align: right; direction: rtl; color: green;">
-            				     <p:graphicImage name="demo/images/avatar/amyelsner.png"/>
+            				    <div class="image-container" > <p:graphicImage styleClass="centered-image" rendered="#{not empty item.imageUrl}" name="items/images/#{item.imageUrl}"/>
+            				    
+            				    <p:graphicImage styleClass="centered-image" rendered="#{empty item.imageUrl}" name="items/images/no-image.jpg"/>
+            				    
+            				    </div>
            					</p:column>
                             <p:column headerText="#{msg['item.name.label']}" sortBy="#{item.name}"   filterBy="#{item.name}" style="text-align: right; direction: rtl; color: green;">
                                 <h:outputText value="#{item.name}" style="color:black;" />

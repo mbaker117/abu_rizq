@@ -30,6 +30,7 @@ public class Category {
 	@Column(name = "name")
 	private String name;
 
+	
 	@OneToMany(targetEntity = Item.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH }, mappedBy = "category", fetch = FetchType.LAZY)
 	private List<Item> items;

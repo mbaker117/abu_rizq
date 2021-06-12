@@ -18,39 +18,39 @@ import com.mbaker.abumazrouqdashboard.exception.AbuMazrouqDashboardException;
 import com.mbaker.abumazrouqdashboard.services.UserService;
 
 @RestController
-@RequestMapping("/employees")
-public class EmployeeController {
+@RequestMapping("/users")
+public class UserController {
 
 	@Autowired
-	private UserService employeeService;
+	private UserService userService;
 
 	@PostMapping("/login")
 	public User login(@RequestBody UserCredential user) {
-		return employeeService.login(user.getUsername(), user.getPassword()).get();
+		return userService.login(user.getUsername(), user.getPassword()).get();
 	}
 
 	@GetMapping
 	public List<User> findAll() {
-		return employeeService.getAll();
+		return userService.getAll();
 	}
 
 	@GetMapping("/{id}")
 	public User findById(@PathVariable("id") long id) {
-		Optional<User> employee = employeeService.getById(id);
-		return employee.isPresent()?employee.get():null;
+		Optional<User> user = userService.getById(id);
+		return user.isPresent()?user.get():null;
 	}
 
 	@PostMapping
-	public void save(User employee) throws AbuMazrouqDashboardException {
-		employeeService.add(employee);
+	public void save(User user) throws AbuMazrouqDashboardException {
+		userService.add(user);
 	}
 
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable("id") long id) throws AbuMazrouqDashboardException {
-		employeeService.delete(id);
+		userService.delete(id);
 	}
 
 	public User findByName(String name) {
-		return employeeService.getByName(name).get();
+		return userService.getByName(name).get();
 	}
 }

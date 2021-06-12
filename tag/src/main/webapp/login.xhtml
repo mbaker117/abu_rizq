@@ -3,7 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      template="/WEB-INF/template.xhtml">
 
 <h:head>
     <f:facet name="first">
@@ -12,52 +13,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
     </f:facet>
-    <title>PrimeFaces Morpheus</title>
+    <title>#{msg['login.title.label']}</title>
 </h:head>
 
 <h:body styleClass="login-body #{guestPreferences.inputStyleClass}">
-    <div class="login-panel ui-fluid">
+    <div class="login-panel ui-fluid rtl">
         <div class="p-grid login-container" style="padding-bottom: 20px;">
             <div class="p-col-12 logo-container">
                 <a class="morpheus-logo-link" href="dashboard.xhtml">
-                    <p:graphicImage name="images/morpheus-logo-#{guestPreferences.theme}.svg" library="morpheus-layout"
-                                    styleClass="morpheus-logo"/>
                     <span class="morpheus-logo-text">
-                            morpheus
+                            #{msg['logo.label']}
                         </span>
                 </a>
             </div>
-            <div class="p-col-12">
-                <p:inputText placeholder="Username"/>
+         
+           <h:form id="form" styleClass="rtl">
+           <div>
+              <p:growl id="messages" showDetail="true" />
+            <div class="p-col-12 rtl" style="text-align: right; direction: rtl;">
+                <p:inputText placeholder="#{msg['login.username.label']}" value="#{loginView.username}"/>
             </div>
-            <div class="p-col-12">
-                <p:password placeholder="Password" feedback="false"/>
+            <div class="p-col-12" style="text-align: right; direction: rtl;">
+                <p:password placeholder="#{msg['login.password.label']}" feedback="false" value="#{loginView.password}"/>
             </div>
-            <div class="p-col-12 chkbox-container">
-                <p:selectBooleanCheckbox id="remember-me"/>
-                <p:outputLabel for="remember-me" value="Remember Me"/>
-            </div>
-            <div class="p-col-12 button-container">
-                <p:button outcome="/dashboard" value="Sign In" icon="pi pi-user"
+            <div class="p-col-12 button-container" style="text-align: right; direction: rtl;">
+                <p:commandButton action="#{loginView.validateUser}" value="#{msg['login.buttons.signin.label']}" icon="pi pi-user"
                           styleClass="ui-button-raised"/>
             </div>
+             </div>
+            </h:form> 
+           
         </div>
-        <div class="stripe"/>
-        <p style="margin-left: -17px;">Don't you have an account? <a href="#"> Register here </a></p>
-        <div class="stripe"/>
-        <div class="p-grid login-container" style="padding-top: 10px;">
-            <div class="p-col-12">
-                <h2>Social Login</h2>
-            </div>
-            <div class="p-col-12 button-container">
-                <p:button outcome="/dashboard" value="Facebook" icon="pi pi-facebook"
-                          styleClass="facebook-btn ui-button-raised"/>
-            </div>
-            <div class="p-col-12 button-container">
-                <p:button outcome="/dashboard" value="Twitter" icon="pi pi-twitter"
-                          styleClass="twitter-btn ui-button-raised"/>
-            </div>
-        </div>
+      
     </div>
 
     <h:outputStylesheet name="css/primeicons.css" library="morpheus-layout"/>

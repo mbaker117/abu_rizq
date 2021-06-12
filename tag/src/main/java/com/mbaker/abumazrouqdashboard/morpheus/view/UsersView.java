@@ -58,7 +58,7 @@ public class UsersView implements Serializable {
 	private ResourceBundle bundle;
 
 	public List<User> getUsers() {
-		users = userService.getAll();
+		users = userService.getAllEmployee();
 		return users;
 	}
 

@@ -28,8 +28,7 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.model.file.UploadedFile;
 
 import com.mbaker.abumazrouqdashboard.beans.model.Item;
-import com.mbaker.abumazrouqdashboard.exception.AbuMazrouqDashboardException;
-import com.mbaker.abumazrouqdashboard.services.ItemService;
+import com.mbaker.abumazrouqdashboard.facade.ItemFacade;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
@@ -41,21 +40,14 @@ public class AddEditItemView implements Serializable {
 	private Item selectedItem;
 
 	private UploadedFile file;
-
+	
 	@Inject
-	private ItemService itemService;
-
-	@Inject
-	private ItemsView itemsView;
+	private ItemFacade itemFacade;
 	/**
 	 * the bundle variable of type ResourceBundle
 	 */
 	@Inject
 	private ResourceBundle bundle;
-
-	public void init() throws AbuMazrouqDashboardException {
-
-	}
 
 	public Item getSelectedItem() {
 		return selectedItem;
@@ -91,11 +83,11 @@ public class AddEditItemView implements Serializable {
 		}
 		try {
 			if (this.selectedItem.getId() == 0) {
-
-				itemService.save(selectedItem);
+				
+				itemFacade.saveItem(selectedItem,file);
 				FacesUtils.sucessMessage(bundle.getString("item.msg.add.success"));
 			} else {
-				itemService.save(selectedItem);
+				itemFacade.saveItem(selectedItem,file);
 				FacesUtils.sucessMessage(bundle.getString("item.msg.update.success"));
 			}
 			PrimeFaces.current().ajax().update("form:messages");
@@ -109,12 +101,6 @@ public class AddEditItemView implements Serializable {
 			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
 		}
 		PrimeFaces.current().ajax().update("form:messages");
-
-	}
-
-	public void upload() {
-		if (file != null)
-			System.out.println(file.getFileName());
 
 	}
 

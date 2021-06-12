@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.mbaker.abumazrouqdashboard.beans.model.User;
 import com.mbaker.abumazrouqdashboard.daos.UserDAO;
+import com.mbaker.abumazrouqdashboard.enums.UserType;
 import com.mbaker.abumazrouqdashboard.exception.AbuMazrouqDashboardException;
 import com.mbaker.abumazrouqdashboard.exception.type.AbuMazrouqDashboardExceptionType;
 import com.mbaker.abumazrouqdashboard.services.UserService;
@@ -97,7 +98,7 @@ public class DefaultUserService implements UserService {
 		commonValidator.validateEmptyObject(user.getUserType(), USER_TYPE_KEY, SERVICE_NAME);
 		Optional<User> byUsername = getByUsername(user.getUsername());
 
-		if (byUsername.isPresent() && byUsername.get().getId()!=user.getId()) {
+		if (byUsername.isPresent() && byUsername.get().getId() != user.getId()) {
 			var ex = new AbuMazrouqDashboardException(AbuMazrouqDashboardExceptionType.USER_ALREADY_EXIST,
 					AbuMazrouqDashboardExceptionType.USER_ALREADY_EXIST.getMsg());
 			LOG.error(LOG_MSG, ex.getMessage());
@@ -109,6 +110,18 @@ public class DefaultUserService implements UserService {
 	public Optional<User> getByUsername(String username) {
 		commonValidator.validateEmptyString(username, USERNAME_KEY, SERVICE_NAME);
 		return userDAO.findByUsername(username);
+	}
+
+	@Override
+	public List<User> getByUserType(UserType userType) {
+		commonValidator.validateEmptyObject(userType, USER_TYPE_KEY, SERVICE_NAME);
+		return userDAO.findByUserType(userType);
+	}
+
+	@Override
+	public List<User> getAllEmployee() {
+
+		return getByUserType(UserType.EMPLOYEE);
 	}
 
 }

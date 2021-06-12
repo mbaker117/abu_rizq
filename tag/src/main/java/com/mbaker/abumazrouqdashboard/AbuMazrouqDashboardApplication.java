@@ -5,7 +5,6 @@ import java.util.EnumSet;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
-import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.DispatcherType;
@@ -21,6 +20,10 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.mbaker.abumazrouqdashboard.morpheus.filter.AuthenticationFilter;
+import com.mbaker.abumazrouqdashboard.morpheus.filter.AuthorizationFilter;
 
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -68,6 +71,8 @@ public class AbuMazrouqDashboardApplication extends SpringBootServletInitializer
 	@Override
 	public void setServletContext(ServletContext servletContext) {
 		servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
+	
+		
 	}
 
 	@Bean
@@ -76,6 +81,7 @@ public class AbuMazrouqDashboardApplication extends SpringBootServletInitializer
 		rwFilter.setDispatcherTypes(
 				EnumSet.of(DispatcherType.FORWARD, DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR));
 		rwFilter.addUrlPatterns("/*");
+		
 		return rwFilter;
 	}
 
@@ -93,7 +99,44 @@ public class AbuMazrouqDashboardApplication extends SpringBootServletInitializer
 		servletContext.setInitParameter("primefaces.THEME", "morpheus");
 
 	}
+	
+	
+	
+	
 
+	@Bean
+	public FilterRegistrationBean<AuthenticationFilter> auttenticationFilter(){
+	    FilterRegistrationBean<AuthenticationFilter> registrationBean 
+	      = new FilterRegistrationBean<>();
+	        
+	    registrationBean.setFilter(new AuthenticationFilter());
+		 registrationBean.addUrlPatterns("/userpages/*"); 
+		/*
+		 * registrationBean.addUrlPatterns("/users.xhtml");
+		 * registrationBean.addUrlPatterns("/main.xhtml");
+		 * registrationBean.addUrlPatterns("/categories.xhtml");
+		 * registrationBean.addUrlPatterns("/items.xhtml");
+		 */
+	    
+	    return registrationBean;    
+	}
+
+	@Bean
+	public FilterRegistrationBean<AuthorizationFilter> authorizationFilter(){
+	    FilterRegistrationBean<AuthorizationFilter> registrationBean 
+	      = new FilterRegistrationBean<>();
+	        
+	    	registrationBean.setFilter(new AuthorizationFilter());
+		 registrationBean.addUrlPatterns("/userpages/users.xhtml"); 
+		/*
+		 * registrationBean.addUrlPatterns("/users.xhtml");
+		 * registrationBean.addUrlPatterns("/main.xhtml");
+		 * registrationBean.addUrlPatterns("/categories.xhtml");
+		 * registrationBean.addUrlPatterns("/items.xhtml");
+		 */
+	    
+	    return registrationBean;    
+	}
 	@Bean
 	public ResourceBundle resourceBundle() {
 		return ResourceBundle

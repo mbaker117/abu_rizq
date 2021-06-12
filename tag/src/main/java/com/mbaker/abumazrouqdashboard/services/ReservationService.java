@@ -9,16 +9,18 @@ import com.mbaker.abumazrouqdashboard.exception.AbuMazrouqDashboardException;
 
 public interface ReservationService {
 
-	public List<Reservation> findAll();
+	public List<Reservation> getAll();
 	
-	public Optional<Reservation> findById(long id);
+	public Optional<Reservation> getById(long id);
 	
-	public void save(Reservation reservation);
+	public void add(Reservation reservation);
+	
+	public void update(Reservation reservation);
 	
 	public void delete(long id) throws AbuMazrouqDashboardException;
 	
-	public Optional<Reservation> findByEmployeeName(String employeeName);
+	public Optional<Reservation> getByEmployeeName(String employeeName);
 
-	public List<Reservation> findByDates(Date startDate,Date endDate);
+	public List<Reservation> getByDates(Date startDate,Date endDate);
 
 }

@@ -16,7 +16,7 @@ import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "RESERVED_ITEM")
-public class ReservedItem {
+public class ReservedItemData {
 
 	@Id
 	@SequenceGenerator(name = "reserved_item_generator", sequenceName = "reserved_item_generator", initialValue = 1)
@@ -31,8 +31,10 @@ public class ReservedItem {
 
 	private String owner;
 
-	private long quantity;
-
+	private long availableAmount;
+	
+	private long totalAmount;
+	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reservation_id", nullable = true)
@@ -54,12 +56,22 @@ public class ReservedItem {
 		this.owner = owner;
 	}
 
-	public long getQuantity() {
-		return quantity;
+	
+
+	public long getAvailableAmount() {
+		return availableAmount;
 	}
 
-	public void setQuantity(long quantity) {
-		this.quantity = quantity;
+	public void setAvailableAmount(long availableAmount) {
+		this.availableAmount = availableAmount;
+	}
+
+	public long getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(long totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 
 	public long getItemId() {

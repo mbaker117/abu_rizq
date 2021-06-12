@@ -8,7 +8,7 @@ import org.apache.commons.collections.CollectionUtils;
 
 public abstract class  Convertor <T,E>{
 	
-	abstract E convert(T t);
+	public abstract E convert(T t);
 	
 	public List<E> convertAll(List<T> models) {
 		if (CollectionUtils.isEmpty(models)) {

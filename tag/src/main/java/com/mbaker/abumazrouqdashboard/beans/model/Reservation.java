@@ -3,13 +3,14 @@ package com.mbaker.abumazrouqdashboard.beans.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CollectionTable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -29,9 +30,8 @@ public class Reservation {
 	@Column(name = "id")
 	private long id;
 
-	@ElementCollection
-	@CollectionTable(name = "items")
-	private List<String> items;
+	@OneToMany(targetEntity =ReservedItem.class, cascade = { CascadeType.ALL }, mappedBy = "reservation", fetch = FetchType.LAZY)
+	private List<ReservedItem> items;
 
 	private String notes;
 
@@ -55,11 +55,11 @@ public class Reservation {
 		this.id = id;
 	}
 
-	public List<String> getItems() {
+	public List<ReservedItem> getItems() {
 		return items;
 	}
 
-	public void setItems(List<String> items) {
+	public void setItems(List<ReservedItem> items) {
 		this.items = items;
 	}
 

@@ -1,9 +1,12 @@
 package com.mbaker.abumazrouqdashboard.services.impl;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
+import org.primefaces.model.file.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,25 +16,28 @@ import com.mbaker.abumazrouqdashboard.services.FileService;
 import com.mbaker.abumazrouqdashboard.validator.CommonValidator;
 
 @Service
-public class DefaultFileService implements FileService{
-	
+public class DefaultFileService implements FileService {
+
 	private final static Logger LOG = LoggerFactory.getLogger(DefaultAdminService.class);
 	private final static String SERVICE_NAME = "FileService";
 	private final static String LOG_MSG = "[FileService]: {}";
-	
+
 	@Autowired
 	private CommonValidator commonValidator;
-	
-	
 
 	@Override
-	public String UploadFile(String path, String fileName, File file) throws FileNotFoundException {
+	public String UploadFile(String path, String fileName, UploadedFile file) throws IOException {
 		commonValidator.validateEmptyObject(file, "file", SERVICE_NAME);
 		commonValidator.validateEmptyString(path, "path", SERVICE_NAME);
 		commonValidator.validateEmptyString(fileName, "fileName", SERVICE_NAME);
-		  FileOutputStream fout=new FileOutputStream(path+fileName);   
-		
-		return null;
+		final Path root = Paths.get(path);
+		/*
+		 * String[] split = file.getFileName().split(); String type =
+		 * split[split.length-1];
+		 */
+		Files.copy(file.getInputStream(), root.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
+
+		return fileName;
 	}
 
 }

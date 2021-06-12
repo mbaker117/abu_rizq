@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -35,9 +34,11 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.Visibility;
 import org.primefaces.model.file.UploadedFile;
 
+import com.mbaker.abumazrouqdashboard.beans.lazymodel.LazyItemDataModel;
 import com.mbaker.abumazrouqdashboard.beans.model.Category;
 import com.mbaker.abumazrouqdashboard.beans.model.Item;
 import com.mbaker.abumazrouqdashboard.exception.AbuMazrouqDashboardException;
+import com.mbaker.abumazrouqdashboard.facade.ItemFacade;
 import com.mbaker.abumazrouqdashboard.services.CategoryService;
 import com.mbaker.abumazrouqdashboard.services.ItemService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
@@ -45,8 +46,7 @@ import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 @Named
 @RequestScoped
 public class ItemsView implements Serializable {
-	
-	
+
 	private final static String ERROR_MSG = "item.msg.failed";
 
 	private List<Item> items;
@@ -56,9 +56,12 @@ public class ItemsView implements Serializable {
 	private Item selectedItem;
 
 	private List<Item> selectedItems;
-	
-    private UploadedFile file;
 
+	private UploadedFile file;
+
+	@Inject
+	private ItemFacade itemFacade;
+	
 	@Inject
 	private ItemService itemService;
 
@@ -77,24 +80,22 @@ public class ItemsView implements Serializable {
 		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext()
 				.getRequestParameterMap();
 		String id = requestParameterMap.get("id");
-		if(Strings.isBlank(id)) {
+		if (Strings.isBlank(id)) {
 			FacesUtils.redirect("categories");
 			return;
 		}
 		Optional<Category> categoryById = categoryService.getById(Long.valueOf(id));
 		if (categoryById.isPresent()) {
 			this.category = categoryById.get();
-		}else {
+		} else {
 			FacesUtils.redirect("categories");
 		}
-		// lazyItems = new
-		// LazyItemDataModel(itemService.getByCategory(category.getId()));
+		lazyItems = new LazyItemDataModel(itemService.getByCategory(category.getId()));
 	}
 
 	
-	
 	public List<Item> getItems() throws AbuMazrouqDashboardException {
-		items = itemService.getByCategory(this.category.getId());
+		items = itemFacade.getItemByCategoryId(this.category.getId());
 		return items;
 	}
 
@@ -137,7 +138,7 @@ public class ItemsView implements Serializable {
 	public void setLazyItems(LazyDataModel<Item> lazyItems) {
 		this.lazyItems = lazyItems;
 	}
-	
+
 	public UploadedFile getFile() {
 		return file;
 	}
@@ -145,16 +146,11 @@ public class ItemsView implements Serializable {
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}
-	
-	
 
-	
 	public void editItem() {
 		FacesUtils.redirect("addEditItem");
 	}
-	
-	
-	
+
 	public void openNew() {
 		Item item = new Item();
 		item.setCategory(category);
@@ -162,47 +158,10 @@ public class ItemsView implements Serializable {
 		FacesUtils.redirect("addEditItem");
 	}
 
-	public void saveItem() {
-		
-		
-		if(file==null) {
-			System.out.println("file is null");
-		}else {
-			System.out.println("file is"+file.getFileName() );
-		}
-		
-		try {
-			if (this.selectedItem.getId() == 0) {
-
-				itemService.save(selectedItem);
-				FacesUtils.sucessMessage(bundle.getString("item.msg.add.success"));
-			} else {
-				itemService.save(selectedItem);
-				FacesUtils.sucessMessage(bundle.getString("item.msg.update.success"));
-			}
-			PrimeFaces.current().executeScript("PF('manageItemDialog').hide()");
-		} catch (Exception e) {
-
-			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
-
-		}
-
-		PrimeFaces.current().ajax().update("form:messages", "form:dt-Items");
-
-	}
-	
-	
-	public void upload() {
-		if(file!=null)
-	System.out.println(file.getFileName());
-		
-		
-	}
-
 	public void deleteItem() {
 
 		try {
-			itemService.delete(selectedItem.getId());
+			itemFacade.deleteItem(selectedItem.getId());
 		} catch (AbuMazrouqDashboardException e) {
 			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
 		}
@@ -230,7 +189,5 @@ public class ItemsView implements Serializable {
 
 		}
 	}
-	
-	
 
 }

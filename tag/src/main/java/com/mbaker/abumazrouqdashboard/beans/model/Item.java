@@ -40,7 +40,7 @@ public class Item {
 	@NotNull
 	@Column(name = "imageUrl")
 	private String imageUrl;
-	
+
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id",nullable = true)
