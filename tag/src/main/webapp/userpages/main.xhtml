@@ -5,7 +5,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
                 
-    <ui:define name="title">Empty Page</ui:define>
+    <ui:define name="title">#{msg['main.title.label']}</ui:define>
+   
 
     <ui:define name="content">
         <div class="p-grid">
@@ -13,13 +14,13 @@
                 <div class="card">
               
                      <div class="p-col-12 button-container" style="text-align: right; direction: rtl;">
-                    	<p:button class="p-col-12 button-container" outcome="/userpages/users" value="#{msg['main.users.label']}" rendered="${user.userType=='ADMIN'}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>
+                    	<p:button  outcome="/userpages/users" value="#{msg['main.users.label']}" rendered="${user.userType=='ADMIN'}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>
               		</div>
               		<div class="p-col-12 button-container" style="text-align: right; direction: rtl;">
-                    	<p:button outcome="/userpages/users" value="#{msg['main.categories.label']}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>
+                    	<p:button outcome="/userpages/categories" value="#{msg['main.categories.label']}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>
               		</div>
               		<div class="p-col-12 button-container" style="text-align: right; direction: rtl;">
-                    	<p:button outcome="/userpages/users" value="#{msg['main.reservations.label']}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>
+                    	<p:button outcome="/userpages/reservations" value="#{msg['main.reservations.label']}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>
               		</div>
               		<div class="p-col-12 button-container" style="text-align: right; direction: rtl;">
                     	<p:button outcome="/userpages/users" value="#{msg['main.reports.label']}" style="display:inline-block;margin-top:6px" icon="pi pi-home"/>

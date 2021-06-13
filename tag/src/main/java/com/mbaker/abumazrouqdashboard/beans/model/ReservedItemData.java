@@ -1,28 +1,7 @@
 package com.mbaker.abumazrouqdashboard.beans.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
-
-@Entity
-@Table(name = "RESERVED_ITEM")
 public class ReservedItemData {
 
-	@Id
-	@SequenceGenerator(name = "reserved_item_generator", sequenceName = "reserved_item_generator", initialValue = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reserved_item_generator")
-	@NotNull
-	@Column(name = "id")
 	private long id;
 
 	private long itemId;
@@ -32,13 +11,15 @@ public class ReservedItemData {
 	private String owner;
 
 	private long availableAmount;
-	
+
 	private long totalAmount;
+
+	private long reservedAmount;
 	
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "reservation_id", nullable = true)
-	private Reservation reservation;
+	private String imageUrl;
+	
+	private String notes;
+
 
 	public String getName() {
 		return name;
@@ -55,8 +36,6 @@ public class ReservedItemData {
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
-
-	
 
 	public long getAvailableAmount() {
 		return availableAmount;
@@ -90,12 +69,28 @@ public class ReservedItemData {
 		this.id = id;
 	}
 
-	public Reservation getReservation() {
-		return reservation;
+	public long getReservedAmount() {
+		return reservedAmount;
 	}
 
-	public void setReservation(Reservation reservation) {
-		this.reservation = reservation;
+	public void setReservedAmount(long reservedAmount) {
+		this.reservedAmount = reservedAmount;
 	}
 
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+	
 }

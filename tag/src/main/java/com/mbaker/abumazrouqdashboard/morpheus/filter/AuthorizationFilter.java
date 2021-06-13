@@ -47,6 +47,7 @@ public class AuthorizationFilter implements Filter {
 			((HttpServletResponse) resp).sendRedirect("/userpages/main.xhtml");
 			return;
 		}
+		
 
 		chain.doFilter(req, resp);
 

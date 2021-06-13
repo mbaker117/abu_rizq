@@ -21,6 +21,12 @@ public interface ReservationDAO extends JpaRepository<Reservation, Long> {
 	@Query("SELECT r FROM Reservation r WHERE r.date>= ?1 and r.date<= ?2")
 	public List<Reservation> findByDates(Date startDate, Date endDate);
 
-	@Query("SELECT r FROM Reservation r WHERE r.date>= ?1 and r.date<= ?2")
+	@Query("SELECT r FROM Reservation r WHERE r.date>= ?1 and r.date<= ?2 and r.status =?3")
 	public List<Reservation> findByDatesAndStatus(Date startDate, Date endDate, ReservationStatus status);
 }
+
+
+
+
+
+

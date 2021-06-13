@@ -19,10 +19,8 @@ import com.sun.istack.NotNull;
 public class ReservedItem {
 
 	@Id
-	@SequenceGenerator(name = "reserved_item_generator", sequenceName = "reserved_item_generator", initialValue = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reserved_item_generator")
-	@NotNull
-	@Column(name = "id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id", nullable = false)
 	private long id;
 
 	private long itemId;
@@ -32,11 +30,9 @@ public class ReservedItem {
 	private String owner;
 
 	private long quantity;
+	
+	private String notes;
 
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "reservation_id", nullable = true)
-	private Reservation reservation;
 
 	public String getName() {
 		return name;
@@ -78,12 +74,13 @@ public class ReservedItem {
 		this.id = id;
 	}
 
-	public Reservation getReservation() {
-		return reservation;
+
+	public String getNotes() {
+		return notes;
 	}
 
-	public void setReservation(Reservation reservation) {
-		this.reservation = reservation;
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
-
+	
 }

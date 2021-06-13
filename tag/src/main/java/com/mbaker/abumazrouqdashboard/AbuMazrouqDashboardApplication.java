@@ -45,18 +45,24 @@ public class AbuMazrouqDashboardApplication extends SpringBootServletInitializer
 				.apis(RequestHandlerSelectors.basePackage("com.mbaker.abumazrouqdashboard.controller")).build()
 				.apiInfo(apiInfo());
 	}
+	
 
 	private ApiInfo apiInfo() {
 
 		return new ApiInfo("Abu Mazruoq ", " backend api.", null, null, null, "Author : Mohammed Baker ", "  ",
 				Collections.emptyList());
 	}
+	
+	
 
+	
+	
 	@PostConstruct
 	public void init() {
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Amman")); // It will set UTC timezone
 	}
 
+	
 	@Bean
 	public ServletRegistrationBean facesServlet() {
 		FacesServlet servlet = new FacesServlet();
@@ -127,6 +133,7 @@ public class AbuMazrouqDashboardApplication extends SpringBootServletInitializer
 	      = new FilterRegistrationBean<>();
 	        
 	    	registrationBean.setFilter(new AuthorizationFilter());
+	    
 		 registrationBean.addUrlPatterns("/userpages/users.xhtml"); 
 		/*
 		 * registrationBean.addUrlPatterns("/users.xhtml");

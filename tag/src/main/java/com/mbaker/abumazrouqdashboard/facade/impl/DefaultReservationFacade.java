@@ -18,6 +18,7 @@ import com.mbaker.abumazrouqdashboard.beans.model.Reservation;
 import com.mbaker.abumazrouqdashboard.beans.model.ReservedItem;
 import com.mbaker.abumazrouqdashboard.beans.model.ReservedItemData;
 import com.mbaker.abumazrouqdashboard.convertors.ReservedItemDataConvertor;
+import com.mbaker.abumazrouqdashboard.enums.ReservationStatus;
 import com.mbaker.abumazrouqdashboard.facade.ReservationFacade;
 import com.mbaker.abumazrouqdashboard.services.ItemService;
 import com.mbaker.abumazrouqdashboard.services.ReservationService;
@@ -40,10 +41,10 @@ public class DefaultReservationFacade implements ReservationFacade {
 	private ReservedItemDataConvertor reservedItemConvertor;
 
 	@Override
-	public List<ReservedItem> getReservedItemByDates(Date startDate, Date endDate) {
-		List<Reservation> reservations = reservationService.getByDates(startDate, endDate);
-		getAvailableItem(reservations);
-		return null;
+	public List<ReservedItemData> getReservedItemByDates(Date startDate, Date endDate) {
+		List<Reservation> reservations = reservationService.getByDatesAndStatus(startDate, endDate,
+				ReservationStatus.PENDING);
+		return getAvailableItem(reservations);
 	}
 
 	private List<ReservedItemData> getAvailableItem(List<Reservation> reservations) {
@@ -58,9 +59,9 @@ public class DefaultReservationFacade implements ReservationFacade {
 			for (ReservedItem reservedItem : reservation.getItems()) {
 				if (totalItemsCount.containsKey(reservedItem.getId())) {
 					Long value = totalItemsCount.get(reservedItem.getId());
-					totalItemsCount.put(reservedItem.getId(), value + reservedItem.getQuantity());
+					totalItemsCount.put(reservedItem.getItemId(), value + reservedItem.getQuantity());
 				} else {
-					totalItemsCount.put(reservedItem.getId(), 0l);
+					totalItemsCount.put(reservedItem.getItemId(), reservedItem.getQuantity());
 				}
 			}
 		}
@@ -71,11 +72,18 @@ public class DefaultReservationFacade implements ReservationFacade {
 			return null;
 		}
 
-		all.stream().filter(i -> i.getQuantity() > totalItemsCount.get(i.getId()))
-				.map(i -> i.getQuantity() - totalItemsCount.get(i.getId())).collect(Collectors.toList());
+		List<Item> items = new ArrayList<Item>();
 
-		List<Item> items = all.stream().filter(i -> i.getQuantity() > totalItemsCount.get(i.getId()))
-				.collect(Collectors.toList());
+		/*
+		 * all.stream().filter(i -> i.getQuantity() > totalItemsCount.get(i.getId()))
+		 * .collect(Collectors.toList());
+		 */
+		for (Item i : all) {
+			
+			if (totalItemsCount.containsKey(i.getId()) &&  i.getQuantity() > totalItemsCount.get(i.getId()).longValue()) {
+				items.add(i);
+			}
+		}
 		List<ReservedItemData> data = new ArrayList<ReservedItemData>();
 
 		for (Item item : items) {

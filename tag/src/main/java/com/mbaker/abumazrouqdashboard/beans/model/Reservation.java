@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -30,8 +31,9 @@ public class Reservation {
 	@Column(name = "id")
 	private long id;
 
-	@OneToMany(targetEntity =ReservedItem.class, cascade = { CascadeType.ALL }, mappedBy = "reservation", fetch = FetchType.LAZY)
-	private List<ReservedItem> items;
+    @OneToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name="reservation_id", nullable=false)
+    private List<ReservedItem> items;
 
 	private String notes;
 
@@ -45,6 +47,10 @@ public class Reservation {
 	
 	private String employeeName;
 	
+	private long employeeId;
+	
+	@Column(name = "status")
+	@NotNull
 	private ReservationStatus status;
 
 	public long getId() {
@@ -110,6 +116,15 @@ public class Reservation {
 	public void setStatus(ReservationStatus status) {
 		this.status = status;
 	}
+
+	public long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(long employeeId) {
+		this.employeeId = employeeId;
+	}
 	
 	
+
 }

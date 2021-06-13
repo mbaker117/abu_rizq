@@ -32,7 +32,7 @@ public class Category {
 
 	
 	@OneToMany(targetEntity = Item.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
-			CascadeType.REFRESH }, mappedBy = "category", fetch = FetchType.LAZY)
+			CascadeType.REFRESH }, mappedBy = "category", fetch = FetchType.EAGER)
 	private List<Item> items;
 
 	public long getId() {

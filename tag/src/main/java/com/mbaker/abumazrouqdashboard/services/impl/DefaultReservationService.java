@@ -103,13 +103,21 @@ public class DefaultReservationService implements ReservationService {
 		commonValidator.validateEmptyString(reservation.getCustomerName(), CUTOMER_NAME_KEY, SERVICE_NAME);
 		commonValidator.validateEmptyString(reservation.getCustomerPhoneNumber(), CUSTOMER_PHONE_NUMBER_KEY,
 				SERVICE_NAME);
-		commonValidator.validateEmptyString(reservation.getEmployeeName(), EMP_NAME_KEY, SERVICE_NAME);
+		commonValidator.validateEmptyObject(reservation.getEmployeeName(), EMP_NAME_KEY, SERVICE_NAME);
 		if (CollectionUtils.isEmpty(reservation.getItems())) {
 			var ex = new IllegalArgumentException(ITEMS_KEY + " is null or empty");
 			LOG.error(LOG_MSG, ex.getMessage());
 			throw ex;
 		}
 
+	}
+
+	@Override
+	public List<Reservation> getByDatesAndStatus(Date startDate, Date endDate, ReservationStatus status) {
+		commonValidator.validateEmptyObject(endDate, END_DATE_KEY, SERVICE_NAME);
+		commonValidator.validateEmptyObject(startDate, START_DATE_KEY, SERVICE_NAME);
+		commonValidator.validateEmptyObject(status, STATUS_KEY, SERVICE_NAME);
+		return reservationDAO.findByDatesAndStatus(startDate, endDate, status);
 	}
 
 }

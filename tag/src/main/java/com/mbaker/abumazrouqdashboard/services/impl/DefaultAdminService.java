@@ -31,6 +31,7 @@ public class DefaultAdminService implements AdminService {
 			LOG.error("[AdminService]: {}", ex.getMessage());
 			throw ex;
 		}
+		
 
 		if (Strings.isBlank(password)) {
 			final IllegalArgumentException ex = new IllegalArgumentException("password is null or empty");
