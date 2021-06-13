@@ -17,6 +17,8 @@
                    		<p:menuitem id="om_reservation" value="#{msg['menu.reservation.label']}" icon="pi pi-fw pi-pencil" outcome="/dashboard"/>
                    		<p:menuitem id="om_reports1" value="#{msg['menu.reports.label']}" icon="pi pi-fw pi-chart-line" outcome="/dashboard"/>
                     	<p:menuitem id="om_reports2" value="#{msg['menu.reports.label']}" icon="pi pi-fw pi-chart-line" outcome="/dashboard"/>
+                     	<p:menuitem id="om_logout" value="#{msg['menu.logout.label']}" icon="pi pi-fw pi-sign-out" action="#{loginView.logout()}"/>
+                   
                     </pm:menu>
                 </h:form>
             </pm:tab>

@@ -82,5 +82,12 @@ public class LoginView implements Serializable {
 		PrimeFaces.current().ajax().update("form:messages");
 
 	}
+	
+	public void logout() {
+		 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+		 FacesUtils.redirect("login");
+		 
+		 
+	}
 
 }

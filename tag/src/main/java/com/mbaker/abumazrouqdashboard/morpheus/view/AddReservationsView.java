@@ -179,6 +179,7 @@ public class AddReservationsView implements Serializable {
 		PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
 
 		
+		
 	}
 
 	public boolean hasSelectedItems() {

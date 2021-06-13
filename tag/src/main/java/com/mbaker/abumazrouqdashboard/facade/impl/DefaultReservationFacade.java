@@ -79,8 +79,10 @@ public class DefaultReservationFacade implements ReservationFacade {
 		 * .collect(Collectors.toList());
 		 */
 		for (Item i : all) {
-			
-			if (totalItemsCount.containsKey(i.getId()) &&  i.getQuantity() > totalItemsCount.get(i.getId()).longValue()) {
+
+			if (totalItemsCount.containsKey(i.getId()) && i.getQuantity() <= (long) totalItemsCount.get(i.getId())) {
+				continue;
+			} else {
 				items.add(i);
 			}
 		}
@@ -88,7 +90,12 @@ public class DefaultReservationFacade implements ReservationFacade {
 
 		for (Item item : items) {
 			ReservedItemData reservedItemData = reservedItemConvertor.convert(item);
-			reservedItemData.setAvailableAmount(item.getQuantity() - totalItemsCount.get(item.getId()));
+			if (totalItemsCount.containsKey(item.getId())) {
+				reservedItemData.setAvailableAmount(item.getQuantity() - (long) totalItemsCount.get(item.getId()));
+			} else {
+				reservedItemData.setAvailableAmount(item.getQuantity());
+
+			}
 			data.add(reservedItemData);
 		}
 
