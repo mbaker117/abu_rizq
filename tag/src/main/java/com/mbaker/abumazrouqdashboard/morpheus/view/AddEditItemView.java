@@ -16,6 +16,8 @@
 package com.mbaker.abumazrouqdashboard.morpheus.view;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.faces.bean.RequestScoped;
@@ -24,11 +26,15 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.logging.log4j.util.Strings;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.file.UploadedFile;
 
+import com.mbaker.abumazrouqdashboard.beans.model.Category;
 import com.mbaker.abumazrouqdashboard.beans.model.Item;
 import com.mbaker.abumazrouqdashboard.facade.ItemFacade;
+import com.mbaker.abumazrouqdashboard.services.CategoryService;
+import com.mbaker.abumazrouqdashboard.services.ItemService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
@@ -43,11 +49,51 @@ public class AddEditItemView implements Serializable {
 	
 	@Inject
 	private ItemFacade itemFacade;
+	
+	@Inject
+	private ItemService itemService;
+	
+	@Inject
+	private CategoryService categoryService;
 	/**
 	 * the bundle variable of type ResourceBundle
 	 */
+	
 	@Inject
 	private ResourceBundle bundle;
+	
+	private  boolean newItem;
+	
+	public void initItem() {
+		
+		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext()
+				.getRequestParameterMap();
+		String id = requestParameterMap.get("id");
+		if (Strings.isBlank(id)) {
+			setNewItem(true);
+			return;
+		}
+		 Optional<Item> itemById = itemService.getById(Long.valueOf(id));
+		if (itemById.isEmpty()) {
+			FacesUtils.redirect("userpages/items");
+			return;
+		}
+		selectedItem = itemById.get();
+		setNewItem(false);	
+		
+		
+	}
+
+	
+	public boolean isNewItem() {
+		return newItem;
+	}
+
+
+	public void setNewItem(boolean newItem) {
+		this.newItem = newItem;
+	}
+
 
 	public Item getSelectedItem() {
 		return selectedItem;
@@ -75,13 +121,10 @@ public class AddEditItemView implements Serializable {
 
 	public void saveItem() {
 
-		if (file == null) {
-			System.out.println("file is null");
-		} else {
-
-			System.out.println("file is" + file.getFileName());
-		}
+	
+		
 		try {
+
 			if (this.selectedItem.getId() == 0) {
 				
 				itemFacade.saveItem(selectedItem,file);
@@ -94,9 +137,10 @@ public class AddEditItemView implements Serializable {
 
 			FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("id",
 					String.valueOf(selectedItem.getCategory().getId()));
-			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-			ec.redirect(ec.getApplicationContextPath() + "/" + "items.xhtml?id="+selectedItem.getCategory().getId());
+			FacesUtils.redirect("userpages/items","id="+selectedItem.getCategory().getId()+"&faces-redirect=true");
+			
 		} catch (Exception e) {
+			
 
 			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
 		}

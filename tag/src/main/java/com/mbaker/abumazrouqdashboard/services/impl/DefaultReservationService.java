@@ -15,6 +15,7 @@ import com.mbaker.abumazrouqdashboard.daos.ReservationDAO;
 import com.mbaker.abumazrouqdashboard.enums.ReservationStatus;
 import com.mbaker.abumazrouqdashboard.exception.AbuMazrouqDashboardException;
 import com.mbaker.abumazrouqdashboard.exception.type.AbuMazrouqDashboardExceptionType;
+import com.mbaker.abumazrouqdashboard.services.ItemService;
 import com.mbaker.abumazrouqdashboard.services.ReservationService;
 import com.mbaker.abumazrouqdashboard.validator.CommonValidator;
 
@@ -34,12 +35,16 @@ public class DefaultReservationService implements ReservationService {
 	private final static String END_DATE_KEY = "date";
 	private final static String ITEMS_KEY = "items";
 	private final static String STATUS_KEY = "status";
+	private final static String EMP_ID_KEY = "employeeId";
 
 	@Autowired
 	private ReservationDAO reservationDAO;
 
 	@Autowired
 	private CommonValidator commonValidator;
+
+	@Autowired
+	private ItemService itemService;
 
 	@Override
 	public List<Reservation> getAll() {
@@ -84,7 +89,7 @@ public class DefaultReservationService implements ReservationService {
 	}
 
 	@Override
-	public Optional<Reservation> getByEmployeeName(String employeeName) {
+	public List<Reservation> getByEmployeeName(String employeeName) {
 		commonValidator.validateEmptyString(employeeName, EMP_NAME_KEY, SERVICE_NAME);
 
 		return reservationDAO.findByEmployeeName(employeeName);
@@ -118,6 +123,20 @@ public class DefaultReservationService implements ReservationService {
 		commonValidator.validateEmptyObject(startDate, START_DATE_KEY, SERVICE_NAME);
 		commonValidator.validateEmptyObject(status, STATUS_KEY, SERVICE_NAME);
 		return reservationDAO.findByDatesAndStatus(startDate, endDate, status);
+	}
+
+	@Override
+	public List<Reservation> getByEmployeeId(long employeeId) {
+
+		return reservationDAO.findByEmployeeId(employeeId);
+	}
+
+	@Override
+	public List<Reservation> getByDatesAndEmployeeName(Date startDate, Date endDate, String employeeName) {
+		commonValidator.validateEmptyObject(endDate, END_DATE_KEY, SERVICE_NAME);
+		commonValidator.validateEmptyObject(startDate, START_DATE_KEY, SERVICE_NAME);
+		//commonValidator.validateEmptyString(employeeName, EMP_NAME_KEY, SERVICE_NAME);
+		return reservationDAO.findByDatesAndEmployeeName(startDate, endDate, employeeName);
 	}
 
 }

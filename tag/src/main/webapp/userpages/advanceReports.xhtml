@@ -1,0 +1,133 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+ 
+ 
+    <ui:define name="title">#{msg['advanceReports.title.label']}</ui:define>
+<f:metadata>
+    	<f:event type="postAddToView" listener="#{advanceReportsView.init}"/>
+ 	 </f:metadata>
+
+    <ui:define name="content">
+      
+            <div class="p-grid crud-demo">
+                <div class="p-col-12">
+                    <div class="card">
+
+                        <p:toolbar style="text-align: right; direction: rtl;" >
+                            <p:toolbarGroup>
+                                 <h:form >
+                                    <div class="p-field p-col-12 ">
+                                    
+                						<p:outputLabel for="startDate" value="#{msg['advanceReports.date.start.label']}"/>
+               							<p:datePicker id="startDate" value ="#{advanceReportsView.startDate}" required="true" />
+           							</div>
+           							<div class="p-field p-col-12">
+                						<p:outputLabel for="endDate" value="#{msg['advanceReports.date.end.label']}"/>
+               							<p:datePicker id="endDate"  value="#{advanceReportsView.endDate}" required="true"/>
+           							</div>
+           							<div class="p-field p-col-12">
+                						<p:outputLabel for="empName" value="#{msg['advanceReports.emp.label']}"/>
+               							<p:inputText id="empName"  value="#{advanceReportsView.empName}"/>
+           							</div>
+           						
+           							<p:commandButton value="#{msg['advanceReports.buttons.search.label']}" icon="pi pi-search" actionListener="#{advanceReportsView.search}"   oncomplete="PF('dtItems')"
+                                   style="margin-right: .5rem" >
+                                    </p:commandButton>
+                                   
+                                    </h:form>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+        <h:form id="form">			
+          <p:growl id="messages" showDetail="true" />
+        	 
+   		  <p:dataTable id="dt-reservations" widgetVar="dtReservations"  var="reservation" value="#{advanceReportsView.reservations}"
+                     reflow="true"  styleClass="products-table1"  sortBy="#{reservation.date}" rowKey="#{reservation.id}" paginator="true"  selection="#{advanceReportsView.selectedReservation}"
+                     rows="10"  paginatorPosition="bottom" style="text-align: right; direction: rtl;" >
+          
+          
+            <f:facet name="header">
+                <div class="products-table-header">
+                    <span style="font-weight: bold">#{msg['advanceReports.table.title.label']}</span>
+
+                    <span class="filter-container ui-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtReservations').filter()" placeholder="#{msg['advanceReports.buttons.search.label']}"/>
+                    </span>
+                     <p:commandButton value="#{msg['advanceReports.button.print.label']}"  icon="pi pi-print" styleClass="p-d-block p-shadow-2 p-mb-3" actionListener="#{advanceReportsView.print}">
+   						    <f:setPropertyActionListener value="#{advanceReportsView.reservations}" target="#{invoiceView.reservations}" />             
+  					</p:commandButton>
+
+                </div>
+            </f:facet>
+      
+			<p:column headerText="#{msg['advanceReports.id.label']}" sortBy="#{reservation.id}"    style="text-align: right; direction: rtl; color: green;">
+                 <h:outputText value="#{reservation.id}" style="color:black;" />
+            </p:column>
+            <p:column headerText="#{msg['advanceReports.employeeName.label']}" sortBy="#{reservation.employeeName}"   filterBy="#{reservation.employeeName}" style="text-align: right; direction: rtl; color: green;">
+                 <h:outputText value="#{reservation.employeeName}" style="color:black;" />
+            </p:column>
+            <p:column headerText="#{msg['advanceReports.customerName.label']}" sortBy="#{reservation.customerName}"   style=" text-align: right; direction: rtl;color: green;">
+                  <h:outputText value="#{reservation.customerName}" style="color:black;" />
+            </p:column>
+            <p:column headerText="#{msg['advanceReports.date.label']}" sortBy="#{reservation.date}"   style="text-align: right; direction: rtl;color: green;">
+                <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.date}" />
+            </p:column>
+
+            <p:column headerText="#{msg['advanceReports.notes.label']}" sortBy="#{reservation.notes}"   style="text-align: right; direction: rtl;color: green;">
+                <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.notes}" />
+            </p:column>
+            <p:column headerText="#{msg['advanceReports.status.label']}" sortBy="#{reservation.status}"   style="text-align: right; direction: rtl;color: green;">
+                <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.status == 'PENDING'? msg['advanceReports.reservation.status.pending.label'] : msg['advanceReports.reservation.status.complete.label']}" />
+            </p:column>
+            <p:column style="width:2rem">
+                <p:rowToggler/>
+            </p:column>
+       
+             <p:rowExpansion>
+             	<div class="orders-subtable">
+                   
+                    <p:dataTable id="dt-items"  var="item" value="#{reservation.items}" reflow="true" styleClass="items-table" style="text-align: right; direction: rtl;" >
+          				 <f:facet name="header">
+                                <div class="products-table-header">
+                                    <span style="font-weight: bold">#{msg['item.title.label']}</span>
+                                </div>
+                            </f:facet>
+           				 <p:column headerText="#{msg['advanceReports.item.name.label']}"   style="text-align: right; color: green;">
+                			 <h:outputText value="#{item.name}" style="color:black;" />
+            			 </p:column>
+            			 
+           				 <p:column headerText="#{msg['advanceReports.item.owner.label']}"   style="text-align: right; color: green;">
+                  			 <h:outputText value="#{item.owner}" style="color:black;" />
+           				 </p:column>
+           				 
+           				 <p:column headerText="#{msg['advanceReports.item.reserved.label']}"   style="text-align: right; color: green;">
+                  			<h:outputText id="quantity" value="#{item.quantity}" />
+           				 </p:column>
+           				 
+           				 <p:column headerText="#{msg['advanceReports.item.notes.label']}"    style="text-align: right; color: green;">
+                			<h:outputText id="notes" value="#{item.notes}" />
+           				 </p:column>
+ 					</p:dataTable>
+                </div>
+          </p:rowExpansion>
+      
+          
+        </p:dataTable>
+      
+
+         </h:form>
+        
+      
+                        
+                    </div>
+                </div>
+            </div>
+       
+
+    </ui:define>
+
+</ui:composition>

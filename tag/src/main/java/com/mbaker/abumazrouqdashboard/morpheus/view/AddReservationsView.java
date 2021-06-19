@@ -16,13 +16,16 @@
 package com.mbaker.abumazrouqdashboard.morpheus.view;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -32,16 +35,19 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.primefaces.PrimeFaces;
 
+import com.mbaker.abumazrouqdashboard.beans.lazymodel.LazyItemDataModel;
+import com.mbaker.abumazrouqdashboard.beans.model.Category;
 import com.mbaker.abumazrouqdashboard.beans.model.Reservation;
 import com.mbaker.abumazrouqdashboard.beans.model.ReservedItemData;
 import com.mbaker.abumazrouqdashboard.beans.model.User;
 import com.mbaker.abumazrouqdashboard.convertors.ReverseItemDataConvertor;
+import com.mbaker.abumazrouqdashboard.exception.AbuMazrouqDashboardException;
 import com.mbaker.abumazrouqdashboard.facade.ReservationFacade;
 import com.mbaker.abumazrouqdashboard.services.ReservationService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
-@ViewScoped
+@RequestScoped
 public class AddReservationsView implements Serializable {
 	private final static String ERROR_MSG = "login.user.invalid.msg";
 
@@ -69,6 +75,10 @@ public class AddReservationsView implements Serializable {
 	private Date reservationDate;
 
 	private String notes;
+
+	public void init() throws AbuMazrouqDashboardException {
+
+	}
 
 	/**
 	 * the bundle variable of type ResourceBundle
@@ -144,9 +154,13 @@ public class AddReservationsView implements Serializable {
 
 	public void save() {
 
-		List<ReservedItemData> collect = selectedItems.stream().filter(e -> e.getReservedAmount() > 0)
-				.collect(Collectors.toList());
-
+		List<ReservedItemData> collect = new ArrayList<ReservedItemData>();
+		for (ReservedItemData data : itemsData) {
+			if (data.getReservedAmount() > 0) {
+				data.setId(0);
+				collect.add(data);
+			}
+		}
 		if (CollectionUtils.isEmpty(collect)) {
 			FacesUtils.errorMessage(bundle.getString("reservations.error.invalidItem.label"));
 			PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
@@ -157,6 +171,7 @@ public class AddReservationsView implements Serializable {
 			PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
 			return;
 		}
+
 		Reservation reservation = new Reservation();
 		reservation.setCustomerName(customerName);
 		reservation.setCustomerPhoneNumber(customerNumber);
@@ -165,12 +180,23 @@ public class AddReservationsView implements Serializable {
 		reservation.setEmployeeName(user.getName());
 		reservation.setEmployeeId(user.getId());
 		reservation.setItems(reverseItemDataConvertor.convertAll(collect));
+		reservation.setNotes(notes);
 		reservationService.add(reservation);
-		PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
+		FacesContext.getCurrentInstance().getViewRoot().getViewMap().clear();
 		FacesUtils.sucessMessage(bundle.getString("reservations.add.success.label"));
+		PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
 		FacesUtils.redirect("userpages/main");
-		reservation=null;
+		referesh();
+	}
 
+	private void referesh() {
+		endDate = null;
+		startDate = null;
+		itemsData = null;
+		customerName = null;
+		customerNumber = null;
+		reservationDate = null;
+		notes = null;
 	}
 
 	public void search() {
@@ -178,8 +204,6 @@ public class AddReservationsView implements Serializable {
 		itemsData = reservationFacade.getReservedItemByDates(startDate, endDate);
 		PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
 
-		
-		
 	}
 
 	public boolean hasSelectedItems() {

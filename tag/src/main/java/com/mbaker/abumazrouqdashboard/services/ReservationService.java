@@ -20,10 +20,16 @@ public interface ReservationService {
 
 	public void delete(long id) throws AbuMazrouqDashboardException;
 
-	public Optional<Reservation> getByEmployeeName(String employeeName);
+	public List<Reservation> getByEmployeeName(String employeeName);
 
 	public List<Reservation> getByDates(Date startDate, Date endDate);
 
 	public List<Reservation> getByDatesAndStatus(Date startDate, Date endDate, ReservationStatus status);
+	
+	public List<Reservation> getByEmployeeId(long employeeId);
+	
+	public List<Reservation> getByDatesAndEmployeeName(Date startDate, Date endDate, String employeeName);
+
+
 
 }

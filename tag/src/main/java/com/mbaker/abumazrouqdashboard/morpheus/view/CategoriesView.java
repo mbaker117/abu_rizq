@@ -55,8 +55,15 @@ public class CategoriesView implements Serializable {
 	@Inject
 	private ResourceBundle bundle;
 
-	public List<Category> getCategories() {
+	public void init() {
+
 		categorys = categoryService.getAll();
+		
+
+	}
+
+	public List<Category> getCategories() {
+
 		return categorys;
 	}
 
@@ -142,21 +149,21 @@ public class CategoriesView implements Serializable {
 
 		}
 	}
-	
+
 	public void showItems() {
-		
-		
+
 		/*
 		 * FacesContext context = FacesContext.getCurrentInstance();
 		 * context.getExternalContext().getSessionMap().put("categoryId",
 		 * selectedCategory.getId());
 		 */
-		//FacesContext facesContext = FacesContext.getCurrentInstance();
-		//facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/users");
+		// FacesContext facesContext = FacesContext.getCurrentInstance();
+		// facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext,
+		// null, "/users");
 		FacesUtils.redirect("items");
-		
+
 	}
-	
+
 	/*
 	 * public String showItems() { return "users.xhtml";
 	 * 

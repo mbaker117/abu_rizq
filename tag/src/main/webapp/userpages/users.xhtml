@@ -21,28 +21,31 @@
                             </p:toolbarGroup>
                         </p:toolbar>
 
-                        <p:dataTable id="dt-Users" widgetVar="dtUsers" var="user" value="#{usersView.users}" cellEditMode="eager" reflow="true" style="text-align: right; direction: rtl;"  styleClass="user-table"
+                        <p:dataTable id="dt-Users" widgetVar="dtUsers" var="user" value="#{usersView.users}"  reflow="true" style="text-align: right; direction: rtl;"  styleClass="item-table"
                                     selection="#{usersView.users}" rowKey="#{user.id}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
                             <f:facet name="header">
-                                <div class="products-table-header">
-                                    <span style="font-weight: bold">#{msg['user.title.label']}</span>
+                                <div class="poroducts-table-header">
+                                    <span style="font-weight: bold; direction:rtl; text-align:right;">#{msg['user.title.label']}</span>
                                 
-                                    <span class="filter-container ui-input-icon-left">
+                                  <!--   <span class="filter-container ui-input-icon-left">
                                         <i class="pi pi-search"></i>
                                         <p:inputText id="globalFilter" onkeyup="PF('dtUsers').filter()" placeholder="Search" />
-                                    </span>
+                                    </span> -->
                                 </div>
                             </f:facet>
-                            <p:column headerText="#{msg['user.name.label']}" sortBy="#{user.name}"   filterBy="#{user.name}" style="text-align: right; direction: rtl; color: green;">
+                            <p:column headerText="#{msg['user.name.label']}"  style="text-align: right; direction: rtl; color: green;">
                                 <h:outputText value="#{user.name}" style="color:black;" />
                             </p:column>
-                            <p:column headerText="#{msg['user.username.label']}" sortBy="#{user.usernname}" filterBy="#{user.username}"  style="text-align: right; direction: rtl;color: green;">
+                            <p:column headerText="#{msg['user.username.label']}"   style="text-align: right; direction: rtl;color: green;">
                                 <h:outputText value="#{user.username}" style="color:black;" />
                             </p:column>
-                            <p:column headerText="#{msg['user.password.label']}" sortBy="#{user.password}" filterBy="#{user.password}"  style="text-align: right; direction: rtl;color: green;">
+                            <p:column headerText="#{msg['user.password.label']}"   style="text-align: right; direction: rtl;color: green;">
                                 <h:outputText value="#{user.password}"  style="color:black;" />
                             </p:column>
-                            <p:column headerText="#{msg['user.canwrite.label']}" sortBy="#{user.canWrite}" filterBy="#{user.canWrite}"  style="text-align: right; direction: rtl;color: green;">
+                            <p:column headerText="#{msg['user.reservationNumber.label']}"  style="text-align: right; direction: rtl;color: green;">
+                                <h:outputText styleClass="product-badge "  style="color:black;" value="#{user.numberOfReservations}" />
+                            </p:column>
+                            <p:column headerText="#{msg['user.canwrite.label']}"  style="text-align: right; direction: rtl;color: green;">
                                 <h:outputText styleClass="product-badge "  style="color:black;" value="#{user.canWrite ? msg['user.canwrite.yes.label'] : msg['user.canwrite.no.label']}" />
                             </p:column>
                             <p:column exportable="false"  style="text-align: right; direction: rtl;color: green;">

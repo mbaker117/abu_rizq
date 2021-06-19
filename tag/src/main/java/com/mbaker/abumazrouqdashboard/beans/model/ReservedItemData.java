@@ -1,6 +1,6 @@
 package com.mbaker.abumazrouqdashboard.beans.model;
 
-public class ReservedItemData {
+public class ReservedItemData implements Comparable<ReservedItemData> {
 
 	private long id;
 
@@ -15,11 +15,10 @@ public class ReservedItemData {
 	private long totalAmount;
 
 	private long reservedAmount;
-	
-	private String imageUrl;
-	
-	private String notes;
 
+	private String imageUrl;
+
+	private String notes;
 
 	public String getName() {
 		return name;
@@ -92,5 +91,12 @@ public class ReservedItemData {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
-	
+
+	@Override
+	public int compareTo(ReservedItemData o) {
+		Long l1 = Long.valueOf(this.reservedAmount);
+		Long l2 = Long.valueOf(o.reservedAmount);
+		return l1.compareTo(l2);
+	}
+
 }

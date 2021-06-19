@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -44,7 +45,7 @@ import com.mbaker.abumazrouqdashboard.services.ItemService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class ItemsView implements Serializable {
 
 	private final static String ERROR_MSG = "item.msg.failed";
@@ -61,7 +62,7 @@ public class ItemsView implements Serializable {
 
 	@Inject
 	private ItemFacade itemFacade;
-	
+
 	@Inject
 	private ItemService itemService;
 
@@ -81,22 +82,25 @@ public class ItemsView implements Serializable {
 				.getRequestParameterMap();
 		String id = requestParameterMap.get("id");
 		if (Strings.isBlank(id)) {
-			FacesUtils.redirect("categories");
+			FacesUtils.redirect("userpages/categories");
 			return;
 		}
 		Optional<Category> categoryById = categoryService.getById(Long.valueOf(id));
 		if (categoryById.isPresent()) {
 			this.category = categoryById.get();
 		} else {
-			FacesUtils.redirect("categories");
+			FacesUtils.redirect("userpages/categories");
 		}
 		lazyItems = new LazyItemDataModel(itemService.getByCategory(category.getId()));
+
 	}
 
-	
 	public List<Item> getItems() throws AbuMazrouqDashboardException {
 		items = itemFacade.getItemByCategoryId(this.category.getId());
+		PrimeFaces.current().ajax().update("form:messages", "form:dt-Items");
 		return items;
+	
+		
 	}
 
 	public Item getSelectedItem() {
@@ -108,6 +112,7 @@ public class ItemsView implements Serializable {
 	}
 
 	public List<Item> getSelectedItems() {
+		
 		return selectedItems;
 	}
 
@@ -148,14 +153,14 @@ public class ItemsView implements Serializable {
 	}
 
 	public void editItem() {
-		FacesUtils.redirect("addEditItem");
+		FacesUtils.redirect("userpages/addEditItem");
 	}
 
 	public void openNew() {
 		Item item = new Item();
 		item.setCategory(category);
 		this.selectedItem = item;
-		FacesUtils.redirect("addEditItem");
+		FacesUtils.redirect("userpages/addEditItem");
 	}
 
 	public void deleteItem() {
@@ -165,7 +170,7 @@ public class ItemsView implements Serializable {
 		} catch (AbuMazrouqDashboardException e) {
 			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
 		}
-		this.selectedItem = null;
+		
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(bundle.getString("item.msg.delete.success")));
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-Items");
@@ -187,6 +192,15 @@ public class ItemsView implements Serializable {
 	public void onRowToggle(ToggleEvent event) {
 		if (event.getVisibility() == Visibility.VISIBLE) {
 
+		}
+	}
+
+	public void goEditAddItem(Long id) {
+		if (id == null) {
+			FacesUtils.redirect("userpages/addEditItem", "catId=" + category.getId());
+
+		} else {
+			FacesUtils.redirect("userpages/addEditItem", "id=" + id + "&catId=" + category.getId());
 		}
 	}
 

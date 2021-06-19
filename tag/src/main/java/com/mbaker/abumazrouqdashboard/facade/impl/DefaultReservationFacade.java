@@ -1,11 +1,14 @@
 package com.mbaker.abumazrouqdashboard.facade.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -22,6 +25,7 @@ import com.mbaker.abumazrouqdashboard.enums.ReservationStatus;
 import com.mbaker.abumazrouqdashboard.facade.ReservationFacade;
 import com.mbaker.abumazrouqdashboard.services.ItemService;
 import com.mbaker.abumazrouqdashboard.services.ReservationService;
+import com.mbaker.abumazrouqdashboard.validator.CommonValidator;
 
 @Component
 public class DefaultReservationFacade implements ReservationFacade {
@@ -30,6 +34,10 @@ public class DefaultReservationFacade implements ReservationFacade {
 
 	private final static String SERVICE_NAME = "ReservationFacade";
 	private final static String LOG_MSG = "[ReservationFacade]: {}";
+	private final static String RESERVATION_KEY = "reservation";
+
+	@Autowired
+	private CommonValidator commonValidator;
 
 	@Autowired
 	private ReservationService reservationService;
@@ -57,13 +65,14 @@ public class DefaultReservationFacade implements ReservationFacade {
 				continue;
 			}
 			for (ReservedItem reservedItem : reservation.getItems()) {
-				if (totalItemsCount.containsKey(reservedItem.getId())) {
-					Long value = totalItemsCount.get(reservedItem.getId());
+				if (totalItemsCount.containsKey(reservedItem.getItemId())) {
+					Long value = totalItemsCount.get(reservedItem.getItemId());
 					totalItemsCount.put(reservedItem.getItemId(), value + reservedItem.getQuantity());
 				} else {
 					totalItemsCount.put(reservedItem.getItemId(), reservedItem.getQuantity());
 				}
 			}
+
 		}
 
 		List<Item> all = itemService.getAll();
@@ -102,7 +111,49 @@ public class DefaultReservationFacade implements ReservationFacade {
 		return data;
 	}
 
-	private List<ReservedItem> getReserverItems(List<Item> all) {
+	@Override
+	public List<ReservedItemData> getReservedItemByReservation(Reservation reservation) {
+		commonValidator.validateEmptyObject(reservation, LOG_MSG, SERVICE_NAME);
+		List<ReservedItemData> reservedItemByDates = getReservedItemByDates(reservation.getDate(),
+				reservation.getDate());
+		List<ReservedItem> items = reservation.getItems();
+
+		Map<Long, ReservedItemData> reservedMap = new LinkedHashMap<Long, ReservedItemData>();
+		for (ReservedItemData data : reservedItemByDates) {
+			reservedMap.put(data.getItemId(), data);
+		}
+		List<ReservedItemData> data = new ArrayList<ReservedItemData>();
+		for (ReservedItem item : items) {
+			ReservedItemData reservedItemData;
+			if (reservedMap.containsKey(item.getItemId())) {
+
+				reservedItemData = reservedMap.get(item.getItemId());
+				if (reservedItemData.getAvailableAmount() < reservedItemData.getTotalAmount()) {
+					reservedItemData.setAvailableAmount(reservedItemData.getAvailableAmount() + item.getQuantity());
+				}
+			} else {
+				Optional<Item> itembyId = itemService.getById(item.getItemId());
+				if (itembyId.isEmpty()) {
+					continue;
+				}
+				reservedItemData = reservedItemConvertor.convert(itembyId.get());
+				reservedItemData.setAvailableAmount(item.getQuantity());
+
+			}
+			reservedItemData.setId(item.getId());
+			reservedItemData.setNotes(item.getNotes());
+			reservedItemData.setReservedAmount(item.getQuantity());
+			reservedMap.put(item.getItemId(), reservedItemData);
+		}
+
+		for (Entry<Long, ReservedItemData> entry : reservedMap.entrySet()) {
+			data.add(entry.getValue());
+		}
+		Collections.sort(data, Collections.reverseOrder());
+		return data;
+	}
+
+	private List<ReservedItemData> convertMapToList(Map map) {
 
 		return null;
 	}

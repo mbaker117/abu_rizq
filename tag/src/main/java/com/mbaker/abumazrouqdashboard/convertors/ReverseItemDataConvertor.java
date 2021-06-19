@@ -16,8 +16,9 @@ public class ReverseItemDataConvertor extends Convertor<ReservedItemData, Reserv
 			return null;
 		}
 		ReservedItem item = new ReservedItem();
-		/* item.setId(t.getId()); */
-		item.setItemId(t.getId());
+		item.setId(t.getId()); 
+		
+		item.setItemId(t.getItemId());
 		item.setName(t.getName());
 		item.setQuantity(t.getReservedAmount());
 		item.setOwner(t.getOwner());

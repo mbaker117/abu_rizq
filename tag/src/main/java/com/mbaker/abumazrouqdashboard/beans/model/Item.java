@@ -16,34 +16,34 @@ import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "ITEM")
-public class Item {
-	
+public class Item implements Comparable<Item> {
+
 	@Id
-	@SequenceGenerator(name="item_generator", sequenceName = "item_generator", initialValue = 1)
+	@SequenceGenerator(name = "item_generator", sequenceName = "item_generator", initialValue = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_generator")
 	@NotNull
 	@Column(name = "id")
 	private long id;
-	
+
 	@NotNull
 	@Column(name = "name")
 	private String name;
-	
+
 	@NotNull
 	@Column(name = "owner")
 	private String owner;
-	
+
 	@NotNull
 	@Column(name = "quantity")
 	private long quantity;
-	
+
 	@NotNull
 	@Column(name = "imageUrl")
 	private String imageUrl;
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "category_id",nullable = true)
+	@JoinColumn(name = "category_id", nullable = true)
 	private Category category;
 
 	public long getId() {
@@ -93,5 +93,13 @@ public class Item {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
+
+	@Override
+	public int compareTo(Item o) {
+		Long l1 = Long.valueOf(this.id);
+		Long l2 = Long.valueOf(o.id);
+
+		return l1.compareTo(l2);
+	}
+
 }

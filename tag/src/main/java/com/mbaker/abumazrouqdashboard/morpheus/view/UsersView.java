@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -29,8 +28,13 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.mbaker.abumazrouqdashboard.beans.data.UserData;
+import com.mbaker.abumazrouqdashboard.beans.lazymodel.LazyUserDataModel;
 import com.mbaker.abumazrouqdashboard.beans.model.User;
+import com.mbaker.abumazrouqdashboard.convertors.ReverseUserConvertor;
+import com.mbaker.abumazrouqdashboard.convertors.UserConvertor;
 import com.mbaker.abumazrouqdashboard.enums.UserType;
 import com.mbaker.abumazrouqdashboard.exception.AbuMazrouqDashboardException;
 import com.mbaker.abumazrouqdashboard.exception.type.AbuMazrouqDashboardExceptionType;
@@ -40,13 +44,19 @@ import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 @Named
 @ViewScoped
 public class UsersView implements Serializable {
-	private final static String ERROR_MSG="user.msg.failed";
-	
-	private List<User> users;
+	private final static String ERROR_MSG = "user.msg.failed";
 
-	private User selectedUser;
+	private List<UserData> users;
 
-	private List<User> selectedUsers;
+	private UserData selectedUser;
+
+	private List<UserData> selectedUsers;
+
+	@Autowired
+	private UserConvertor userConvertor;
+
+	@Autowired
+	private ReverseUserConvertor reverseUserConvertor;
 
 	@Inject
 	private UserService userService;
@@ -57,24 +67,28 @@ public class UsersView implements Serializable {
 	@Inject
 	private ResourceBundle bundle;
 
-	public List<User> getUsers() {
-		users = userService.getAllEmployee();
+	public List<UserData> getUsers() {
+		users = userConvertor.convertAll(userService.getAllEmployee());
 		return users;
 	}
 
-	public User getSelectedUser() {
-		return selectedUser;
+	public void setUsers(List<UserData> users) {
+		this.users = users;
 	}
 
-	public void setSelectedUser(User selectedUser) {
+	public void setSelectedUser(UserData selectedUser) {
 		this.selectedUser = selectedUser;
 	}
 
-	public List<User> getSelectedUsers() {
+	public UserData getSelectedUser() {
+		return selectedUser;
+	}
+
+	public List<UserData> getSelectedUsers() {
 		return selectedUsers;
 	}
 
-	public void setSelectedUsers(List<User> selectedUsers) {
+	public void setSelectedUsers(List<UserData> selectedUsers) {
 		this.selectedUsers = selectedUsers;
 	}
 
@@ -88,7 +102,7 @@ public class UsersView implements Serializable {
 
 	public void openNew() {
 
-		User user = new User();
+		UserData user = new UserData();
 		user.setUserType(UserType.EMPLOYEE);
 
 		this.selectedUser = user;
@@ -96,28 +110,30 @@ public class UsersView implements Serializable {
 
 	public void saveUser() {
 		try {
+			User user = reverseUserConvertor.convert(selectedUser);
 			if (this.selectedUser.getId() == 0) {
 
-				userService.add(selectedUser);
+				userService.add(user);
 				FacesUtils.sucessMessage(bundle.getString("user.msg.add.success"));
 			} else {
-				userService.update(selectedUser);
+				userService.update(user);
 				FacesUtils.sucessMessage(bundle.getString("user.msg.update.success"));
 			}
 			PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
 		} catch (AbuMazrouqDashboardException e) {
 			if (AbuMazrouqDashboardExceptionType.USER_ALREADY_EXIST.equals(e.getType())) {
 				FacesUtils.errorMessage(bundle.getString("user.msg.username.invalid"));
-			}else {
+			} else {
 				FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
 			}
 		}
-		
+
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-Users");
+		// selectedUser = null;
 
 	}
 
-	public void deleteUser()  {
+	public void deleteUser() {
 
 		try {
 			userService.delete(selectedUser.getId());
@@ -125,7 +141,8 @@ public class UsersView implements Serializable {
 			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
 		}
 		this.selectedUser = null;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(bundle.getString("user.msg.delete.success")));
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(bundle.getString("user.msg.delete.success")));
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-Users");
 	}
 
@@ -147,4 +164,5 @@ public class UsersView implements Serializable {
 
 		}
 	}
+
 }

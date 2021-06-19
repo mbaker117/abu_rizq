@@ -3,6 +3,7 @@ package com.mbaker.abumazrouqdashboard.facade.impl;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.util.Strings;
 import org.primefaces.model.file.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,19 +41,23 @@ public class DefaultItemFacade implements ItemFacade {
 	@Override
 	public void saveItem(Item item, UploadedFile file) throws AbuMazrouqDashboardException {
 		commonValidator.validateEmptyObject(item, ITEM_KEY, SERVICE_NAME);
-		commonValidator.validateEmptyObject(file, FILE_KEY, SERVICE_NAME);
-		String fileName = file.getFileName();
-		int lastIndexOf = fileName.lastIndexOf('.');
-		String substring = fileName.substring(lastIndexOf, fileName.length());
-		String imageName = "";
-		try {
-			imageName = fileService.UploadFile(PATH, item.getName() + "_" + item.getOwner() + substring, file);
-		} catch (IOException e) {
-			var ex = new AbuMazrouqDashboardException(AbuMazrouqDashboardExceptionType.IO_EXCEPTION, e.getMessage());
-			LOG.error(LOG_MSG, ex.getMessage());
-			throw ex;
+		if (file != null && Strings.isNotBlank(file.getFileName())) {
+			itemService.save(item);
+			String fileName = file.getFileName();
+			int lastIndexOf = fileName.lastIndexOf('.');
+			String substring = fileName.substring(lastIndexOf, fileName.length());
+			String imageName = "";
+			try {
+				imageName = fileService.UploadFile(PATH, item.getId() + substring, file);
+			} catch (IOException e) {
+				var ex = new AbuMazrouqDashboardException(AbuMazrouqDashboardExceptionType.IO_EXCEPTION,
+						e.getMessage());
+				LOG.error(LOG_MSG, ex.getMessage());
+				throw ex;
+			}
+			
+			item.setImageUrl(imageName);
 		}
-		item.setImageUrl(imageName);
 		itemService.save(item);
 	}
 

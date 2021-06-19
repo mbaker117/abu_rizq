@@ -6,7 +6,10 @@
                 template="/WEB-INF/template.xhtml">
 
     <ui:define name="title">#{msg['category.title.label']}</ui:define>
-
+  <f:metadata>
+    	<f:event type="postAddToView" listener="#{categoriesView.init}"/>
+ 	 </f:metadata>
+ 
     <ui:define name="content">
         <h:form id="form">
             <div class="p-grid crud-demo">

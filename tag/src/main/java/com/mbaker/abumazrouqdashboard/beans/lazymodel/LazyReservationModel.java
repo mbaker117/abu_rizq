@@ -16,21 +16,22 @@ import org.primefaces.model.filter.FilterConstraint;
 import org.primefaces.util.LocaleUtils;
 
 import com.mbaker.abumazrouqdashboard.beans.model.Item;
+import com.mbaker.abumazrouqdashboard.beans.model.Reservation;
 
-public class LazyItemDataModel extends  LazyDataModel<Item>{
+public class LazyReservationModel extends  LazyDataModel<Reservation>{
 	
-	 private List<Item> datasource;
+	 private List<Reservation> datasource;
 	 
 	 
-	 public LazyItemDataModel(List<Item> datasource) {
+	 public LazyReservationModel(List<Reservation> datasource) {
 	        this.datasource = datasource;
 	    }
 	 
 	   @Override
-	    public Item getRowData(String rowKey) {
-	        for (Item item : datasource) {
-	            if (item.getId() == Long.valueOf(rowKey)) {
-	                return item;
+	    public Reservation getRowData(String rowKey) {
+	        for (Reservation user : datasource) {
+	            if (user.getId() == Integer.parseInt(rowKey)) {
+	                return user;
 	            }
 	        }
 
@@ -38,19 +39,18 @@ public class LazyItemDataModel extends  LazyDataModel<Item>{
 	    }
 
 	    @Override
-	    public String getRowKey(Item item) {
-	    	System.out.println(item.getId());
-	        return String.valueOf(item.getId());
+	    public String getRowKey(Reservation user) {
+	        return String.valueOf(user.getId());
 	    }
 
 	    @Override
-	    public List<Item> load(int offset, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
+	    public List<Reservation> load(int offset, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
 	        long rowCount = datasource.stream()
 	                .filter(o -> filter(FacesContext.getCurrentInstance(), filterBy.values(), o))
 	                .count();
 
 	        // apply offset & filters
-	        List<Item> items = datasource.stream()
+	        List<Reservation> reservations = datasource.stream()
 	                .skip(offset)
 	                .filter(o -> filter(FacesContext.getCurrentInstance(), filterBy.values(), o))
 	                .limit(pageSize)
@@ -58,17 +58,17 @@ public class LazyItemDataModel extends  LazyDataModel<Item>{
 
 	        // sort
 	        if (!sortBy.isEmpty()) {
-	            List<Comparator<Item>> comparators = sortBy.values().stream()
-	                    .map(o -> new LazySorter<Item>(o.getField(), o.getOrder()))
+	            List<Comparator<Reservation>> comparators = sortBy.values().stream()
+	                    .map(o -> new LazySorter<Reservation>(o.getField(), o.getOrder()))
 	                    .collect(Collectors.toList());
-	            Comparator<Item> cp = ComparatorUtils.chainedComparator(comparators); // from apache
-	            items.sort(cp);
+	            Comparator<Reservation> cp = ComparatorUtils.chainedComparator(comparators); // from apache
+	            reservations.sort(cp);
 	        }
 
 	        // rowCount
 	        setRowCount((int) rowCount);
 
-	        return items;
+	        return reservations;
 	    }
 
 

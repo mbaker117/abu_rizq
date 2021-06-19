@@ -116,7 +116,7 @@ public class AbuMazrouqDashboardApplication extends SpringBootServletInitializer
 	      = new FilterRegistrationBean<>();
 	        
 	    registrationBean.setFilter(new AuthenticationFilter());
-		 registrationBean.addUrlPatterns("/userpages/*"); 
+		 registrationBean.addUrlPatterns("/userpages/*");
 		/*
 		 * registrationBean.addUrlPatterns("/users.xhtml");
 		 * registrationBean.addUrlPatterns("/main.xhtml");
@@ -124,6 +124,7 @@ public class AbuMazrouqDashboardApplication extends SpringBootServletInitializer
 		 * registrationBean.addUrlPatterns("/items.xhtml");
 		 */
 	    
+		 
 	    return registrationBean;    
 	}
 
@@ -135,6 +136,7 @@ public class AbuMazrouqDashboardApplication extends SpringBootServletInitializer
 	    	registrationBean.setFilter(new AuthorizationFilter());
 	    
 		 registrationBean.addUrlPatterns("/userpages/users.xhtml"); 
+		 registrationBean.addUrlPatterns("/userpages/advanceReports.xhtml"); 
 		/*
 		 * registrationBean.addUrlPatterns("/users.xhtml");
 		 * registrationBean.addUrlPatterns("/main.xhtml");

@@ -35,5 +35,14 @@ public class FacesUtils {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void redirect(String page,String param) {
+		try {
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			ec.redirect(ec.getApplicationContextPath() + "/" + page+".xhtml?"+param);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

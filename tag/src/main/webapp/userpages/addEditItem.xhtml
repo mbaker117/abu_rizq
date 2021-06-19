@@ -4,6 +4,10 @@
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:p="http://primefaces.org/ui"
    template="/WEB-INF/template.xhtml">
+      <f:metadata>
+    	<f:event type="postAddToView" listener="#{addEditItemView.initItem}"/>
+ 	 </f:metadata>
+ 
    <ui:define name="title">#{msg['item.title.label']}</ui:define>
    <ui:define name="content">
       <h:form id="form" enctype="multipart/form-data">
@@ -23,7 +27,9 @@
                   <p:spinner id="quantity" min="0" value="#{addEditItemView.selectedItem.quantity}" />
                </div>
                <div class="p-field p-col-12 ">
-                  <p:fileUpload value="#{addEditItemView.file}" accept=".jpg,.png.jpeg.gif" mode="simple" skinSimple="true" ></p:fileUpload>
+               <p:outputLabel for="image">#{msg['item.add.image.label']}</p:outputLabel>
+               <BR />
+                  <p:fileUpload id="image" label="#{msg['item.button.add.image.label']}" value="#{addEditItemView.file}" accept=".jpg,.png.jpeg.gif" mode="simple" skinSimple="true" ></p:fileUpload>
                </div>
                <div class="p-field p-col-12  p-md-6 " style="text-align:center;">
                   <p:commandButton value="#{msg['item.dialog.add.buttons.save.label']}" icon="pi pi-check" actionListener="#{addEditItemView.saveItem}" process="@form" />

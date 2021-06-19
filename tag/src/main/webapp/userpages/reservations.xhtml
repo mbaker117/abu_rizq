@@ -7,7 +7,9 @@
  
  
     <ui:define name="title">#{msg['reservations.title.label']}</ui:define>
-
+ 	<f:metadata>
+    	<f:event type="postAddToView" listener="#{addReservationsView.init}"/>
+ 	 </f:metadata>
 
     <ui:define name="content">
         <h:form id="form">
@@ -34,7 +36,7 @@
                                     </p:commandButton>
                             </p:toolbarGroup>
                         </p:toolbar>
-                         <p:toolbar style="text-align: right; direction: rtl;" >
+                         <p:toolbar style="text-align: right; direction: rtl;" rendered="#{user.canWrite}" >
                             <p:toolbarGroup>
                                
                                     <div class="p-field p-col-12  p-mb-4">
@@ -71,7 +73,7 @@
    					 <p:sticky target="tb"/>
    					 
    		  <p:dataTable id="dt-items" widgetVar="dtItems" var="item" value="#{addReservationsView.itemsData}"
-                     reflow="true" styleClass="products-table" selection="#{addReservationsView.selectedItems}" rowKey="#{item.itemId}" paginator="true"
+                     reflow="true" styleClass="products-table1" selection="#{addReservationsView.selectedItems}" rowKey="#{item.itemId}" paginator="true"
                      rows="10" rowSelectMode="add" paginatorPosition="bottom" style="text-align: right; direction: rtl;" >
           
           
