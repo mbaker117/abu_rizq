@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+ 
+ 
+    <ui:define name="title">#{msg['editReservation.title.label']}</ui:define>
+<f:metadata>
+    	<f:event type="postAddToView" listener="#{editReservationsView.init}"/>
+ 	 </f:metadata>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="p-grid crud-demo">
+                <div class="p-col-12">
+                    <div class="card">
+                        <p:growl id="messages" showDetail="true" />
+
+                         <p:toolbar style="text-align: right; direction: rtl;" >
+                            <p:toolbarGroup>
+                               
+                                    <div class="p-field p-col-12  p-mb-4">
+                                    
+                						<p:outputLabel for="customerName" value="#{msg['editReservation.customerName.label']}"/>
+               							<p:inputText id="customerName" value ="#{editReservationsView.reservation.customerName}"  />
+           							</div>
+           							<div class="p-field p-col-12 p-mb-4">
+                						<p:outputLabel for="customerNumber" value="#{msg['editReservation.customerNumber.label']}"/>
+               							<p:inputText id="customerNumber" value ="#{editReservationsView.reservation.customerPhoneNumber}" />
+           							</div>
+           							<div class="p-field p-col-12">
+                						<p:outputLabel for="reservationDate" value="#{msg['editReservation.date.reservationDate.label']}"/>
+               							<p:datePicker id="reservationDate" disabled="true" value="#{editReservationsView.reservation.date}"/>
+           							</div>
+           							<div class="p-field p-col-12 p-mb-4">
+                						<p:outputLabel for="notes" value="#{msg['editReservation.notes.label']}"/>
+               							<p:inputTextarea id="notes" value ="#{editReservationsView.reservation.notes}" />
+           							</div>
+           						
+       
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                  
+                        <p:toolbar styleClass="p-mb-4" style="text-align: right; direction: rtl;" id="tb" rendered="#{user.canWrite}">
+                            <p:toolbarGroup>                                   
+                                     <p:commandButton value="#{msg['editReservation.buttons.add.label']}"  id="add-reservation-button" icon="pi pi-plus" actionListener="#{editReservationsView.save()}"  
+                                    styleClass="ui-button-success" style="margin-right: .5rem"        update="@this" >
+                                    </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+   					 <p:sticky target="tb"/>
+   					 
+   		  <p:dataTable id="dt-items" widgetVar="dtItems" var="item" value="#{editReservationsView.itemsData}"
+                     reflow="true" styleClass="products-table" selection="#{editReservationsView.reservation.selectedItems}" rowKey="#{item.itemId}" paginator="true"
+                     rows="10" rowSelectMode="add" sortBy="#{item.reservedAmount}"  paginatorPosition="bottom" style="text-align: right; direction: rtl;" >
+          
+          
+            <f:facet name="header">
+                <div class="products-table-header">
+                    <span style="font-weight: bold">#{msg['editReservation.table.title.label']}</span>
+
+                  <!--   <span class="filter-container ui-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtItems').filter()" placeholder="Search"/>
+                    </span>
+ -->
+                </div>
+            </f:facet>
+
+            <p:column headerText="" exportable="false" style="text-align: right; direction: rtl; color: green;">
+      			<div class="image-container" > <p:graphicImage styleClass="centered-image" rendered="#{not empty item.imageUrl}" name="items/images/#{item.imageUrl}"/>
+            		<p:graphicImage styleClass="centered-image" rendered="#{empty item.imageUrl}" name="items/images/no-image.jpg"/>
+            	</div>
+           	</p:column>
+            <p:column headerText="#{msg['editReservation.name.label']}"   filterBy="#{item.name}" style="text-align: right; direction: rtl; color: green;">
+                 <h:outputText value="#{item.name}" style="color:black;" />
+            </p:column>
+            <p:column headerText="#{msg['editReservation.owner.label']}" filterBy="#{item.owner}"  style="text-align: right; direction: rtl;color: green;">
+                  <h:outputText value="#{item.owner}" style="color:black;" />
+            </p:column>
+            <p:column headerText="#{msg['editReservation.total.label']}"  filterBy="#{item.totalAmount}"  style="text-align: right; direction: rtl;color: green;">
+                <h:outputText styleClass="product-badge "  style="color:black;" value="#{item.totalAmount}" />
+            </p:column>
+            <p:column headerText="#{msg['editReservation.available.label']}"  filterBy="#{item.availableAmount}"  style="text-align: right; direction: rtl;color: green;">
+                <h:outputText styleClass="product-badge "  style="color:black;" value="#{item.availableAmount}" />
+            </p:column>
+            <p:column headerText="#{msg['editReservation.reserved.label']}"  filterBy="#{item.reservedAmount}"  style="text-align: right; direction: rtl;color: green;">
+                  <p:spinner id="quantity" min="0" value="#{item.reservedAmount}" max="#{item.availableAmount}" />
+            </p:column>
+            <p:column headerText="#{msg['editReservation.notes.label']}"    style="text-align: right; direction: rtl;color: green;">
+                  <p:inputTextarea id="notes" value="#{item.notes}" />
+            </p:column>
+        </p:dataTable>
+                        
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

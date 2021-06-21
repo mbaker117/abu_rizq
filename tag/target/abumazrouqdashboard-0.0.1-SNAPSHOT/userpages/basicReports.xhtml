@@ -1,0 +1,152 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+ 
+ 
+    <ui:define name="title">#{msg['basicReports.title.label']}</ui:define>
+	<f:metadata>
+    	<f:event type="postAddToView" listener="#{basicReportsView.init}"/>
+ 	 </f:metadata>
+
+    <ui:define name="content">
+      
+            <div class="p-grid crud-demo">
+                <div class="p-col-12">
+                    <div class="card">
+
+                        <p:toolbar style="text-align: right; direction: rtl;" >
+                            <p:toolbarGroup>
+                                 <h:form >
+                                    <div class="p-field p-col-12 ">
+                                    
+                						<p:outputLabel for="startDate" value="#{msg['basicReports.date.start.label']}"/>
+               							<p:datePicker id="startDate" value ="#{basicReportsView.startDate}" />
+           							</div>
+           							<div class="p-field p-col-12">
+                						<p:outputLabel for="endDate" value="#{msg['basicReports.date.end.label']}"/>
+               							<p:datePicker id="endDate"  value="#{basicReportsView.endDate}"/>
+           							</div>
+           						
+           							<p:commandButton value="#{msg['basicReports.buttons.search.label']}" icon="pi pi-search" actionListener="#{basicReportsView.search}"   oncomplete="PF('dtItems')"
+                                   style="margin-right: .5rem" >
+                                    </p:commandButton>
+                                    </h:form>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+        <h:form id="form">			
+          <p:growl id="messages" showDetail="true" />
+        	 
+   		  <p:dataTable id="dt-reservations" widgetVar="dtReservations"  var="reservation" value="#{basicReportsView.reservations}"
+                     reflow="true"  styleClass="products-table1"  sortBy="#{reservation.date}" rowKey="#{reservation.id}" paginator="true"  selection="#{basicReportsView.selectedReservation}"
+                     rows="10"  paginatorPosition="bottom" style="text-align: right; direction: rtl;" >
+          
+          
+            <f:facet name="header">
+                <div class="products-table-header">
+                    <span style="font-weight: bold">#{msg['basicReports.table.title.label']}</span>
+
+               <!--      <span class="filter-container ui-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtReservations').filter()" placeholder="#{msg['basicReports.buttons.search.label']}"/>
+                    </span> -->
+
+                </div>
+            </f:facet>
+            
+
+			
+			<p:column headerText="#{msg['basicReports.id.label']}"  style="text-align: right; direction: rtl; color: green;">
+                 <h:outputText value="#{reservation.id}" style="color:black;" />
+            </p:column>
+         
+            <p:column headerText="#{msg['basicReports.employeeName.label']}"  style="text-align: right; direction: rtl; color: green;">
+                 <h:outputText value="#{reservation.employeeName}" style="color:black;" />
+            </p:column>
+            <p:column headerText="#{msg['basicReports.customerName.label']}"  style=" text-align: right; direction: rtl;color: green;">
+                  <h:outputText value="#{reservation.customerName}" style="color:black;" />
+            </p:column>
+            <p:column headerText="#{msg['basicReports.date.label']}"   style="text-align: right; direction: rtl;color: green;">
+                <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.date}" />
+            </p:column>
+
+            <p:column headerText="#{msg['basicReports.notes.label']}"   style="text-align: right; direction: rtl;color: green;">
+                <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.notes}" />
+            </p:column>
+            <p:column headerText="#{msg['basicReports.status.label']}"   style="text-align: right; direction: rtl;color: green;">
+                <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.status == 'PENDING'? msg['basicReports.reservation.status.pending.label'] : msg['basicReports.reservation.status.complete.label']}" />
+            </p:column>
+            <p:column style="width:2rem">
+                <p:rowToggler/>
+            </p:column>
+       
+             <p:rowExpansion>
+             	<div class="orders-subtable">
+                   
+                    <p:dataTable  var="item" value="#{reservation.items}" reflow="true" styleClass="items-table" style="text-align: right; direction: rtl;" >
+          				 <f:facet name="header">
+                                <div class="products-table-header">
+                                    <span style="font-weight: bold">#{msg['item.title.label']}</span>
+                                </div>
+                            </f:facet>
+           				 <p:column headerText="#{msg['basicReports.item.name.label']}"   style="text-align: right; color: green;">
+                			 <h:outputText value="#{item.name}" style="color:black;" />
+            			 </p:column>
+            			 
+           				 <p:column headerText="#{msg['basicReports.item.owner.label']}"   style="text-align: right; color: green;">
+                  			 <h:outputText value="#{item.owner}" style="color:black;" />
+           				 </p:column>
+           				 
+           				 <p:column headerText="#{msg['basicReports.item.reserved.label']}"   style="text-align: right; color: green;">
+                  			<h:outputText id="quantity" value="#{item.quantity}" />
+           				 </p:column>
+           				 
+           				 <p:column headerText="#{msg['basicReports.item.notes.label']}"    style="text-align: right; color: green;">
+                			<h:outputText id="notes" value="#{item.notes}" />
+           				 </p:column>
+ 					</p:dataTable>
+                </div>
+          </p:rowExpansion>
+          
+              <p:column exportable="false"  style="text-align: right; direction: rtl;color: green;">
+                            
+                            <p:panel  rendered="#{user.id == reservation.employeeId}">
+                                <div class="p-d-flex">
+       
+       							<p:commandButton icon="pi pi-check"  class="edit-button rounded-button ui-button-info"   style="text-align: right; direction: rtl;" disabled="#{reservation.status == 'COMPLETED'}"  action="#{basicReportsView.completeReservation}" process="@form" >
+                                    <f:setPropertyActionListener value="#{reservation}" target="#{basicReportsView.selectedReservation}" />
+                                </p:commandButton>
+                                  <p:divider layout="vertical"></p:divider>      
+                                <p:commandButton icon="pi pi-pencil"   style="text-align: right; direction: rtl;"  
+                                    styleClass="edit-button rounded-button ui-button-success" disabled="#{reservation.status == 'COMPLETED'}" actionListener="#{basicReportsView.editReservation}">
+                                   <f:setPropertyActionListener value="#{reservation}" target="#{editReservationsView.reservation}" />
+                                </p:commandButton> 
+                              
+                                 <p:divider layout="vertical"></p:divider> 
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"   style="text-align: right; direction: rtl;" process="@this" oncomplete="PF('deleteReservationDialog').show()" >
+                                    <f:setPropertyActionListener value="#{reservation}" target="#{basicReportsView.selectedReservation}" />
+                                </p:commandButton>
+                                </div>
+                              </p:panel>
+           </p:column>
+          
+        </p:dataTable>
+         <p:confirmDialog widgetVar="deleteReservationDialog" showEffect="fade" width="300" message="#{msg['basicReports.dialog.delete.msg.label']}" header="#{msg['basicReports.dialog.delete.title.label']}" severity="warn">
+                            <p:commandButton value="#{msg['basicReports.dialog.delete.yes.label']}" icon="pi pi-check" actionListener="#{basicReportsView.deleteReservation()}" process="@this" oncomplete="PF('deleteReservationDialog').hide()"/>
+                            <p:commandButton value="#{msg['basicReports.dialog.delete.no.label']}" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteReservationDialog').hide()" />
+                        </p:confirmDialog>
+
+         </h:form>
+        
+      
+                        
+                    </div>
+                </div>
+            </div>
+       
+
+    </ui:define>
+
+</ui:composition>

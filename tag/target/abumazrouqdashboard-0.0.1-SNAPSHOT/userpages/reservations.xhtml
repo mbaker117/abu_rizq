@@ -1,0 +1,134 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+ 
+ 
+    <ui:define name="title">#{msg['reservations.title.label']}</ui:define>
+ 	<f:metadata>
+    	<f:event type="postAddToView" listener="#{addReservationsView.init}"/>
+ 	 </f:metadata>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="p-grid crud-demo">
+                <div class="p-col-12">
+                    <div class="card">
+                        <p:growl id="messages" showDetail="true" />
+
+                        <p:toolbar id="search" style="text-align: right; direction: rtl;" >
+                            <p:toolbarGroup>
+                               
+                                    <div class="p-field p-col-12 ">
+                                    
+                						<p:outputLabel for="startDate" value="#{msg['reservations.date.start.label']}"/>
+               							<p:datePicker id="startDate" value ="#{addReservationsView.startDate}" />
+           							</div>
+           							<div class="p-field p-col-12">
+                						<p:outputLabel for="endDate" value="#{msg['reservations.date.end.label']}"/>
+               							<p:datePicker id="endDate"  value="#{addReservationsView.endDate}"/>
+           							</div>
+           						
+           							<p:commandButton value="#{msg['reservations.buttons.search.label']}" icon="pi pi-search" actionListener="#{addReservationsView.search}"   oncomplete="PF('dtItems')"
+                                   style="margin-right: .5rem" >
+                                    </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                         <p:toolbar id="reservation" style="text-align: right; direction: rtl;" rendered="#{user.canWrite}" >
+                            <p:toolbarGroup>
+                               
+                                    <div class="p-field p-col-12  p-mb-4">
+                                    
+                						<p:outputLabel for="customerName" value="#{msg['reservations.customerName.label']}"/>
+               							<p:inputText id="customerName" value ="#{addReservationsView.customerName}"  />
+           							</div>
+           							<div class="p-field p-col-12 p-mb-4">
+                						<p:outputLabel for="customerNumber" value="#{msg['reservations.customerNumber.label']}"/>
+               							<p:inputText id="customerNumber" value ="#{addReservationsView.customerNumber}" />
+           							</div>
+           							<div class="p-field p-col-12">
+                						<p:outputLabel for="reservationDate" value="#{msg['reservations.date.reservationDate.label']}"/>
+               							<p:datePicker id="reservationDate" validatorMessage="error" mindate="#{addReservationsView.startDate}" maxdate="#{addReservationsView.endDate}" value="#{addReservationsView.reservationDate}"/>
+           							</div>
+           							<div class="p-field p-col-12 p-mb-4">
+                						<p:outputLabel for="notes" value="#{msg['reservations.notes.label']}"/>
+               							<p:inputTextarea id="notes" value ="#{addReservationsView.notes}" />
+           							</div>
+           						
+       
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                  
+                        <p:toolbar styleClass="p-mb-4" style="text-align: right; direction: rtl;" id="tb" rendered="#{user.canWrite}">
+                            <p:toolbarGroup>                                   
+                                     <p:commandButton value="#{msg['reservations.buttons.add.label']}"  id="add-reservation-button" icon="pi pi-plus" actionListener="#{addReservationsView.save()}"  
+                                    styleClass="ui-button-success" style="margin-right: .5rem"  disabled="#{!(addReservationsView.hasSelectedItems())}"
+                                      update="@this" >
+                                    </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+   					 <p:sticky target="tb"/>
+   					 
+   		  <p:dataTable id="dt-items" widgetVar="dtItems" var="item" value="#{addReservationsView.itemsData}"
+                     reflow="true" styleClass="products-table1" selection="#{addReservationsView.selectedItems}" rowKey="#{item.itemId}" paginator="true"
+                     rows="10" rowSelectMode="add" paginatorPosition="bottom" style="text-align: right; direction: rtl;" >
+          
+          
+            <f:facet name="header">
+                <div class="products-table-header">
+                    <span style="font-weight: bold">#{msg['reservations.table.title.label']}</span>
+
+                  <!--   <span class="filter-container ui-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtItems').filter()" placeholder="Search"/>
+                    </span> -->
+
+                </div>
+            </f:facet>
+
+            <p:ajax event="rowSelect" update=":form:add-reservation-button" />
+            <p:ajax event="rowUnselect" update=":form:add-reservation-button" />
+            <p:ajax event="rowSelectCheckbox" update=":form:add-reservation-button" />
+            <p:ajax event="rowUnselectCheckbox" update=":form:add-reservation-button" />
+            <p:ajax event="toggleSelect" update=":form:add-reservation-button" />
+            
+            
+
+            <p:column selectionMode="multiple" exportable="false"></p:column>
+
+            <p:column headerText="" exportable="false" style="text-align: right; direction: rtl; color: green;">
+      			<div class="image-container" > <p:graphicImage styleClass="centered-image" rendered="#{not empty item.imageUrl}" name="items/images/#{item.imageUrl}"/>
+            		<p:graphicImage styleClass="centered-image" rendered="#{empty item.imageUrl}" name="items/images/no-image.jpg"/>
+            	</div>
+           	</p:column>
+            <p:column headerText="#{msg['reservations.name.label']}"   style="text-align: right; direction: rtl; color: green;">
+                 <h:outputText value="#{item.name}" style="color:black;" />
+            </p:column>
+            <p:column headerText="#{msg['reservations.owner.label']}"   style="text-align: right; direction: rtl;color: green;">
+                  <h:outputText value="#{item.owner}" style="color:black;" />
+            </p:column>
+            <p:column headerText="#{msg['reservations.total.label']}"   style="text-align: right; direction: rtl;color: green;">
+                <h:outputText styleClass="product-badge "  style="color:black;" value="#{item.totalAmount}" />
+            </p:column>
+            <p:column headerText="#{msg['reservations.available.label']}"   style="text-align: right; direction: rtl;color: green;">
+                <h:outputText styleClass="product-badge "  style="color:black;" value="#{item.availableAmount}" />
+            </p:column>
+            <p:column headerText="#{msg['reservations.reserved.label']}"   style="text-align: right; direction: rtl;color: green;">
+                  <p:spinner id="quantity" min="0" value="#{item.reservedAmount}" max="#{item.availableAmount}" />
+            </p:column>
+            <p:column headerText="#{msg['reservations.notes.label']}"    style="text-align: right; direction: rtl;color: green;">
+                  <p:inputTextarea id="notes" value="#{item.notes}" />
+            </p:column>
+        </p:dataTable>
+                        
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
