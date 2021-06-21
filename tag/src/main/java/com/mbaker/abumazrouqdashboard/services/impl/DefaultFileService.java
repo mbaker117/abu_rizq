@@ -1,10 +1,13 @@
 package com.mbaker.abumazrouqdashboard.services.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+
+import javax.servlet.ServletContext;
 
 import org.primefaces.model.file.UploadedFile;
 import org.slf4j.Logger;
@@ -25,20 +28,24 @@ public class DefaultFileService implements FileService {
 	@Autowired
 	private CommonValidator commonValidator;
 
+	@Autowired
+	ServletContext context;
+
 	@Override
 	public String UploadFile(String path, String fileName, UploadedFile file) throws IOException {
 		commonValidator.validateEmptyObject(file, "file", SERVICE_NAME);
 		commonValidator.validateEmptyString(path, "path", SERVICE_NAME);
 		commonValidator.validateEmptyString(fileName, "fileName", SERVICE_NAME);
+
 		final Path root = Paths.get(path);
-		/*
-		 * String[] split = file.getFileName().split(); String type =
-		 * split[split.length-1];
-		 */
+		final Path target = Paths.get(
+				"/home/ubuntu/abumazrouqdashboard/tag/target/abumazrouqdashboard-0.0.1-SNAPSHOT/resources/items/images");
+
 		Files.copy(file.getInputStream(), root.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(file.getInputStream(), target.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
 
 		return fileName;
-		
+
 	}
 
 }

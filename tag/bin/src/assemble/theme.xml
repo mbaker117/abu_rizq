@@ -1,0 +1,70 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+    
+    <id>theme</id>
+    <formats>
+        <format>jar</format>
+    </formats>
+    
+    <includeBaseDirectory>false</includeBaseDirectory>
+    
+    <fileSets>
+        <fileSet>
+            <directory>${basedir}/src/main/webapp/resources/primefaces-morpheus-blue</directory>
+            <outputDirectory>/META-INF/resources/primefaces-morpheus-blue</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/webapp/resources/primefaces-morpheus-bluegrey</directory>
+            <outputDirectory>/META-INF/resources/primefaces-morpheus-bluegrey</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/webapp/resources/primefaces-morpheus-cyan</directory>
+            <outputDirectory>/META-INF/resources/primefaces-morpheus-cyan</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/webapp/resources/primefaces-morpheus-deeporange</directory>
+            <outputDirectory>/META-INF/resources/primefaces-morpheus-deeporange</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/webapp/resources/primefaces-morpheus-green</directory>
+            <outputDirectory>/META-INF/resources/primefaces-morpheus-green</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/webapp/resources/primefaces-morpheus-indigo</directory>
+            <outputDirectory>/META-INF/resources/primefaces-morpheus-indigo</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/webapp/resources/primefaces-morpheus-lime</directory>
+            <outputDirectory>/META-INF/resources/primefaces-morpheus-lime</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/webapp/resources/primefaces-morpheus-orange</directory>
+            <outputDirectory>/META-INF/resources/primefaces-morpheus-orange</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/webapp/resources/primefaces-morpheus-pink</directory>
+            <outputDirectory>/META-INF/resources/primefaces-morpheus-pink</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/webapp/resources/primefaces-morpheus-purple</directory>
+            <outputDirectory>/META-INF/resources/primefaces-morpheus-purple</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+            <outputDirectory>/META-INF/</outputDirectory>
+            <includes>
+                <include>faces-config.xml</include>
+                <include>primefaces-morpheus.taglib.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/target/classes</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>org/primefaces/morpheus/component/*</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+    
+</assembly>

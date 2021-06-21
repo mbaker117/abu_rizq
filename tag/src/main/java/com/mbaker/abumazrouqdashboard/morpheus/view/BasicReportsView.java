@@ -34,6 +34,7 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 
+import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.model.Reservation;
 import com.mbaker.abumazrouqdashboard.beans.model.ReservedItem;
 import com.mbaker.abumazrouqdashboard.beans.model.User;
@@ -72,8 +73,9 @@ public class BasicReportsView implements Serializable {
 	/**
 	 * the bundle variable of type ResourceBundle
 	 */
-	@Inject
-	private ResourceBundle bundle;
+	/*
+	 * @Inject private ResourceBundle bundle;
+	 */
 
 	public Date getStartDate() {
 		return startDate;
@@ -122,8 +124,7 @@ public class BasicReportsView implements Serializable {
 
 		reservations = reservationService.getByDates(startDate, endDate);
 		PrimeFaces.current().ajax().update("form:dt-reservations", "form:messages");
-		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-		ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+		
 	}
 
 	public void rowToggler(ToggleEvent event) {
@@ -133,16 +134,17 @@ public class BasicReportsView implements Serializable {
 		}
 	}
 
-	public void deleteReservation() {
+	public void deleteReservation() throws IOException {
 		if (Objects.isNull(selectedReservation)) {
 			return;
 		}
 		try {
 
 			reservationService.delete(selectedReservation.getId());
-			FacesUtils.sucessMessage(bundle.getString("basicReports.msg.delete.success.label"));
+			search();
+			FacesUtils.sucessMessage(MessageBundle.getBundle().getString("basicReports.msg.delete.success.label"));
 		} catch (AbuMazrouqDashboardException e) {
-			FacesUtils.sucessMessage(bundle.getString("basicReports.msg.erorr.label"));
+			FacesUtils.sucessMessage(MessageBundle.getBundle().getString("basicReports.msg.erorr.label"));
 		}
 		PrimeFaces.current().ajax().update("form:dt-reservations", "form:messages");
 

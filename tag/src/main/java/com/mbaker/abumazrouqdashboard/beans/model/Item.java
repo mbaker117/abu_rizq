@@ -42,7 +42,7 @@ public class Item implements Comparable<Item> {
 	private String imageUrl;
 
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne()
 	@JoinColumn(name = "category_id", nullable = true)
 	private Category category;
 

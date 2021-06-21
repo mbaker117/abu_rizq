@@ -35,6 +35,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.primefaces.PrimeFaces;
 
+import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.lazymodel.LazyItemDataModel;
 import com.mbaker.abumazrouqdashboard.beans.model.Category;
 import com.mbaker.abumazrouqdashboard.beans.model.Reservation;
@@ -83,9 +84,9 @@ public class AddReservationsView implements Serializable {
 	/**
 	 * the bundle variable of type ResourceBundle
 	 */
-	@Inject
-	private ResourceBundle bundle;
-
+	/*
+	 * @Inject private ResourceBundle bundle;
+	 */
 	public List<ReservedItemData> getItemsData() {
 		return itemsData;
 	}
@@ -162,12 +163,12 @@ public class AddReservationsView implements Serializable {
 			}
 		}
 		if (CollectionUtils.isEmpty(collect)) {
-			FacesUtils.errorMessage(bundle.getString("reservations.error.invalidItem.label"));
+			FacesUtils.errorMessage(MessageBundle.getBundle().getString("reservations.error.invalidItem.label"));
 			PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
 			return;
 		}
 		if (Strings.isBlank(customerName) || Strings.isBlank(customerNumber) || Objects.isNull(reservationDate)) {
-			FacesUtils.errorMessage(bundle.getString("reservations.error.invalidData.label"));
+			FacesUtils.errorMessage(MessageBundle.getBundle().getString("reservations.error.invalidData.label"));
 			PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
 			return;
 		}
@@ -183,12 +184,13 @@ public class AddReservationsView implements Serializable {
 		reservation.setNotes(notes);
 		reservationService.add(reservation);
 		FacesContext.getCurrentInstance().getViewRoot().getViewMap().clear();
-		FacesUtils.sucessMessage(bundle.getString("reservations.add.success.label"));
-		PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
-		FacesUtils.redirect("userpages/main");
+		FacesUtils.sucessMessage(MessageBundle.getBundle().getString("reservations.add.success.label"));
+		PrimeFaces.current().ajax().update("form:dt-items", "form:messages", "form:search", "form:reservation");
+		/* FacesUtils.redirect("userpages/main"); */
 		referesh();
 	}
 
+	
 	private void referesh() {
 		endDate = null;
 		startDate = null;
@@ -196,6 +198,7 @@ public class AddReservationsView implements Serializable {
 		customerName = null;
 		customerNumber = null;
 		reservationDate = null;
+		selectedItems = null;
 		notes = null;
 	}
 

@@ -53,10 +53,10 @@
                 <div class="products-table-header">
                     <span style="font-weight: bold">#{msg['advanceReports.table.title.label']}</span>
 
-                    <span class="filter-container ui-input-icon-left">
+                 <!--    <span class="filter-container ui-input-icon-left">
                         <i class="pi pi-search"></i>
                         <p:inputText id="globalFilter" onkeyup="PF('dtReservations').filter()" placeholder="#{msg['advanceReports.buttons.search.label']}"/>
-                    </span>
+                    </span> -->
                      <p:commandButton value="#{msg['advanceReports.button.print.label']}"  icon="pi pi-print" styleClass="p-d-block p-shadow-2 p-mb-3" actionListener="#{advanceReportsView.print}">
    						    <f:setPropertyActionListener value="#{advanceReportsView.reservations}" target="#{invoiceView.reservations}" />             
   					</p:commandButton>
@@ -64,23 +64,23 @@
                 </div>
             </f:facet>
       
-			<p:column headerText="#{msg['advanceReports.id.label']}" sortBy="#{reservation.id}"    style="text-align: right; direction: rtl; color: green;">
+			<p:column headerText="#{msg['advanceReports.id.label']}"     style="text-align: right; direction: rtl; color: green;">
                  <h:outputText value="#{reservation.id}" style="color:black;" />
             </p:column>
-            <p:column headerText="#{msg['advanceReports.employeeName.label']}" sortBy="#{reservation.employeeName}"   filterBy="#{reservation.employeeName}" style="text-align: right; direction: rtl; color: green;">
+            <p:column headerText="#{msg['advanceReports.employeeName.label']}"  style="text-align: right; direction: rtl; color: green;">
                  <h:outputText value="#{reservation.employeeName}" style="color:black;" />
             </p:column>
-            <p:column headerText="#{msg['advanceReports.customerName.label']}" sortBy="#{reservation.customerName}"   style=" text-align: right; direction: rtl;color: green;">
+            <p:column headerText="#{msg['advanceReports.customerName.label']}"    style=" text-align: right; direction: rtl;color: green;">
                   <h:outputText value="#{reservation.customerName}" style="color:black;" />
             </p:column>
-            <p:column headerText="#{msg['advanceReports.date.label']}" sortBy="#{reservation.date}"   style="text-align: right; direction: rtl;color: green;">
+            <p:column headerText="#{msg['advanceReports.date.label']}"    style="text-align: right; direction: rtl;color: green;">
                 <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.date}" />
             </p:column>
 
-            <p:column headerText="#{msg['advanceReports.notes.label']}" sortBy="#{reservation.notes}"   style="text-align: right; direction: rtl;color: green;">
+            <p:column headerText="#{msg['advanceReports.notes.label']}"    style="text-align: right; direction: rtl;color: green;">
                 <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.notes}" />
             </p:column>
-            <p:column headerText="#{msg['advanceReports.status.label']}" sortBy="#{reservation.status}"   style="text-align: right; direction: rtl;color: green;">
+            <p:column headerText="#{msg['advanceReports.status.label']}"   style="text-align: right; direction: rtl;color: green;">
                 <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.status == 'PENDING'? msg['advanceReports.reservation.status.pending.label'] : msg['advanceReports.reservation.status.complete.label']}" />
             </p:column>
             <p:column style="width:2rem">

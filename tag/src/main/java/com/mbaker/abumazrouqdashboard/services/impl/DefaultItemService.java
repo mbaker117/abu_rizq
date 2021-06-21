@@ -70,6 +70,9 @@ public class DefaultItemService implements ItemService {
 			LOG.error(LOG_MSG, ex.getMessage());
 			throw ex;
 		}
+		Category category = item.get().getCategory();
+		category.getItems().remove(item.get());
+		categoryService.save(category);
 		itemDAO.delete(item.get());
 		LOG.error("[ItemService]: item {} was deleted", item.get());
 

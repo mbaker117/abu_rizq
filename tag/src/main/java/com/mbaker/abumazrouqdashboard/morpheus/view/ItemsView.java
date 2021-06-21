@@ -35,6 +35,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.Visibility;
 import org.primefaces.model.file.UploadedFile;
 
+import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.lazymodel.LazyItemDataModel;
 import com.mbaker.abumazrouqdashboard.beans.model.Category;
 import com.mbaker.abumazrouqdashboard.beans.model.Item;
@@ -74,8 +75,9 @@ public class ItemsView implements Serializable {
 	/**
 	 * the bundle variable of type ResourceBundle
 	 */
-	@Inject
-	private ResourceBundle bundle;
+	/*
+	 * @Inject private ResourceBundle bundle;
+	 */
 
 	public void init() throws AbuMazrouqDashboardException {
 		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext()
@@ -91,13 +93,13 @@ public class ItemsView implements Serializable {
 		} else {
 			FacesUtils.redirect("userpages/categories");
 		}
-		lazyItems = new LazyItemDataModel(itemService.getByCategory(category.getId()));
+	//	lazyItems = new LazyItemDataModel(itemService.getByCategory(category.getId()));
 
 	}
 
 	public List<Item> getItems() throws AbuMazrouqDashboardException {
 		items = itemFacade.getItemByCategoryId(this.category.getId());
-		PrimeFaces.current().ajax().update("form:messages", "form:dt-Items");
+	//	PrimeFaces.current().ajax().update("form:messages", "form:dt-Items");
 		return items;
 	
 		
@@ -120,13 +122,7 @@ public class ItemsView implements Serializable {
 		this.selectedItems = selectedItems;
 	}
 
-	public ResourceBundle getBundle() {
-		return bundle;
-	}
 
-	public void setBundle(ResourceBundle bundle) {
-		this.bundle = bundle;
-	}
 
 	public Category getCategory() {
 		return category;
@@ -156,10 +152,11 @@ public class ItemsView implements Serializable {
 		FacesUtils.redirect("userpages/addEditItem");
 	}
 
-	public void openNew() {
+	public void openNew() throws AbuMazrouqDashboardException {
 		Item item = new Item();
 		item.setCategory(category);
 		this.selectedItem = item;
+		//getItems();
 		FacesUtils.redirect("userpages/addEditItem");
 	}
 
@@ -167,12 +164,13 @@ public class ItemsView implements Serializable {
 
 		try {
 			itemFacade.deleteItem(selectedItem.getId());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(MessageBundle.getBundle().getString("item.msg.delete.success")));
 		} catch (AbuMazrouqDashboardException e) {
-			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
+			FacesUtils.errorMessage(MessageBundle.getBundle().getString(ERROR_MSG));	
 		}
 		
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(bundle.getString("item.msg.delete.success")));
+	
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-Items");
 	}
 

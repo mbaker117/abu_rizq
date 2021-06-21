@@ -30,6 +30,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.primefaces.PrimeFaces;
 
+import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.model.Reservation;
 import com.mbaker.abumazrouqdashboard.beans.model.ReservedItemData;
 import com.mbaker.abumazrouqdashboard.convertors.ReverseItemDataConvertor;
@@ -59,8 +60,9 @@ public class EditReservationsView implements Serializable {
 	/**
 	 * the bundle variable of type ResourceBundle
 	 */
-	@Inject
-	private ResourceBundle bundle;
+	/*
+	 * @Inject private ResourceBundle bundle;
+	 */
 	
 	public void init() throws AbuMazrouqDashboardException {
 		
@@ -97,13 +99,13 @@ public class EditReservationsView implements Serializable {
 		}
 
 		if (CollectionUtils.isEmpty(collect)) {
-			FacesUtils.errorMessage(bundle.getString("editReservation.error.invalidItem.label"));
+			FacesUtils.errorMessage(MessageBundle.getBundle().getString("editReservation.error.invalidItem.label"));
 			PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
 			return ;
 		}
 		if (Strings.isBlank(reservation.getCustomerName()) || Strings.isBlank(reservation.getCustomerPhoneNumber())
 				|| Objects.isNull(reservation.getDate())) {
-			FacesUtils.errorMessage(bundle.getString("editReservation.error.invalidData.label"));
+			FacesUtils.errorMessage(MessageBundle.getBundle().getString("editReservation.error.invalidData.label"));
 			PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
 			return ;
 		}
@@ -112,7 +114,7 @@ public class EditReservationsView implements Serializable {
 		
 		PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
 		FacesContext.getCurrentInstance().getViewRoot().getViewMap().clear();
-		FacesUtils.sucessMessage(bundle.getString("editReservation.update.success.label"));
+		FacesUtils.sucessMessage(MessageBundle.getBundle().getString("editReservation.update.success.label"));
 		FacesUtils.redirect("userpages/basicReports");
 		
 	}

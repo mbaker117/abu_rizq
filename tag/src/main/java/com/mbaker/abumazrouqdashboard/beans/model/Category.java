@@ -31,8 +31,7 @@ public class Category {
 	private String name;
 
 	
-	@OneToMany(targetEntity = Item.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
-			CascadeType.REFRESH }, mappedBy = "category", fetch = FetchType.EAGER)
+	@OneToMany(targetEntity = Item.class, cascade = { CascadeType.ALL}, mappedBy = "category", fetch = FetchType.EAGER,orphanRemoval = true)
 	private List<Item> items;
 
 	public long getId() {

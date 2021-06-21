@@ -63,8 +63,9 @@ public class AdvanceReportsView implements Serializable {
 	/**
 	 * the bundle variable of type ResourceBundle
 	 */
-	@Inject
-	private ResourceBundle bundle;
+	/*
+	 * @Inject private ResourceBundle bundle;
+	 */
 
 	public Date getStartDate() {
 		return startDate;

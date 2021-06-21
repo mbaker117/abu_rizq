@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.mbaker.abumazrouqdashboard.beans.model.Item;
+import com.mbaker.abumazrouqdashboard.constant.PathConstant;
 import com.mbaker.abumazrouqdashboard.exception.AbuMazrouqDashboardException;
 import com.mbaker.abumazrouqdashboard.exception.type.AbuMazrouqDashboardExceptionType;
 import com.mbaker.abumazrouqdashboard.facade.ItemFacade;
@@ -36,7 +37,7 @@ public class DefaultItemFacade implements ItemFacade {
 	@Autowired
 	private CommonValidator commonValidator;
 
-	private static final String PATH = "/home/mohammed-baker/Development/projects/porjects-src/abumazrouqdashboard/tag/src/main/webapp/resources/items/images";
+	private static final String PATH = "/home/ubuntu/abumazrouqdashboard/tag/src/main/webapp/resources/items/images";
 
 	@Override
 	public void saveItem(Item item, UploadedFile file) throws AbuMazrouqDashboardException {
@@ -50,6 +51,7 @@ public class DefaultItemFacade implements ItemFacade {
 			try {
 				imageName = fileService.UploadFile(PATH, item.getId() + substring, file);
 			} catch (IOException e) {
+				e.printStackTrace();
 				var ex = new AbuMazrouqDashboardException(AbuMazrouqDashboardExceptionType.IO_EXCEPTION,
 						e.getMessage());
 				LOG.error(LOG_MSG, ex.getMessage());

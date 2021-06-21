@@ -58,24 +58,24 @@
             
 
 			
-			<p:column headerText="#{msg['basicReports.id.label']}" sortBy="#{reservation.id}"   filterBy="#{reservation.id}" style="text-align: right; direction: rtl; color: green;">
+			<p:column headerText="#{msg['basicReports.id.label']}"  style="text-align: right; direction: rtl; color: green;">
                  <h:outputText value="#{reservation.id}" style="color:black;" />
             </p:column>
          
-            <p:column headerText="#{msg['basicReports.employeeName.label']}" sortBy="#{reservation.employeeName}"   filterBy="#{reservation.employeeName}" style="text-align: right; direction: rtl; color: green;">
+            <p:column headerText="#{msg['basicReports.employeeName.label']}"  style="text-align: right; direction: rtl; color: green;">
                  <h:outputText value="#{reservation.employeeName}" style="color:black;" />
             </p:column>
-            <p:column headerText="#{msg['basicReports.customerName.label']}" sortBy="#{reservation.customerName}" filterBy="#{reservation.customerName}"  style=" text-align: right; direction: rtl;color: green;">
+            <p:column headerText="#{msg['basicReports.customerName.label']}"  style=" text-align: right; direction: rtl;color: green;">
                   <h:outputText value="#{reservation.customerName}" style="color:black;" />
             </p:column>
-            <p:column headerText="#{msg['basicReports.date.label']}" sortBy="#{reservation.date}" filterBy="#{reservation.date}"  style="text-align: right; direction: rtl;color: green;">
+            <p:column headerText="#{msg['basicReports.date.label']}"   style="text-align: right; direction: rtl;color: green;">
                 <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.date}" />
             </p:column>
 
-            <p:column headerText="#{msg['basicReports.notes.label']}" sortBy="#{reservation.notes}" filterBy="#{reservation.notes}"  style="text-align: right; direction: rtl;color: green;">
+            <p:column headerText="#{msg['basicReports.notes.label']}"   style="text-align: right; direction: rtl;color: green;">
                 <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.notes}" />
             </p:column>
-            <p:column headerText="#{msg['basicReports.status.label']}" sortBy="#{reservation.status}" filterBy="#{reservation.status}"  style="text-align: right; direction: rtl;color: green;">
+            <p:column headerText="#{msg['basicReports.status.label']}"   style="text-align: right; direction: rtl;color: green;">
                 <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.status == 'PENDING'? msg['basicReports.reservation.status.pending.label'] : msg['basicReports.reservation.status.complete.label']}" />
             </p:column>
             <p:column style="width:2rem">
@@ -125,7 +125,7 @@
                                 </p:commandButton> 
                               
                                  <p:divider layout="vertical"></p:divider> 
-                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" disabled="#{reservation.status == 'COMPLETED'}"  style="text-align: right; direction: rtl;" process="@this" oncomplete="PF('deleteReservationDialog').show()" >
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"   style="text-align: right; direction: rtl;" process="@this" oncomplete="PF('deleteReservationDialog').show()" >
                                     <f:setPropertyActionListener value="#{reservation}" target="#{basicReportsView.selectedReservation}" />
                                 </p:commandButton>
                                 </div>

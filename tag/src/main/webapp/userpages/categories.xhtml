@@ -29,14 +29,14 @@
                             <f:facet name="header">
                                 <div class="products-table-header">
                                     <span style="font-weight: bold">#{msg['category.title.label']}</span>
-                                
+                                <!-- 
                                     <span class="filter-container ui-input-icon-left">
                                         <i class="pi pi-search"></i>
                                         <p:inputText id="globalFilter" onkeyup="PF('dtCategories').filter()" placeholder="Search" />
-                                    </span>
+                                    </span> -->
                                 </div>
                             </f:facet>
-                            <p:column headerText="#{msg['category.name.label']}" sortBy="#{category.name}"   filterBy="#{category.name}" style="text-align: right; direction: rtl;color: green;">
+                            <p:column headerText="#{msg['category.name.label']}"  style="text-align: right; direction: rtl;color: green;">
                                 <h:outputText value="#{category.name}" />
                             </p:column>
                                   <p:column exportable="false"  style="text-align: right; direction: rtl;">

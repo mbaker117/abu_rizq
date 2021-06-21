@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="/WEB-INF/template.xhtml">
+
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+    </f:facet>
+    <title>#{msg['application.name.title']}</title>
+</h:head>
+
+<h:body styleClass="login-body #{guestPreferences.inputStyleClass}">
+    <div class="login-panel ui-fluid rtl">
+        <div class="p-grid login-container" style="padding-bottom: 20px;">
+            <div class="p-col-12 logo-container">
+                <a class="morpheus-logo-link" href="dashboard.xhtml">
+                    <span class="morpheus-logo-text">
+                            #{msg['application.name.title']}
+                        </span>
+                </a>
+            </div>
+         
+           <h:form id="form" styleClass="rtl">
+           <div>
+              <p:growl id="messages" showDetail="true" />
+            <div class="p-col-12 rtl" style="text-align: right; direction: rtl;">
+                <p:inputText placeholder="#{msg['login.username.label']}" value="#{loginView.username}"/>
+            </div>
+            <div class="p-col-12" style="text-align: right; direction: rtl;">
+                <p:password placeholder="#{msg['login.password.label']}" feedback="false" value="#{loginView.password}"/>
+            </div>
+            <div class="p-col-12 button-container" style="text-align: right; direction: rtl;">
+                <p:commandButton action="#{loginView.validateUser}" value="#{msg['login.buttons.signin.label']}" icon="pi pi-user"
+                          styleClass="ui-button-raised"/>
+            </div>
+             </div>
+            </h:form> 
+           
+        </div>
+      
+    </div>
+
+    <h:outputStylesheet name="css/primeicons.css" library="morpheus-layout"/>
+    <h:outputStylesheet name="css/primeflex.min.css" library="morpheus-layout"/>
+    <h:outputStylesheet name="css/animate.css" library="morpheus-layout"/>
+    <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="morpheus-layout"/>
+</h:body>
+
+</html>

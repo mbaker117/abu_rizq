@@ -29,6 +29,7 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 
+import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.model.Category;
 import com.mbaker.abumazrouqdashboard.exception.AbuMazrouqDashboardException;
 import com.mbaker.abumazrouqdashboard.exception.type.AbuMazrouqDashboardExceptionType;
@@ -52,18 +53,19 @@ public class CategoriesView implements Serializable {
 	/**
 	 * the bundle variable of type ResourceBundle
 	 */
-	@Inject
-	private ResourceBundle bundle;
+	/*
+	 * @Inject private ResourceBundle bundle;
+	 */
 
 	public void init() {
 
-		categorys = categoryService.getAll();
+	
 		
 
 	}
 
 	public List<Category> getCategories() {
-
+		categorys = categoryService.getAll();
 		return categorys;
 	}
 
@@ -83,13 +85,6 @@ public class CategoriesView implements Serializable {
 		this.selectedCategories = selectedCategories;
 	}
 
-	public ResourceBundle getBundle() {
-		return bundle;
-	}
-
-	public void setBundle(ResourceBundle bundle) {
-		this.bundle = bundle;
-	}
 
 	public void openNew() {
 
@@ -102,18 +97,17 @@ public class CategoriesView implements Serializable {
 			if (this.selectedCategory.getId() == 0) {
 
 				categoryService.save(selectedCategory);
-				FacesUtils.sucessMessage(bundle.getString("category.msg.add.success"));
+				FacesUtils.sucessMessage(MessageBundle.getBundle().getString("category.msg.add.success"));
 			} else {
 				categoryService.save(selectedCategory);
-				FacesUtils.sucessMessage(bundle.getString("category.msg.update.success"));
+				FacesUtils.sucessMessage(MessageBundle.getBundle().getString("category.msg.update.success"));
 			}
 			PrimeFaces.current().executeScript("PF('manageCategoryDialog').hide()");
 		} catch (Exception e) {
 
-			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
+			FacesUtils.errorMessage(MessageBundle.getBundle().getString(ERROR_MSG));
 
 		}
-
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-Categories");
 
 	}
@@ -123,11 +117,11 @@ public class CategoriesView implements Serializable {
 		try {
 			categoryService.delete(selectedCategory.getId());
 		} catch (AbuMazrouqDashboardException e) {
-			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
+			FacesUtils.errorMessage(MessageBundle.getBundle().getString(ERROR_MSG));
 		}
 		this.selectedCategory = null;
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(bundle.getString("category.msg.delete.success")));
+				new FacesMessage(MessageBundle.getBundle().getString("category.msg.delete.success")));
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-Categories");
 	}
 

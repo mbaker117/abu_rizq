@@ -27,6 +27,7 @@ import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
+import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.model.User;
 import com.mbaker.abumazrouqdashboard.services.UserService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
@@ -46,8 +47,9 @@ public class LoginView implements Serializable {
 	/**
 	 * the bundle variable of type ResourceBundle
 	 */
-	@Inject
-	private ResourceBundle bundle;
+	/*
+	 * @Inject private ResourceBundle bundle;
+	 */
 
 	public String getUsername() {
 		return username;
@@ -76,7 +78,7 @@ public class LoginView implements Serializable {
 
 		} else {
 
-			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
+			FacesUtils.errorMessage(MessageBundle.getBundle().getString(ERROR_MSG));
 		}
 
 		PrimeFaces.current().ajax().update("form:messages");

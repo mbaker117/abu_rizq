@@ -197,8 +197,9 @@
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
-
+<packaging>war</packaging>
 	<build>
+			 <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory> 
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -211,6 +212,20 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -30,6 +30,7 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.data.UserData;
 import com.mbaker.abumazrouqdashboard.beans.lazymodel.LazyUserDataModel;
 import com.mbaker.abumazrouqdashboard.beans.model.User;
@@ -64,8 +65,9 @@ public class UsersView implements Serializable {
 	/**
 	 * the bundle variable of type ResourceBundle
 	 */
-	@Inject
-	private ResourceBundle bundle;
+	/*
+	 * @Inject private ResourceBundle bundle;
+	 */
 
 	public List<UserData> getUsers() {
 		users = userConvertor.convertAll(userService.getAllEmployee());
@@ -92,13 +94,6 @@ public class UsersView implements Serializable {
 		this.selectedUsers = selectedUsers;
 	}
 
-	public ResourceBundle getBundle() {
-		return bundle;
-	}
-
-	public void setBundle(ResourceBundle bundle) {
-		this.bundle = bundle;
-	}
 
 	public void openNew() {
 
@@ -114,17 +109,17 @@ public class UsersView implements Serializable {
 			if (this.selectedUser.getId() == 0) {
 
 				userService.add(user);
-				FacesUtils.sucessMessage(bundle.getString("user.msg.add.success"));
+				FacesUtils.sucessMessage(MessageBundle.getBundle().getString("user.msg.add.success"));
 			} else {
 				userService.update(user);
-				FacesUtils.sucessMessage(bundle.getString("user.msg.update.success"));
+				FacesUtils.sucessMessage(MessageBundle.getBundle().getString("user.msg.update.success"));
 			}
 			PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
 		} catch (AbuMazrouqDashboardException e) {
 			if (AbuMazrouqDashboardExceptionType.USER_ALREADY_EXIST.equals(e.getType())) {
-				FacesUtils.errorMessage(bundle.getString("user.msg.username.invalid"));
+				FacesUtils.errorMessage(MessageBundle.getBundle().getString("user.msg.username.invalid"));
 			} else {
-				FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
+				FacesUtils.errorMessage(MessageBundle.getBundle().getString(ERROR_MSG));
 			}
 		}
 
@@ -138,11 +133,11 @@ public class UsersView implements Serializable {
 		try {
 			userService.delete(selectedUser.getId());
 		} catch (AbuMazrouqDashboardException e) {
-			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
+			FacesUtils.errorMessage(MessageBundle.getBundle().getString(ERROR_MSG));
 		}
 		this.selectedUser = null;
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(bundle.getString("user.msg.delete.success")));
+				new FacesMessage(MessageBundle.getBundle().getString("user.msg.delete.success")));
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-Users");
 	}
 

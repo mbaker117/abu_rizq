@@ -18,10 +18,8 @@ package com.mbaker.abumazrouqdashboard.morpheus.view;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,7 +28,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.file.UploadedFile;
 
-import com.mbaker.abumazrouqdashboard.beans.model.Category;
+import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.model.Item;
 import com.mbaker.abumazrouqdashboard.facade.ItemFacade;
 import com.mbaker.abumazrouqdashboard.services.CategoryService;
@@ -59,9 +57,9 @@ public class AddEditItemView implements Serializable {
 	 * the bundle variable of type ResourceBundle
 	 */
 	
-	@Inject
-	private ResourceBundle bundle;
-	
+	/*
+	 * @Inject private ResourceBundle bundle;
+	 */
 	private  boolean newItem;
 	
 	public void initItem() {
@@ -103,13 +101,6 @@ public class AddEditItemView implements Serializable {
 		this.selectedItem = selectedItem;
 	}
 
-	public ResourceBundle getBundle() {
-		return bundle;
-	}
-
-	public void setBundle(ResourceBundle bundle) {
-		this.bundle = bundle;
-	}
 
 	public UploadedFile getFile() {
 		return file;
@@ -128,10 +119,10 @@ public class AddEditItemView implements Serializable {
 			if (this.selectedItem.getId() == 0) {
 				
 				itemFacade.saveItem(selectedItem,file);
-				FacesUtils.sucessMessage(bundle.getString("item.msg.add.success"));
+				FacesUtils.sucessMessage(MessageBundle.getBundle().getString("item.msg.add.success"));
 			} else {
 				itemFacade.saveItem(selectedItem,file);
-				FacesUtils.sucessMessage(bundle.getString("item.msg.update.success"));
+				FacesUtils.sucessMessage(MessageBundle.getBundle().getString("item.msg.update.success"));
 			}
 			PrimeFaces.current().ajax().update("form:messages");
 
@@ -140,9 +131,9 @@ public class AddEditItemView implements Serializable {
 			FacesUtils.redirect("userpages/items","id="+selectedItem.getCategory().getId()+"&faces-redirect=true");
 			
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 
-			FacesUtils.errorMessage(bundle.getString(ERROR_MSG));
+			FacesUtils.errorMessage(MessageBundle.getBundle().getString(ERROR_MSG));
 		}
 		PrimeFaces.current().ajax().update("form:messages");
 
