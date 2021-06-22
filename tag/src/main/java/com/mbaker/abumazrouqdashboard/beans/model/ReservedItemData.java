@@ -1,5 +1,7 @@
 package com.mbaker.abumazrouqdashboard.beans.model;
 
+import org.primefaces.model.StreamedContent;
+
 public class ReservedItemData implements Comparable<ReservedItemData> {
 
 	private long id;
@@ -17,6 +19,8 @@ public class ReservedItemData implements Comparable<ReservedItemData> {
 	private long reservedAmount;
 
 	private String imageUrl;
+	
+	private StreamedContent image;
 
 	private String notes;
 
@@ -90,6 +94,14 @@ public class ReservedItemData implements Comparable<ReservedItemData> {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+	
+	public StreamedContent getImage() {
+		return image;
+	}
+
+	public void setImage(StreamedContent image) {
+		this.image = image;
 	}
 
 	@Override

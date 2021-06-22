@@ -19,14 +19,18 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.logging.log4j.util.Strings;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.file.UploadedFile;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.model.Item;
@@ -36,7 +40,8 @@ import com.mbaker.abumazrouqdashboard.services.ItemService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
-@RequestScoped
+@ViewScoped
+@SessionScope
 public class AddEditItemView implements Serializable {
 
 	private final static String ERROR_MSG = "item.msg.failed";
@@ -62,6 +67,7 @@ public class AddEditItemView implements Serializable {
 	 */
 	private  boolean newItem;
 	
+	
 	public void initItem() {
 		
 		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext()
@@ -82,7 +88,6 @@ public class AddEditItemView implements Serializable {
 		
 	}
 
-	
 	public boolean isNewItem() {
 		return newItem;
 	}

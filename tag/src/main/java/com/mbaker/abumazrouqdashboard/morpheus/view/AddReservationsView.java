@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -34,6 +35,8 @@ import javax.inject.Named;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.primefaces.PrimeFaces;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.lazymodel.LazyItemDataModel;
@@ -48,7 +51,8 @@ import com.mbaker.abumazrouqdashboard.services.ReservationService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
-@RequestScoped
+@ViewScoped
+@SessionScope
 public class AddReservationsView implements Serializable {
 	private final static String ERROR_MSG = "login.user.invalid.msg";
 
@@ -76,6 +80,9 @@ public class AddReservationsView implements Serializable {
 	private Date reservationDate;
 
 	private String notes;
+	
+
+	
 
 	public void init() throws AbuMazrouqDashboardException {
 

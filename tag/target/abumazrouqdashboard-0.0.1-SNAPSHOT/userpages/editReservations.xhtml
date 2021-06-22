@@ -55,7 +55,7 @@
    					 
    		  <p:dataTable id="dt-items" widgetVar="dtItems" var="item" value="#{editReservationsView.itemsData}"
                      reflow="true" styleClass="products-table" selection="#{editReservationsView.reservation.selectedItems}" rowKey="#{item.itemId}" paginator="true"
-                     rows="10" rowSelectMode="add" sortBy="#{item.reservedAmount}"  paginatorPosition="bottom" style="text-align: right; direction: rtl;" >
+                     rows="10"   rowSelectMode="add" sortBy="#{item.reservedAmount}"  paginatorPosition="bottom" style="text-align: right; direction: rtl;" >
           
           
             <f:facet name="header">
@@ -71,7 +71,9 @@
             </f:facet>
 
             <p:column headerText="" exportable="false" style="text-align: right; direction: rtl; color: green;">
-      			<div class="image-container" > <p:graphicImage styleClass="centered-image" rendered="#{not empty item.imageUrl}" name="items/images/#{item.imageUrl}"/>
+      			<div class="image-container" > <p:graphicImage styleClass="centered-image" rendered="#{not empty item.imageUrl}" value="#{imageView.image}" >
+            				         <f:param name="imageUrl" value="#{item.imageUrl}" />
+            				    </p:graphicImage>
             		<p:graphicImage styleClass="centered-image" rendered="#{empty item.imageUrl}" name="items/images/no-image.jpg"/>
             	</div>
            	</p:column>

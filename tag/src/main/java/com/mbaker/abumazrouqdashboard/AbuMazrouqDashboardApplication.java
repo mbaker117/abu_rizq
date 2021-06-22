@@ -9,12 +9,12 @@ import javax.faces.webapp.FacesServlet;
 import javax.servlet.DispatcherType;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
 import org.ocpsoft.rewrite.servlet.RewriteFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -82,20 +82,24 @@ public class AbuMazrouqDashboardApplication extends SpringBootServletInitializer
 		return rwFilter;
 	}
 
-	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
-		super.onStartup(servletContext);
+	@Bean
+	public ServletContextInitializer servletContextInitializer() {
+		return servletContext -> {
 
-		servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
-		servletContext.setInitParameter("javax.faces.FACELETS_REFRESH_PERIOD", "0");
-		servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
-		servletContext.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
-		servletContext.setInitParameter("primefaces.FONT_AWESOME", Boolean.TRUE.toString());
-		servletContext.setInitParameter("primefaces.UPLOADER", "commons");
-		servletContext.setInitParameter("facelets.DEVELOPMENT", "true");
-		servletContext.setInitParameter("primefaces.THEME", "morpheus");
-		
-		
+			servletContext.setInitParameter("javax.faces.STATE_SAVING_METHOD", "client");
+
+			servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
+			servletContext.setInitParameter("javax.faces.FACELETS_REFRESH_PERIOD", "0");
+			servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
+			servletContext.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
+			servletContext.setInitParameter("primefaces.FONT_AWESOME", Boolean.TRUE.toString());
+			servletContext.setInitParameter("primefaces.UPLOADER", "commons");
+			servletContext.setInitParameter("facelets.DEVELOPMENT", "true");
+			servletContext.setInitParameter("primefaces.THEME", "morpheus-blue");
+			servletContext.setInitParameter("org.apache.myfaces.FLASH_SCOPE_DISABLED", Boolean.TRUE.toString());
+			servletContext.setInitParameter("org.apache.myfaces.FACES_FLOW_CLIENT_WINDOW_IDS_IN_SESSION", "1");
+
+		};
 	}
 
 	@Bean
@@ -122,6 +126,7 @@ public class AbuMazrouqDashboardApplication extends SpringBootServletInitializer
 
 		registrationBean.addUrlPatterns("/userpages/users.xhtml");
 		registrationBean.addUrlPatterns("/userpages/advanceReports.xhtml");
+		registrationBean.addUrlPatterns("/userpages/addEditItem.xhtml");
 		/*
 		 * registrationBean.addUrlPatterns("/users.xhtml");
 		 * registrationBean.addUrlPatterns("/main.xhtml");

@@ -33,6 +33,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.model.Reservation;
@@ -45,6 +47,7 @@ import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
 @RequestScoped
+@SessionScope
 public class BasicReportsView implements Serializable {
 	private final static String ERROR_MSG = "login.user.invalid.msg";
 
@@ -122,8 +125,9 @@ public class BasicReportsView implements Serializable {
 
 	public void search() throws IOException {
 
-		reservations = reservationService.getByDates(startDate, endDate);
+		reservations = reservationService.getByDatesAndStatus(startDate, endDate,ReservationStatus.PENDING);
 		PrimeFaces.current().ajax().update("form:dt-reservations", "form:messages");
+		
 		
 	}
 
@@ -154,14 +158,15 @@ public class BasicReportsView implements Serializable {
 		FacesUtils.redirect("userpages/editReservations");
 	}
 
-	public void completeReservation() {
+	public void completeReservation() throws IOException {
 		if (Objects.isNull(selectedReservation)) {
 			return;
 		}
 		selectedReservation.setStatus(ReservationStatus.COMPLETED);
 		reservationService.update(selectedReservation);
+		search();
 		PrimeFaces.current().ajax().update("form:dt-reservations", "form:messages");
-
+		
 	}
 
 	public boolean canEdit(Reservation reservation, int x) {

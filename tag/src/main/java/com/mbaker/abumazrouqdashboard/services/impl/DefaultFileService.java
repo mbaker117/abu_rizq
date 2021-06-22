@@ -38,11 +38,8 @@ public class DefaultFileService implements FileService {
 		commonValidator.validateEmptyString(fileName, "fileName", SERVICE_NAME);
 
 		final Path root = Paths.get(path);
-		final Path target = Paths.get(
-				"/home/ubuntu/abumazrouqdashboard/tag/target/abumazrouqdashboard-0.0.1-SNAPSHOT/resources/items/images");
-
+		
 		Files.copy(file.getInputStream(), root.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(file.getInputStream(), target.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
 
 		return fileName;
 

@@ -29,6 +29,8 @@ import javax.inject.Named;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.primefaces.PrimeFaces;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.model.Reservation;
@@ -41,6 +43,7 @@ import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
 @RequestScoped
+@SessionScope
 public class EditReservationsView implements Serializable {
 	private final static String ERROR_MSG = "login.user.invalid.msg";
 

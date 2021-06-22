@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.mbaker.abumazrouqdashboard.beans.model.Category;
 import com.mbaker.abumazrouqdashboard.beans.model.Item;

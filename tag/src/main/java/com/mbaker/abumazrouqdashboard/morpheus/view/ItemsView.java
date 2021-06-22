@@ -15,11 +15,14 @@
  */
 package com.mbaker.abumazrouqdashboard.morpheus.view;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.RequestScoped;
@@ -30,15 +33,16 @@ import javax.inject.Named;
 
 import org.apache.logging.log4j.util.Strings;
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.ToggleEvent;
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.Visibility;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
-import com.mbaker.abumazrouqdashboard.beans.lazymodel.LazyItemDataModel;
+import com.mbaker.abumazrouqdashboard.beans.data.ItemData;
 import com.mbaker.abumazrouqdashboard.beans.model.Category;
 import com.mbaker.abumazrouqdashboard.beans.model.Item;
+import com.mbaker.abumazrouqdashboard.convertors.ItemConvertor;
 import com.mbaker.abumazrouqdashboard.exception.AbuMazrouqDashboardException;
 import com.mbaker.abumazrouqdashboard.facade.ItemFacade;
 import com.mbaker.abumazrouqdashboard.services.CategoryService;
@@ -46,20 +50,15 @@ import com.mbaker.abumazrouqdashboard.services.ItemService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
-@ViewScoped
+@RequestScoped
+@SessionScope
 public class ItemsView implements Serializable {
 
 	private final static String ERROR_MSG = "item.msg.failed";
 
 	private List<Item> items;
 
-	private LazyDataModel<Item> lazyItems;
-
 	private Item selectedItem;
-
-	private List<Item> selectedItems;
-
-	private UploadedFile file;
 
 	@Inject
 	private ItemFacade itemFacade;
@@ -67,17 +66,17 @@ public class ItemsView implements Serializable {
 	@Inject
 	private ItemService itemService;
 
+	@Inject
+	private ItemConvertor itemConvertor;
+
 	private Category category;
+
+	private StreamedContent image;
+
+	private String imageUrl;
 
 	@Inject
 	private CategoryService categoryService;
-
-	/**
-	 * the bundle variable of type ResourceBundle
-	 */
-	/*
-	 * @Inject private ResourceBundle bundle;
-	 */
 
 	public void init() throws AbuMazrouqDashboardException {
 		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext()
@@ -93,16 +92,12 @@ public class ItemsView implements Serializable {
 		} else {
 			FacesUtils.redirect("userpages/categories");
 		}
-	//	lazyItems = new LazyItemDataModel(itemService.getByCategory(category.getId()));
 
 	}
 
 	public List<Item> getItems() throws AbuMazrouqDashboardException {
 		items = itemFacade.getItemByCategoryId(this.category.getId());
-	//	PrimeFaces.current().ajax().update("form:messages", "form:dt-Items");
 		return items;
-	
-		
 	}
 
 	public Item getSelectedItem() {
@@ -113,39 +108,12 @@ public class ItemsView implements Serializable {
 		this.selectedItem = selectedItem;
 	}
 
-	public List<Item> getSelectedItems() {
-		
-		return selectedItems;
-	}
-
-	public void setSelectedItems(List<Item> selectedItems) {
-		this.selectedItems = selectedItems;
-	}
-
-
-
 	public Category getCategory() {
 		return category;
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-
-	public LazyDataModel<Item> getLazyItems() {
-		return lazyItems;
-	}
-
-	public void setLazyItems(LazyDataModel<Item> lazyItems) {
-		this.lazyItems = lazyItems;
-	}
-
-	public UploadedFile getFile() {
-		return file;
-	}
-
-	public void setFile(UploadedFile file) {
-		this.file = file;
 	}
 
 	public void editItem() {
@@ -156,7 +124,6 @@ public class ItemsView implements Serializable {
 		Item item = new Item();
 		item.setCategory(category);
 		this.selectedItem = item;
-		//getItems();
 		FacesUtils.redirect("userpages/addEditItem");
 	}
 
@@ -167,30 +134,9 @@ public class ItemsView implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(MessageBundle.getBundle().getString("item.msg.delete.success")));
 		} catch (AbuMazrouqDashboardException e) {
-			FacesUtils.errorMessage(MessageBundle.getBundle().getString(ERROR_MSG));	
+			FacesUtils.errorMessage(MessageBundle.getBundle().getString(ERROR_MSG));
 		}
-		
-	
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-Items");
-	}
-
-	public String getDeleteButtonMessage() {
-		if (hasSelectedItems()) {
-			int size = this.selectedItems.size();
-			return size > 1 ? size + " Items selected" : "1 Item selected";
-		}
-
-		return "Delete";
-	}
-
-	public boolean hasSelectedItems() {
-		return this.selectedItems != null && !this.selectedItems.isEmpty();
-	}
-
-	public void onRowToggle(ToggleEvent event) {
-		if (event.getVisibility() == Visibility.VISIBLE) {
-
-		}
 	}
 
 	public void goEditAddItem(Long id) {
@@ -200,6 +146,28 @@ public class ItemsView implements Serializable {
 		} else {
 			FacesUtils.redirect("userpages/addEditItem", "id=" + id + "&catId=" + category.getId());
 		}
+	}
+
+	public StreamedContent getImage() throws FileNotFoundException {
+		if (Strings.isBlank(imageUrl)) {
+			return null;
+		}
+		File file = new File(imageUrl);
+		InputStream stream = new FileInputStream(file.getAbsoluteFile());
+		return DefaultStreamedContent.builder().contentType("image/jpeg").stream(() -> stream).build();
+	}
+	
+
+	public void setImage(StreamedContent image) {
+		this.image = image;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 }

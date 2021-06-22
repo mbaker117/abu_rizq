@@ -20,12 +20,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
+import org.springframework.web.context.annotation.RequestScope;
 
 import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.model.User;
@@ -33,7 +35,8 @@ import com.mbaker.abumazrouqdashboard.services.UserService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
-@ViewScoped
+@RequestScoped
+@RequestScope
 public class LoginView implements Serializable {
 	private final static String ERROR_MSG = "login.user.invalid.msg";
 

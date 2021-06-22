@@ -20,10 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 import javax.inject.Named;
+
+import org.springframework.web.context.annotation.SessionScope;
+
 import javax.enterprise.context.SessionScoped;
 
 @Named
 @SessionScoped
+@SessionScope
 public class GuestPreferences implements Serializable {
         
     private String theme = "green";

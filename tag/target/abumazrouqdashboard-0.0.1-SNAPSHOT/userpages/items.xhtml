@@ -19,7 +19,7 @@
                     <div class="card">
                         <p:growl id="messages" showDetail="true" />
 
-                        <p:toolbar styleClass="p-mb-4">
+                        <p:toolbar styleClass="p-mb-4" rendered="${user.userType=='ADMIN'}" >
                             <p:toolbarGroup>
                                 <p:commandButton value="#{msg['item.buttons.add.label']}" icon="pi pi-plus" actionListener="#{itemsView.openNew}"  
                                     styleClass="ui-button-success" style="margin-right: .5rem" >
@@ -45,8 +45,12 @@
                             </f:facet>
                             <p:column headerText="" exportable="false" style="text-align: right; direction: rtl; color: green;">
             				    <div class="image-container" > 
-            				    <p:graphicImage styleClass="centered-image" rendered="#{not empty item.imageUrl}" name="items/images/#{item.imageUrl}" />
             				    
+            				     <p:graphicImage cache="false" styleClass="centered-image" rendered="#{not empty item.imageUrl}" value="#{imageView.image}" >
+            				         <f:param name="imageUrl" value="#{item.imageUrl}" />
+            				    </p:graphicImage>
+
+            				   
             				    <p:graphicImage styleClass="centered-image" rendered="#{empty item.imageUrl}" name="items/images/no-image.jpg"/>
             				    
             				    </div>
@@ -66,10 +70,10 @@
                             <p:column exportable="false"  style="text-align: right; direction: rtl;color: green;">
                                 <div class="p-d-flex">
                                 
-                                <p:commandButton  style="text-align: right; direction: rtl;"   class="edit-button rounded-button ui-button-success" icon="pi pi-pencil" action="#{itemsView.goEditAddItem(item.id)}">
+                                <p:commandButton  style="text-align: right; direction: rtl;"  rendered="${user.userType=='ADMIN'}" class="edit-button rounded-button ui-button-success" icon="pi pi-pencil" action="#{itemsView.goEditAddItem(item.id)}">
                                 </p:commandButton>
-                                <p:divider layout="vertical"></p:divider>       
-           						<p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"  style="text-align: right; direction: rtl;" process="@this" oncomplete="PF('deleteItemDialog').show()" >
+                                <p:divider layout="vertical" rendered="${user.userType=='ADMIN'}" ></p:divider>       
+           						<p:commandButton class="ui-button-warning rounded-button" rendered="${user.userType=='ADMIN'}" icon="pi pi-trash"  style="text-align: right; direction: rtl;" process="@this" oncomplete="PF('deleteItemDialog').show()" >
                                     <f:setPropertyActionListener value="#{item}" target="#{itemsView.selectedItem}" />
                                 </p:commandButton>
                                 </div>
@@ -87,7 +91,6 @@
                 </div>
             </div>
         </h:form>
-
     </ui:define>
 
 </ui:composition>

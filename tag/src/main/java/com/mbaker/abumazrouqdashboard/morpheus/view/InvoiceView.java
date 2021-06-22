@@ -25,6 +25,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.mbaker.abumazrouqdashboard.beans.model.Reservation;
 import com.mbaker.abumazrouqdashboard.beans.model.ReservedItem;
@@ -32,6 +34,7 @@ import com.mbaker.abumazrouqdashboard.services.ReservationService;
 
 @Named
 @RequestScoped
+@SessionScope
 public class InvoiceView implements Serializable {
 	private List<Reservation> reservations;
 

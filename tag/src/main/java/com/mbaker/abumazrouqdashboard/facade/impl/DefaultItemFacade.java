@@ -37,7 +37,8 @@ public class DefaultItemFacade implements ItemFacade {
 	@Autowired
 	private CommonValidator commonValidator;
 
-	private static final String PATH = "/home/ubuntu/abumazrouqdashboard/tag/src/main/webapp/resources/items/images";
+	// private static final String PATH =
+	// "/home/ubuntu/abumazrouqdashboard/tag/src/main/webapp/resources/items/images";
 
 	@Override
 	public void saveItem(Item item, UploadedFile file) throws AbuMazrouqDashboardException {
@@ -49,7 +50,8 @@ public class DefaultItemFacade implements ItemFacade {
 			String substring = fileName.substring(lastIndexOf, fileName.length());
 			String imageName = "";
 			try {
-				imageName = fileService.UploadFile(PATH, item.getId() + substring, file);
+				imageName = fileService.UploadFile(PathConstant.IMAGE_PATH, item.getId() + substring, file);
+				imageName = PathConstant.IMAGE_PATH + "/" + imageName;
 			} catch (IOException e) {
 				e.printStackTrace();
 				var ex = new AbuMazrouqDashboardException(AbuMazrouqDashboardExceptionType.IO_EXCEPTION,
@@ -57,7 +59,7 @@ public class DefaultItemFacade implements ItemFacade {
 				LOG.error(LOG_MSG, ex.getMessage());
 				throw ex;
 			}
-			
+
 			item.setImageUrl(imageName);
 		}
 		itemService.save(item);

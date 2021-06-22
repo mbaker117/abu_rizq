@@ -90,7 +90,7 @@
   width: 2rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .filter-container {
     width: 100%;
     margin-top: 0.5rem;
@@ -160,7 +160,7 @@ pre {
   display: inline-block;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .products-table > .ui-datatable-tablewrapper > table > thead > tr > th:nth-child(2) .ui-column-title,
 .products-table > .ui-datatable-tablewrapper > table > tbody > tr > td:nth-child(2) .ui-column-title {
     display: none !important;

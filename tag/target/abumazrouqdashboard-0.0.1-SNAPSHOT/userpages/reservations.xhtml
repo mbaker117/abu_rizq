@@ -100,7 +100,9 @@
             <p:column selectionMode="multiple" exportable="false"></p:column>
 
             <p:column headerText="" exportable="false" style="text-align: right; direction: rtl; color: green;">
-      			<div class="image-container" > <p:graphicImage styleClass="centered-image" rendered="#{not empty item.imageUrl}" name="items/images/#{item.imageUrl}"/>
+      			<div class="image-container" >  <p:graphicImage cache="false" styleClass="centered-image" rendered="#{not empty item.imageUrl}" value="#{imageView.image}" >
+            				         <f:param name="imageUrl" value="#{item.imageUrl}" />
+            				    </p:graphicImage>
             		<p:graphicImage styleClass="centered-image" rendered="#{empty item.imageUrl}" name="items/images/no-image.jpg"/>
             	</div>
            	</p:column>

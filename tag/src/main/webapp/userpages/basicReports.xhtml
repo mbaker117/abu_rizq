@@ -11,6 +11,8 @@
     	<f:event type="postAddToView" listener="#{basicReportsView.init}"/>
  	 </f:metadata>
 
+
+
     <ui:define name="content">
       
             <div class="p-grid crud-demo">
@@ -40,8 +42,8 @@
           <p:growl id="messages" showDetail="true" />
         	 
    		  <p:dataTable id="dt-reservations" widgetVar="dtReservations"  var="reservation" value="#{basicReportsView.reservations}"
-                     reflow="true"  styleClass="products-table1"  sortBy="#{reservation.date}" rowKey="#{reservation.id}" paginator="true"  selection="#{basicReportsView.selectedReservation}"
-                     rows="10"  paginatorPosition="bottom" style="text-align: right; direction: rtl;" >
+                     reflow="true"    sortBy="#{reservation.date}" rowKey="#{reservation.id}" paginator="true"  selection="#{basicReportsView.selectedReservation}"
+                     rows="10"   paginatorPosition="bottom" style="text-align: right; direction: rtl;" >
           
           
             <f:facet name="header">
@@ -110,26 +112,25 @@
                 </div>
           </p:rowExpansion>
           
-              <p:column exportable="false"  style="text-align: right; direction: rtl;color: green;">
+              <p:column exportable="false"  style="text-align: right; direction: rtl;color: green;" >
                             
-                            <p:panel  rendered="#{user.id == reservation.employeeId}">
-                                <div class="p-d-flex">
-       
-       							<p:commandButton icon="pi pi-check"  class="edit-button rounded-button ui-button-info"   style="text-align: right; direction: rtl;" disabled="#{reservation.status == 'COMPLETED'}"  action="#{basicReportsView.completeReservation}" process="@form" >
-                                    <f:setPropertyActionListener value="#{reservation}" target="#{basicReportsView.selectedReservation}" />
-                                </p:commandButton>
-                                  <p:divider layout="vertical"></p:divider>      
-                                <p:commandButton icon="pi pi-pencil"   style="text-align: right; direction: rtl;"  
-                                    styleClass="edit-button rounded-button ui-button-success" disabled="#{reservation.status == 'COMPLETED'}" actionListener="#{basicReportsView.editReservation}">
-                                   <f:setPropertyActionListener value="#{reservation}" target="#{editReservationsView.reservation}" />
-                                </p:commandButton> 
-                              
-                                 <p:divider layout="vertical"></p:divider> 
-                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"   style="text-align: right; direction: rtl;" process="@this" oncomplete="PF('deleteReservationDialog').show()" >
-                                    <f:setPropertyActionListener value="#{reservation}" target="#{basicReportsView.selectedReservation}" />
-                                </p:commandButton>
-                                </div>
-                              </p:panel>
+                           
+        <p:commandButton id="dynaButton" type="button" icon="pi pi-bars"/>
+        <p:menu overlay="true" trigger="dynaButton" my="left top" at="left bottom">
+            <p:submenu >
+                <p:menuitem  rendered="#{user.id == reservation.employeeId}" disabled="#{reservation.status == 'COMPLETED'}"  action="#{basicReportsView.completeReservation}" process="@form"                                   
+                            icon="pi pi-check">
+                             <f:setPropertyActionListener value="#{reservation}" target="#{basicReportsView.selectedReservation}" />
+                            </p:menuitem>
+                <p:menuitem  rendered="#{user.id == reservation.employeeId}" disabled="#{reservation.status == 'COMPLETED'}"  action="#{basicReportsView.editReservation}" process="@form" icon="pi pi-pencil">
+<f:setPropertyActionListener value="#{reservation}" target="#{editReservationsView.reservation}" />                
+                </p:menuitem>
+                <p:menuitem   process="@this" oncomplete="PF('deleteReservationDialog').show()"  icon="pi pi-trash">
+                             <f:setPropertyActionListener value="#{reservation}" target="#{basicReportsView.selectedReservation}" />
+                </p:menuitem>
+            </p:submenu>
+        </p:menu>
+                           
            </p:column>
           
         </p:dataTable>

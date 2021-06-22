@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -29,6 +30,8 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.data.UserData;
@@ -43,7 +46,8 @@ import com.mbaker.abumazrouqdashboard.services.UserService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
-@ViewScoped
+@RequestScoped
+@SessionScope
 public class UsersView implements Serializable {
 	private final static String ERROR_MSG = "user.msg.failed";
 

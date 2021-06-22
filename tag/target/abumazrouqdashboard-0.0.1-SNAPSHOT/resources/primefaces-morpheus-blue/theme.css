@@ -280,7 +280,7 @@ body .ui-selectmanybutton > div.ui-button:last-child {
     border-bottom-width: 1px;
   }
 }
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   body .ui-dataview-layout-options > div.ui-button:not(:last-child) {
     border-bottom-width: 1px;
     border-right-width: 0;
@@ -1298,7 +1298,7 @@ body .ui-columntoggler .ui-columntoggler-items .ui-columntoggler-item label {
   padding: 0;
   display: inline;
 }
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   body .ui-datatable-reflow .ui-datatable-data tr {
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   }
@@ -1509,7 +1509,7 @@ body .ui-orderlist .ui-orderlist-list .ui-orderlist-item.ui-state-highlight {
 body .ui-orderlist .ui-orderlist-list .ui-orderlist-item.ui-state-highlight.ui-sortable-placeholder {
   background-color: #25a8ff;
 }
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   body .ui-orderlist.ui-grid-responsive .ui-orderlist-controls {
     -ms-flex-direction: row;
     flex-direction: row;
@@ -1810,7 +1810,7 @@ body .ui-picklist .ui-picklist-list .ui-picklist-item.ui-state-highlight {
 body .ui-picklist .ui-picklist-list .ui-picklist-item.ui-state-highlight.ui-sortable-placeholder {
   background-color: #25a8ff;
 }
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   body .ui-picklist.ui-picklist-responsive .ui-picklist-buttons .ui-button {
     margin-top: 0.5rem;
     margin-right: 0.5rem;

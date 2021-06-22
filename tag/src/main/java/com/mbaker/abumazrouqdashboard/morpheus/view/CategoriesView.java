@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -28,6 +29,8 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.mbaker.abumazrouqdashboard.beans.MessageBundle;
 import com.mbaker.abumazrouqdashboard.beans.model.Category;
@@ -37,7 +40,8 @@ import com.mbaker.abumazrouqdashboard.services.CategoryService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
-@ViewScoped
+@RequestScoped
+@SessionScope
 public class CategoriesView implements Serializable {
 	private final static String ERROR_MSG = "category.msg.failed";
 
