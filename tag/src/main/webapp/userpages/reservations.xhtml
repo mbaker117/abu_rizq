@@ -31,7 +31,7 @@
                							<p:datePicker id="endDate"  value="#{addReservationsView.endDate}"/>
            							</div>
            						
-           							<p:commandButton value="#{msg['reservations.buttons.search.label']}" icon="pi pi-search" actionListener="#{addReservationsView.search}"   oncomplete="PF('dtItems')"
+           							<p:commandButton value="#{msg['reservations.buttons.search.label']}" icon="pi pi-search" actionListener="#{addReservationsView.search}"  process="@form"  oncomplete="PF('dtItems')"
                                    style="margin-right: .5rem" >
                                     </p:commandButton>
                             </p:toolbarGroup>
@@ -81,10 +81,7 @@
                 <div class="products-table-header">
                     <span style="font-weight: bold">#{msg['reservations.table.title.label']}</span>
 
-                  <!--   <span class="filter-container ui-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <p:inputText id="globalFilter" onkeyup="PF('dtItems').filter()" placeholder="Search"/>
-                    </span> -->
+            
 
                 </div>
             </f:facet>

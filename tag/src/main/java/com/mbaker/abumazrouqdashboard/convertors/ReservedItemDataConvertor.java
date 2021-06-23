@@ -26,14 +26,14 @@ public class ReservedItemDataConvertor extends Convertor<Item, ReservedItemData>
 		item.setTotalAmount(t.getQuantity());
 		item.setOwner(t.getOwner());
 		item.setImageUrl(t.getImageUrl());
-		StreamedContent imageFromPath;
-		try {
-			imageFromPath = FileUtil.getImageFromPath(t.getImageUrl());
-			item.setImage(imageFromPath);
-
-		} catch (FileNotFoundException e) {
-
-		}
+		/*
+		 * StreamedContent imageFromPath; try { imageFromPath =
+		 * FileUtil.getImageFromPath(t.getImageUrl()); item.setImage(imageFromPath);
+		 * 
+		 * } catch (FileNotFoundException e) {
+		 * 
+		 * }
+		 */
 		return item;
 
 	}

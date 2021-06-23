@@ -117,8 +117,6 @@ public class AddEditItemView implements Serializable {
 
 	public void saveItem() {
 
-	
-		
 		try {
 
 			if (this.selectedItem.getId() == 0) {

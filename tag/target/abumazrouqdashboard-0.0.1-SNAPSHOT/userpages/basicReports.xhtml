@@ -115,17 +115,17 @@
               <p:column exportable="false"  style="text-align: right; direction: rtl;color: green;" >
                             
                            
-        <p:commandButton id="dynaButton" type="button" icon="pi pi-bars"/>
-        <p:menu overlay="true" trigger="dynaButton" my="left top" at="left bottom">
+        <p:commandButton id="dynaButton" type="button" icon="pi pi-bars"  rendered="#{user.id == reservation.employeeId}"/>
+        <p:menu overlay="true" trigger="dynaButton" my="left top" at="left bottom"  rendered="#{user.id == reservation.employeeId}">
             <p:submenu >
-                <p:menuitem  rendered="#{user.id == reservation.employeeId}" disabled="#{reservation.status == 'COMPLETED'}"  action="#{basicReportsView.completeReservation}" process="@form"                                   
+                <p:menuitem  disabled="#{reservation.status == 'COMPLETED'}"  action="#{basicReportsView.completeReservation}" process="@form"                                   
                             icon="pi pi-check">
                              <f:setPropertyActionListener value="#{reservation}" target="#{basicReportsView.selectedReservation}" />
                             </p:menuitem>
-                <p:menuitem  rendered="#{user.id == reservation.employeeId}" disabled="#{reservation.status == 'COMPLETED'}"  action="#{basicReportsView.editReservation}" process="@form" icon="pi pi-pencil">
-<f:setPropertyActionListener value="#{reservation}" target="#{editReservationsView.reservation}" />                
+                <p:menuitem   disabled="#{reservation.status == 'COMPLETED'}"  action="#{basicReportsView.editReservation}" process="@form" icon="pi pi-pencil">
+							<f:setPropertyActionListener value="#{reservation}" target="#{editReservationsView.reservation}" />                
                 </p:menuitem>
-                <p:menuitem   process="@this" oncomplete="PF('deleteReservationDialog').show()"  icon="pi pi-trash">
+                <p:menuitem  disabled="#{reservation.status == 'COMPLETED'}"  process="@this" oncomplete="PF('deleteReservationDialog').show()"  icon="pi pi-trash">
                              <f:setPropertyActionListener value="#{reservation}" target="#{basicReportsView.selectedReservation}" />
                 </p:menuitem>
             </p:submenu>

@@ -214,6 +214,7 @@ public class AddReservationsView implements Serializable {
 		itemsData = reservationFacade.getReservedItemByDates(startDate, endDate);
 		PrimeFaces.current().ajax().update("form:dt-items", "form:messages");
 
+		
 	}
 
 	public boolean hasSelectedItems() {

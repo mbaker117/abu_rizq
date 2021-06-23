@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -50,7 +51,7 @@ import com.mbaker.abumazrouqdashboard.services.ItemService;
 import com.mbaker.abumazrouqdashboard.utils.FacesUtils;
 
 @Named
-@RequestScoped
+@ViewScoped
 @SessionScope
 public class ItemsView implements Serializable {
 

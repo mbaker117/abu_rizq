@@ -64,7 +64,7 @@
                         <p:toolbar styleClass="p-mb-4" style="text-align: right; direction: rtl;" id="tb" rendered="#{user.canWrite}">
                             <p:toolbarGroup>                                   
                                      <p:commandButton value="#{msg['reservations.buttons.add.label']}"  id="add-reservation-button" icon="pi pi-plus" actionListener="#{addReservationsView.save()}"  
-                                    styleClass="ui-button-success" style="margin-right: .5rem"  disabled="#{!addReservationsView.hasSelectedItems()}"
+                                    styleClass="ui-button-success" style="margin-right: .5rem"  disabled="#{!(addReservationsView.hasSelectedItems())}"
                                       update="@this" >
                                     </p:commandButton>
                             </p:toolbarGroup>

@@ -90,11 +90,12 @@ public class AbuMazrouqDashboardApplication extends SpringBootServletInitializer
 
 			servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
 			servletContext.setInitParameter("javax.faces.FACELETS_REFRESH_PERIOD", "0");
-			servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
+			servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Production");
 			servletContext.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
 			servletContext.setInitParameter("primefaces.FONT_AWESOME", Boolean.TRUE.toString());
-			servletContext.setInitParameter("primefaces.UPLOADER", "commons");
-			servletContext.setInitParameter("facelets.DEVELOPMENT", "true");
+			/*
+			 * servletContext.setInitParameter("primefaces.UPLOADER", "commons");
+			 */			servletContext.setInitParameter("facelets.DEVELOPMENT", "true");
 			servletContext.setInitParameter("primefaces.THEME", "morpheus-blue");
 			servletContext.setInitParameter("org.apache.myfaces.FLASH_SCOPE_DISABLED", Boolean.TRUE.toString());
 			servletContext.setInitParameter("org.apache.myfaces.FACES_FLOW_CLIENT_WINDOW_IDS_IN_SESSION", "1");
