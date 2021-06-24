@@ -24,11 +24,11 @@
                                     <div class="p-field p-col-12 ">
                                     
                 						<p:outputLabel for="startDate" value="#{msg['reservations.date.start.label']}"/>
-               							<p:datePicker id="startDate" value ="#{addReservationsView.startDate}" />
+               							<p:datePicker id="startDate" value ="#{addReservationsView.startDate}" showIcon="true"/>
            							</div>
            							<div class="p-field p-col-12">
                 						<p:outputLabel for="endDate" value="#{msg['reservations.date.end.label']}"/>
-               							<p:datePicker id="endDate"  value="#{addReservationsView.endDate}"/>
+               							<p:datePicker id="endDate"  value="#{addReservationsView.endDate}" showIcon="true"/>
            							</div>
            						
            							<p:commandButton value="#{msg['reservations.buttons.search.label']}" icon="pi pi-search" actionListener="#{addReservationsView.search}"  process="@form"  oncomplete="PF('dtItems')"
@@ -50,7 +50,7 @@
            							</div>
            							<div class="p-field p-col-12">
                 						<p:outputLabel for="reservationDate" value="#{msg['reservations.date.reservationDate.label']}"/>
-               							<p:datePicker id="reservationDate" validatorMessage="error" mindate="#{addReservationsView.startDate}" maxdate="#{addReservationsView.endDate}" value="#{addReservationsView.reservationDate}"/>
+               							<p:datePicker id="reservationDate" validatorMessage="error" mindate="#{addReservationsView.startDate}" maxdate="#{addReservationsView.endDate}" showIcon="true" value="#{addReservationsView.reservationDate}"/>
            							</div>
            							<div class="p-field p-col-12 p-mb-4">
                 						<p:outputLabel for="notes" value="#{msg['reservations.notes.label']}"/>

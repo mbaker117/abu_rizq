@@ -7,10 +7,10 @@
     xmlns:pm="http://primefaces.org/morpheus">
 
     <div class="layout-sidebar">
-        <pm:tabMenu id="tabMenu">
-            <pm:tab id="tab1" icon="pi pi-home" title=" #{msg['menu.menutab.home.label']}">
+        <pm:tabMenu id="tabMenu" stateful="false">
+            <pm:tab  id="tab1" icon="pi pi-home" title=" #{msg['menu.menutab.home.label']}">
                 <h:form id="menuform">
-                    <pm:menu widgetVar="MorpheusMenuWidget">
+                    <pm:menu widgetVar="MorpheusMenuWidget" >
                     	<p:menuitem id="om_main" value="#{msg['menu.main.label']}" icon="pi pi-fw pi-home" outcome="/userpages/main"/>
                         <p:menuitem id="om_user" value="#{msg['menu.user.label']}" icon="pi pi-fw pi-users" outcome="/userpages/users" rendered="${user.userType=='ADMIN'}"/>
                    		<p:menuitem id="om_store" value="#{msg['menu.store.label']}" icon="pi pi-fw pi-shopping-cart" outcome="/userpages/categories"/>
@@ -22,8 +22,6 @@
                     </pm:menu>
                 </h:form>
             </pm:tab>
-
-       
         </pm:tabMenu>        
     </div>
 

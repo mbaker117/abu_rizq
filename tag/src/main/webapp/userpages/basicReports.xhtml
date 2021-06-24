@@ -25,11 +25,11 @@
                                     <div class="p-field p-col-12 ">
                                     
                 						<p:outputLabel for="startDate" value="#{msg['basicReports.date.start.label']}"/>
-               							<p:datePicker id="startDate" value ="#{basicReportsView.startDate}" />
+               							<p:datePicker id="startDate" value ="#{basicReportsView.startDate}" showIcon="true"/>
            							</div>
            							<div class="p-field p-col-12">
                 						<p:outputLabel for="endDate" value="#{msg['basicReports.date.end.label']}"/>
-               							<p:datePicker id="endDate"  value="#{basicReportsView.endDate}"/>
+               							<p:datePicker id="endDate"  value="#{basicReportsView.endDate}" showIcon="true"/>
            							</div>
            						
            							<p:commandButton value="#{msg['basicReports.buttons.search.label']}" icon="pi pi-search" actionListener="#{basicReportsView.search}"   oncomplete="PF('dtItems')"
