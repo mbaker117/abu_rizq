@@ -70,6 +70,9 @@
             <p:column headerText="#{msg['basicReports.customerName.label']}"  style=" text-align: right; direction: rtl;color: green;">
                   <h:outputText value="#{reservation.customerName}" style="color:black;" />
             </p:column>
+            <p:column headerText="#{msg['basicReports.customerNumber.label']}"  style=" text-align: right; direction: rtl;color: green;">
+                  <h:outputText value="#{reservation.customerPhoneNumber}" style="color:black;" />
+            </p:column>
             <p:column headerText="#{msg['basicReports.date.label']}"   style="text-align: right; direction: rtl;color: green;">
                 <h:outputText styleClass="product-badge "  style="color:black;" value="#{reservation.date}" />
             </p:column>
